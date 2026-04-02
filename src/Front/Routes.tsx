@@ -4,6 +4,7 @@ import Sells from "./Pages/Sells";
 import Invoices from "./Pages/Invoices";
 import { Layout } from "./Layout";
 import Principal from "./Pages/Principal";
+import CreateNewItem from "./Pages/CreateNewItem";
 
 export const routes = createBrowserRouter([
   {
@@ -16,7 +17,16 @@ export const routes = createBrowserRouter([
       },
       {
         path: "inventario",
-        element: <Stock />,
+        children: [
+          {
+            index: true,
+            element: <Stock />,
+          },
+          {
+            path: "anadir-nuevo-item",
+            element: <CreateNewItem/>
+          }
+        ],
       },
       {
         path: "ventas",

@@ -13,6 +13,7 @@ import {
 } from "../Utils/StockUtils";
 import CreateNewWarehouse from "../components/stock/CreateNewWarehouse";
 import StockTable from "../components/stock/StockTable";
+import { Link } from "react-router-dom";
 
 function Stock() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -40,7 +41,9 @@ function Stock() {
       <div className="warehouse">
         <div className="title">
           <Selector warehouse={warehouseId} handleSelector={handleSelector} />
-          <button>Añadir nuevo item</button>
+          <Link to="anadir-nuevo-item">
+            <button>Añadir nuevo item</button>
+          </Link>
         </div>
 
         <div className="cards">
