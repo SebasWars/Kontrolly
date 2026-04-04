@@ -23,7 +23,7 @@ export const routes = createBrowserRouter([
             element: <Stock />,
           },
           {
-            path: "anadir-nuevo-item",
+            path: ":id/anadir-nuevo-item",
             element: <CreateNewItem/>
           }
         ],
