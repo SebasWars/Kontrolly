@@ -26,4 +26,4 @@ function Selector({ warehouse, handleSelector }: PropsTypes) {
   );
 }
 
-export default Selector
+export default Selector;
