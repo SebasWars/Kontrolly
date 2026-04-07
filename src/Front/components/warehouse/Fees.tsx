@@ -1,18 +1,25 @@
 function Fees() {
   return (
     <div className="fee_information_container">
-      <h1>Tarifas</h1>
+      <div className="title">
+      <h2>Tarifas</h2>
+      <p>Total y subtotal</p>
+      </div>
       <div className="fee_information_information">
         <section>
           <label>
-            Precio unitario:
+            Precio unitario
             <input type="number" />
           </label>
           <label>
-            Cantidad:
+            Cantidad
             <input type="number" />
           </label>
         </section>
+        <div className="precio_total">
+        <p>Precio total</p>
+        <p>0</p>
+        </div>
       </div>
     </div>
   );
