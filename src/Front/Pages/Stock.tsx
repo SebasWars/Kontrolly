@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Stocks } from "../../MOCK/StocksMock";
 
@@ -20,12 +20,18 @@ import useWarehouse from "../Hooks/UseWarehouse";
 function Stock() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { warehouse, setWarehouse } = useWarehouse();
+  const navigate = useNavigate();
 
   const toggleModal = (state: boolean) => setIsModalOpen(state);
 
   const handleSelector = (value: string) => {
     const found = Stocks.find((w) => w.id === value) || null;
     setWarehouse(found);
+  };
+
+  const directNewItem = () => {
+    if (!warehouse) return;
+    navigate(`${warehouse?.id}/anadir-nuevo-item`);
   };
 
   return (
@@ -37,9 +43,7 @@ function Stock() {
             warehouse={warehouse?.id || ""}
             handleSelector={handleSelector}
           />
-          <Link to={`${warehouse?.id}/anadir-nuevo-item`}>
-            <button>Añadir nuevo item</button>
-          </Link>
+          <button onClick={directNewItem}>Añadir nuevo item</button>
         </div>
 
         <div className="cards">
