@@ -3,7 +3,7 @@ import type { StocksTypes } from "../Front/Types/StockTypes";
 export const Stocks: StocksTypes[] = [
   {
     warehouse: "Electrodomésticos",
-    id: crypto.randomUUID(),
+    id: 'almacen-1',
     items: [
       {
         id: crypto.randomUUID(),
@@ -54,7 +54,7 @@ export const Stocks: StocksTypes[] = [
   },
   {
     warehouse: "Tecnología",
-    id: crypto.randomUUID(),
+    id:'almacen-2',
     items: [
       {
         id: crypto.randomUUID(),
@@ -105,7 +105,7 @@ export const Stocks: StocksTypes[] = [
   },
   {
     warehouse: "Hogar",
-    id: crypto.randomUUID(),
+    id: 'almacen-3',
     items: [
       {
         id: crypto.randomUUID(),

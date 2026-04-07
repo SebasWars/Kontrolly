@@ -14,7 +14,6 @@ function SideBar() {
   return (
     <div className="side_bar">
       <header>
-        <img src="https://pbs.twimg.com/media/EvfotvwWYAMpl-i.jpg" alt="" />
         <h2>Titulo</h2>
       </header>
       <section className="menu_options">
