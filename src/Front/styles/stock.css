@@ -1,8 +1,14 @@
+:root {
+  --border-color: rgb(208, 205, 205);
+  --card-color: rgb(255, 255, 255);
+}
+
 .stock_container {
   height: 100vh;
   position: relative;
   box-sizing: border-box;
   padding: 0.8rem 2rem;
+  background-color: var(--back-color);
 
   font-family:
     system-ui,
@@ -67,6 +73,7 @@
   padding: 1rem 1.5rem;
   box-sizing: border-box;
   border: 1px solid rgb(208, 205, 205);
+  background-color: var(--card-color);
   border-radius: 0.2rem;
 
   .title {
@@ -208,6 +215,7 @@ table {
     margin-left: 0.5rem;
     border-radius: 0.3rem;
     border: 1px solid transparent;
+    background-color: var(--card-color);
     outline: none;
     padding: 0.3rem 1rem;
     font-size: 0.8rem;
@@ -221,7 +229,7 @@ table {
     color: white;
   }
   .save_btn:hover {
-    background-color: #412a9d;
+    background-color: #752a9d;
     border: 1px solid white;
     color: white;
   }
