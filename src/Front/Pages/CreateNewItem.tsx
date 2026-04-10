@@ -5,27 +5,25 @@ import useWarehouse from "../Hooks/UseWarehouse";
 import BasicInfo from "../components/warehouse/BasicInfo";
 import Fees from "../components/warehouse/Fees";
 
-import { Stocks } from "../../MOCK/StocksMock";
 import "../styles/addNewItem.css";
 import UploadImage from "../components/warehouse/UploadImage";
 
 function CreateNewItem() {
   const { id } = useParams();
-  const { warehouse, setWarehouse } = useWarehouse();
+  const {selectedWarehouse, dispatch} = useWarehouse();
 
   useEffect(() => {
     if (!id) return;
-    const found = Stocks.find((W) => W.id === id) || null;
-    setWarehouse(found);
+    dispatch({type: 'SELECT_WAREHOUSE', payload: id});
   }, [id]);
 
   return (
     <>
-      {!warehouse ? (
+      {!selectedWarehouse ? (
         <p>Cargando...</p>
       ) : (
         <div className="create_new_item_container">
-          <h1>Almacen: {warehouse?.warehouse}</h1>
+          <h1>Almacen: {selectedWarehouse?.warehouse}</h1>
 
           <section className="add_item_section">
             <div className="add_item_section_left_side">
