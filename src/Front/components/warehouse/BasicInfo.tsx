@@ -1,4 +1,11 @@
-function BasicInfo() {
+import type { ModifyFormData, NewItem } from "../../Types/StockTypes";
+
+type Props = {
+  formData: NewItem
+  modifyFormData: ModifyFormData
+}
+
+function BasicInfo({formData, modifyFormData}: Props) {
   return (
     <div className="basic_information_container">
       <div className="title">
@@ -8,11 +15,11 @@ function BasicInfo() {
       <div className="basic_information">
         <label>
           Nombre del producto
-          <input type="text" />
+          <input value={formData.name} onChange={(e) => modifyFormData('name' ,e.target.value)} type="text" />
         </label>
         <label>
           Descripción
-          <input type="text" />
+          <input value={formData.description} onChange={(e) => modifyFormData('description' ,e.target.value)} type="text" />
         </label>
       </div>
     </div>

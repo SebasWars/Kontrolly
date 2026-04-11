@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import useWarehouse from "../Hooks/UseWarehouse";
@@ -7,15 +7,32 @@ import Fees from "../components/warehouse/Fees";
 
 import "../styles/addNewItem.css";
 import UploadImage from "../components/warehouse/UploadImage";
+import type { ModifyFormData, NewItem } from "../Types/StockTypes";
 
 function CreateNewItem() {
   const { id } = useParams();
-  const {selectedWarehouse, dispatch} = useWarehouse();
+  const { selectedWarehouse, dispatch } = useWarehouse();
+  const [formData, setFormData] = useState<NewItem>({
+    name: "",
+    description: "",
+    image: "",
+    purchase_price: "",
+    quantity: "",
+    sales_price: "",
+  });
+
+  const modifyFormData: ModifyFormData = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
 
   useEffect(() => {
     if (!id) return;
-    dispatch({type: 'SELECT_WAREHOUSE', payload: id});
+    dispatch({ type: "SELECT_WAREHOUSE", payload: id });
   }, [id]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   return (
     <>
@@ -27,8 +44,8 @@ function CreateNewItem() {
 
           <section className="add_item_section">
             <div className="add_item_section_left_side">
-              <BasicInfo />
-              <Fees />
+              <BasicInfo formData={formData} modifyFormData={modifyFormData} />
+              <Fees formData={formData} modifyFormData={modifyFormData} />
             </div>
 
             <div className="add_item_section_rigth_side">
