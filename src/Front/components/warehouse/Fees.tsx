@@ -1,11 +1,6 @@
-import type { ModifyFormData, NewItem } from "../../Types/StockTypes";
+import type { PropsCreateItemChild } from "../../Types/StockTypes";
 
-type Props = {
-  formData: NewItem;
-  modifyFormData: ModifyFormData;
-};
-
-function Fees({ formData, modifyFormData }: Props) {
+function Fees({ formData, modifyFormData }: PropsCreateItemChild) {
   function calculateTotal(
     sale_price: number | "",
     purchase_price: number | "",

@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import useWarehouse from "../Hooks/UseWarehouse";
 import BasicInfo from "../components/warehouse/BasicInfo";
 import Fees from "../components/warehouse/Fees";
+import UploadImage from "../components/warehouse/UploadImage";
 
 import "../styles/addNewItem.css";
-import UploadImage from "../components/warehouse/UploadImage";
 import type { ModifyFormData, NewItem } from "../Types/StockTypes";
 
 function CreateNewItem() {
@@ -15,7 +15,7 @@ function CreateNewItem() {
   const [formData, setFormData] = useState<NewItem>({
     name: "",
     description: "",
-    image: "",
+    image: null,
     purchase_price: "",
     quantity: "",
     sales_price: "",
@@ -29,10 +29,6 @@ function CreateNewItem() {
     if (!id) return;
     dispatch({ type: "SELECT_WAREHOUSE", payload: id });
   }, [id]);
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <>
@@ -49,10 +45,10 @@ function CreateNewItem() {
             </div>
 
             <div className="add_item_section_rigth_side">
-              <UploadImage />
+              <UploadImage modifyFormData={modifyFormData} />
               <div className="action_buttons">
                 <button className="discard_btn">Descartar</button>
-                <button className="save_btn">guardar</button>
+                <button className="save_btn" onClick={() => console.log(formData)}>guardar</button>
               </div>
             </div>
           </section>

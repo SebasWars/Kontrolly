@@ -7,7 +7,7 @@ export interface StocksTypes {
 export type Items = {
   id: string;
   name: string;
-  image: string;
+  image: File | null;
   description: string;
   quantity: number | "";
   purchase_price: number | "";
@@ -20,3 +20,10 @@ export type ModifyFormData = <K extends keyof NewItem>(
   key: K,
   value: NewItem[K],
 ) => void;
+
+export interface PropsCreateItemChild {
+  formData: NewItem;
+  modifyFormData: ModifyFormData;
+}
+
+export type PropsCreateItemImage = Omit<PropsCreateItemChild, "formData">;
