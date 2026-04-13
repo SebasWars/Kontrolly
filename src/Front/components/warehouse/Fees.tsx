@@ -2,12 +2,15 @@ import type { PropsCreateItemChild } from "../../Types/StockTypes";
 
 function Fees({ formData, modifyFormData }: PropsCreateItemChild) {
   function calculateTotal(
-    sale_price: number | "",
-    purchase_price: number | "",
-    quantity: number | "",
+    sale_price: string,
+    purchase_price: string,
+    quantity: string,
   ): number {
+    const sale = Number(sale_price);
+    const purchase = Number(purchase_price);
+    const qty = Number(quantity);
     if (sale_price === "" || purchase_price === "" || quantity === "") return 0;
-    return (purchase_price - sale_price) * quantity;
+    return (purchase - sale) * qty;
   }
   return (
     <div className="fee_information_container">
@@ -21,12 +24,7 @@ function Fees({ formData, modifyFormData }: PropsCreateItemChild) {
             Precio de compra
             <input
               value={formData.purchase_price}
-              onChange={(e) =>
-                modifyFormData(
-                  "purchase_price",
-                  e.target.value === "" ? "" : Number(e.target.value),
-                )
-              }
+              onChange={(e) => modifyFormData("purchase_price", e.target.value)}
               type="number"
               onWheel={(e) => (e.target as HTMLInputElement).blur()}
               min={0}
@@ -36,12 +34,7 @@ function Fees({ formData, modifyFormData }: PropsCreateItemChild) {
             Cantidad
             <input
               value={formData.quantity}
-              onChange={(e) =>
-                modifyFormData(
-                  "quantity",
-                  e.target.value === "" ? "" : Number(e.target.value),
-                )
-              }
+              onChange={(e) => modifyFormData("quantity", e.target.value)}
               type="number"
               onWheel={(e) => (e.target as HTMLInputElement).blur()}
               min={0}
@@ -53,12 +46,7 @@ function Fees({ formData, modifyFormData }: PropsCreateItemChild) {
             Precio de venta
             <input
               value={formData.sales_price}
-              onChange={(e) =>
-                modifyFormData(
-                  "sales_price",
-                  e.target.value === "" ? "" : Number(e.target.value),
-                )
-              }
+              onChange={(e) => modifyFormData("sales_price", e.target.value)}
               type="number"
               onWheel={(e) => (e.target as HTMLInputElement).blur()}
               min={0}
