@@ -7,14 +7,21 @@ export interface StocksTypes {
 export type Items = {
   id: string;
   name: string;
-  image: File | null;
+  image: string | null;
   description: string;
-  quantity: number | "";
-  purchase_price: number | "";
-  sales_price: number | "";
+  quantity: number;
+  purchase_price: number;
+  sales_price: number;
 };
 
-export type NewItem = Omit<Items, "id">;
+export type NewItem = {
+  name: string;
+  image: File | null;
+  description: string;
+  quantity: string;
+  purchase_price: string;
+  sales_price: string;
+};
 
 export type ModifyFormData = <K extends keyof NewItem>(
   key: K,
