@@ -1,23 +1,18 @@
-import React, { createContext, useState, type ReactNode } from "react";
-import type { StocksTypes } from "./Types/StockTypes";
+import { createContext, useReducer } from "react";
+import { initalState, warehouseReducer } from "./Reducer/warehouseReducer";
+import type { PropProviderType, WarehouseContextType } from "./Types/ProviderTypes";
 
-interface PropType{
-    children: ReactNode
-}
+export const WarehouseContext = createContext<WarehouseContextType | undefined>(undefined);
 
-interface WarehouseContextType{
-    warehouse: StocksTypes | null,
-    setWarehouse: React.Dispatch<React.SetStateAction<StocksTypes | null>>
-}
+export function WarehouseProvider({ children }: PropProviderType) {
+  const [state, dispatch] = useReducer(warehouseReducer, initalState);
+  const selectedWarehouse = state.warehouses.find((w) => w.id === state.selectedWarehouse) || null;
 
-export const WarehouseContext = createContext<WarehouseContextType | undefined>(undefined)
-
-export function WarehouseProvider({children}: PropType){
-    const [warehouse, setWarehouse] = useState<StocksTypes | null>(null)
-
-    return(
-        <WarehouseContext.Provider value={{warehouse, setWarehouse}}>
-            {children}
-        </WarehouseContext.Provider>
-    )
+  return (
+    <WarehouseContext.Provider
+      value={{ warehouses: state.warehouses, selectedWarehouse, dispatch }}
+    >
+      {children}
+    </WarehouseContext.Provider>
+  );
 }

@@ -1,43 +1,54 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import useWarehouse from "../Hooks/UseWarehouse";
 import BasicInfo from "../components/warehouse/BasicInfo";
 import Fees from "../components/warehouse/Fees";
-
-import { Stocks } from "../../MOCK/StocksMock";
-import "../styles/addNewItem.css";
 import UploadImage from "../components/warehouse/UploadImage";
+
+import "../styles/addNewItem.css";
+import type { ModifyFormData, NewItem } from "../Types/StockTypes";
 
 function CreateNewItem() {
   const { id } = useParams();
-  const { warehouse, setWarehouse } = useWarehouse();
+  const { selectedWarehouse, dispatch } = useWarehouse();
+  const [formData, setFormData] = useState<NewItem>({
+    name: "",
+    description: "",
+    image: null,
+    purchase_price: "",
+    quantity: "",
+    sales_price: "",
+  });
+
+  const modifyFormData: ModifyFormData = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
 
   useEffect(() => {
     if (!id) return;
-    const found = Stocks.find((W) => W.id === id) || null;
-    setWarehouse(found);
+    dispatch({ type: "SELECT_WAREHOUSE", payload: id });
   }, [id]);
 
   return (
     <>
-      {!warehouse ? (
+      {!selectedWarehouse ? (
         <p>Cargando...</p>
       ) : (
         <div className="create_new_item_container">
-          <h1>Almacen: {warehouse?.warehouse}</h1>
+          <h1>Almacen: {selectedWarehouse?.warehouse}</h1>
 
           <section className="add_item_section">
             <div className="add_item_section_left_side">
-              <BasicInfo />
-              <Fees />
+              <BasicInfo formData={formData} modifyFormData={modifyFormData} />
+              <Fees formData={formData} modifyFormData={modifyFormData} />
             </div>
 
             <div className="add_item_section_rigth_side">
-              <UploadImage />
+              <UploadImage modifyFormData={modifyFormData} />
               <div className="action_buttons">
                 <button className="discard_btn">Descartar</button>
-                <button className="save_btn">guardar</button>
+                <button className="save_btn" onClick={() => console.log(formData)}>guardar</button>
               </div>
             </div>
           </section>

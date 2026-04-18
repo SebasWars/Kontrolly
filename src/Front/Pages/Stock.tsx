@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { Stocks } from "../../MOCK/StocksMock";
 
 import Selector from "../components/stock/Selector";
 import StockDetailsCards from "../components/stock/StockDetailsCard";
@@ -17,22 +14,16 @@ import {
 } from "../Utils/StockUtils";
 import useWarehouse from "../Hooks/UseWarehouse";
 
+import { useStockActions } from "../Hooks/useStockActions";
+import { useFetchWarehouses } from "../Hooks/useFetchWarehouses";
+
 function Stock() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { warehouse, setWarehouse } = useWarehouse();
-  const navigate = useNavigate();
-
+  const { selectedWarehouse } = useWarehouse();
+  const {fetchWarehouses} = useFetchWarehouses()
+  const {handleSelector, goToNewItem} = useStockActions()
   const toggleModal = (state: boolean) => setIsModalOpen(state);
 
-  const handleSelector = (value: string) => {
-    const found = Stocks.find((w) => w.id === value) || null;
-    setWarehouse(found);
-  };
-
-  const directNewItem = () => {
-    if (!warehouse) return;
-    navigate(`${warehouse?.id}/anadir-nuevo-item`);
-  };
 
   return (
     <div className={`stock_container ${isModalOpen ? "active" : ""}`}>
@@ -40,30 +31,30 @@ function Stock() {
       <div className="warehouse">
         <div className="title">
           <Selector
-            warehouse={warehouse?.id || ""}
+            warehouse={selectedWarehouse?.id || ""}
             handleSelector={handleSelector}
           />
-          <button onClick={directNewItem}>Añadir nuevo item</button>
+          <button onClick={goToNewItem}>Añadir nuevo item</button>
         </div>
 
         <div className="cards">
           <StockDetailsCards
             value="Cantidad de productos"
-            quantity={_calculateQuantity(warehouse)}
+            quantity={_calculateQuantity(selectedWarehouse)}
           />
           <StockDetailsCards
             value="Total de inversion"
-            quantity={_calculateInvesment(warehouse)}
+            quantity={_calculateInvesment(selectedWarehouse)}
           />
           <StockDetailsCards
             value="Ingresos estimados"
-            quantity={_calculateProfits(warehouse)}
+            quantity={_calculateProfits(selectedWarehouse)}
           />
         </div>
       </div>
-      <StockTable currentWarehouse={warehouse} />
+      <StockTable currentWarehouse={selectedWarehouse} />
 
-      {isModalOpen && <CreateNewWarehouse toggleModal={toggleModal} />}
+      {isModalOpen && <CreateNewWarehouse toggleModal={toggleModal} refreshWarehouse={fetchWarehouses}/>}
     </div>
   );
 }

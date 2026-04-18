@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import type { StocksTypes } from "../../Types/StockTypes";
-import { Stocks } from "../../../MOCK/StocksMock";
+import type { CreateStockType } from "../../Types/StockTypes";
+import { createNewWarehouse } from "../../conection/httpConection";
 
 interface PropsType {
   toggleModal: (state: boolean) => void;
+  refreshWarehouse: () => void;
 }
 
-function CreateNewWarehouse({ toggleModal }: PropsType) {
-  const [newWarehouse, setNewWarehouse] = useState<StocksTypes>({
+function CreateNewWarehouse({ toggleModal , refreshWarehouse}: PropsType) {
+  const [newWarehouse, setNewWarehouse] = useState<CreateStockType>({
     warehouse: "",
-    id: crypto.randomUUID(),
     items: [],
   });
 
@@ -17,8 +17,9 @@ function CreateNewWarehouse({ toggleModal }: PropsType) {
     setNewWarehouse((prev) => ({ ...prev, warehouse: e.target.value }));
   };
 
-  const saveNewWarehouse = () => {
-    Stocks.push(newWarehouse);
+  const saveNewWarehouse = async () => {
+    await createNewWarehouse(newWarehouse)
+    refreshWarehouse()
     toggleModal(false);
   };
 

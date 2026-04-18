@@ -1,8 +1,9 @@
 import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import type { PropsCreateItemImage } from "../../Types/StockTypes";
 
-function UploadImage() {
+function UploadImage({modifyFormData}: PropsCreateItemImage) {
   const [imagePreviwe, setImagePreviwe] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,6 +11,7 @@ function UploadImage() {
     if (file) {
       const objectUrl = URL.createObjectURL(file);
       setImagePreviwe(objectUrl);
+      modifyFormData('image', file)
     }
   };
 
