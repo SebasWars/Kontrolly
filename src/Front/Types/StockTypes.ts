@@ -4,6 +4,8 @@ export interface StocksTypes {
   items: Items[];
 }
 
+export type CreateStockType = Omit<StocksTypes, 'id'>
+
 export type Items = {
   id: string;
   name: string;
