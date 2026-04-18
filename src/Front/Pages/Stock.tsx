@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 
 import Selector from "../components/stock/Selector";
 import StockDetailsCards from "../components/stock/StockDetailsCard";
@@ -16,21 +14,16 @@ import {
 } from "../Utils/StockUtils";
 import useWarehouse from "../Hooks/UseWarehouse";
 
+import { useStockActions } from "../Hooks/useStockActions";
+import { useFetchWarehouses } from "../Hooks/useFetchWarehouses";
+
 function Stock() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { selectedWarehouse, dispatch } = useWarehouse();
-  const navigate = useNavigate();
-
+  const { selectedWarehouse } = useWarehouse();
+  const {fetchWarehouses} = useFetchWarehouses()
+  const {handleSelector, goToNewItem} = useStockActions()
   const toggleModal = (state: boolean) => setIsModalOpen(state);
 
-  const handleSelector = (value: string) => {
-    dispatch({type: 'SELECT_WAREHOUSE', payload: value});
-  };
-
-  const directNewItem = () => {
-    if (!selectedWarehouse) return;
-    navigate(`${selectedWarehouse?.id}/anadir-nuevo-item`);
-  };
 
   return (
     <div className={`stock_container ${isModalOpen ? "active" : ""}`}>
@@ -41,7 +34,7 @@ function Stock() {
             warehouse={selectedWarehouse?.id || ""}
             handleSelector={handleSelector}
           />
-          <button onClick={directNewItem}>Añadir nuevo item</button>
+          <button onClick={goToNewItem}>Añadir nuevo item</button>
         </div>
 
         <div className="cards">
@@ -61,7 +54,7 @@ function Stock() {
       </div>
       <StockTable currentWarehouse={selectedWarehouse} />
 
-      {isModalOpen && <CreateNewWarehouse toggleModal={toggleModal} />}
+      {isModalOpen && <CreateNewWarehouse toggleModal={toggleModal} refreshWarehouse={fetchWarehouses}/>}
     </div>
   );
 }
