@@ -1,4 +1,4 @@
-import { Stocks } from "../../../MOCK/StocksMock";
+import useWarehouse from "../../Hooks/UseWarehouse";
 
 type PropsTypes = {
   warehouse: string;
@@ -6,6 +6,7 @@ type PropsTypes = {
 };
 
 function Selector({ warehouse, handleSelector }: PropsTypes) {
+  const { warehouses } = useWarehouse();
   return (
     <>
       <select
@@ -13,11 +14,11 @@ function Selector({ warehouse, handleSelector }: PropsTypes) {
         onChange={(e) => handleSelector(e.target.value)}
       >
         <option value="">-- Selecciona un alamcen --</option>
-        {Stocks.map((stock) => {
-          const { warehouse, id } = stock;
+        {warehouses.map((stock) => {
+          const { warehouse: warehouseName, id } = stock;
           return (
             <option key={id} value={id}>
-              {warehouse}
+              {warehouseName}
             </option>
           );
         })}
