@@ -16,6 +16,30 @@ app.use(
   }),
 );
 
+app.post('/inventario', (req,res) => {
+  const {warehouse, items} = req.body
+
+  if(!warehouse ||typeof warehouse !== 'string'){
+    return res.status(400).json({message: 'Warehouse is required and must be an string'})
+  }
+
+  if(!Array.isArray(items)){
+    return res.status(400).json({message: 'Items must be an array'})
+  }
+
+  const newWarehouse = {
+    id: randomUUID(),
+    warehouse,
+    items
+  }
+
+  Stocks.push(newWarehouse);
+  res.status(201).json({messge: 'New warehouse created succesfylly'})
+})
+
+
+/* -------------------------- */
+
 app.get("/", (req, res) => {
   const warehouses = Stocks;
   return res.json({ warehouses });
