@@ -19,11 +19,10 @@ import { useFetchWarehouses } from "../Hooks/useFetchWarehouses";
 
 function Stock() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { selectedWarehouse } = useWarehouse();
-  const {fetchWarehouses} = useFetchWarehouses()
-  const {handleSelector, goToNewItem} = useStockActions()
+  const { selectedWarehouseId, warehouseItems } = useWarehouse();
+  const { fetchWarehouses } = useFetchWarehouses();
+  const { handleSelector, goToNewItem } = useStockActions();
   const toggleModal = (state: boolean) => setIsModalOpen(state);
-
 
   return (
     <div className={`stock_container ${isModalOpen ? "active" : ""}`}>
@@ -31,7 +30,7 @@ function Stock() {
       <div className="warehouse">
         <div className="title">
           <Selector
-            warehouse={selectedWarehouse?.id || ""}
+            warehouse={selectedWarehouseId || ""}
             handleSelector={handleSelector}
           />
           <button onClick={goToNewItem}>Añadir nuevo item</button>
@@ -40,21 +39,26 @@ function Stock() {
         <div className="cards">
           <StockDetailsCards
             value="Cantidad de productos"
-            quantity={_calculateQuantity(selectedWarehouse)}
+            quantity={_calculateQuantity(warehouseItems)}
           />
           <StockDetailsCards
             value="Total de inversion"
-            quantity={_calculateInvesment(selectedWarehouse)}
+            quantity={_calculateInvesment(warehouseItems)}
           />
           <StockDetailsCards
             value="Ingresos estimados"
-            quantity={_calculateProfits(selectedWarehouse)}
+            quantity={_calculateProfits(warehouseItems)}
           />
         </div>
       </div>
-      <StockTable currentWarehouse={selectedWarehouse} />
+      <StockTable currentWarehouse={warehouseItems} />
 
-      {isModalOpen && <CreateNewWarehouse toggleModal={toggleModal} refreshWarehouse={fetchWarehouses}/>}
+      {isModalOpen && (
+        <CreateNewWarehouse
+          toggleModal={toggleModal}
+          refreshWarehouse={fetchWarehouses}
+        />
+      )}
     </div>
   );
 }

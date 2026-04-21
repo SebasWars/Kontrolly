@@ -8,10 +8,11 @@ import UploadImage from "../components/warehouse/UploadImage";
 
 import "../styles/addNewItem.css";
 import type { ModifyFormData, NewItem } from "../Types/StockTypes";
+import { getWarehouseName } from "../Utils/StockUtils";
 
 function CreateNewItem() {
   const { id } = useParams();
-  const { selectedWarehouse, dispatch } = useWarehouse();
+  const { warehouses, selectedWarehouseId, dispatch } = useWarehouse();
   const [formData, setFormData] = useState<NewItem>({
     name: "",
     description: "",
@@ -32,11 +33,11 @@ function CreateNewItem() {
 
   return (
     <>
-      {!selectedWarehouse ? (
+      {!selectedWarehouseId ? (
         <p>Cargando...</p>
       ) : (
         <div className="create_new_item_container">
-          <h1>Almacen: {selectedWarehouse?.warehouse}</h1>
+          <h1>Almacen: {getWarehouseName(warehouses, selectedWarehouseId)}</h1>
 
           <section className="add_item_section">
             <div className="add_item_section_left_side">
@@ -48,7 +49,12 @@ function CreateNewItem() {
               <UploadImage modifyFormData={modifyFormData} />
               <div className="action_buttons">
                 <button className="discard_btn">Descartar</button>
-                <button className="save_btn" onClick={() => console.log(formData)}>guardar</button>
+                <button
+                  className="save_btn"
+                  onClick={() => console.log(formData)}
+                >
+                  guardar
+                </button>
               </div>
             </div>
           </section>
