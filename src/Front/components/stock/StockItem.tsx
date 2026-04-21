@@ -8,17 +8,19 @@ function StockItem({ item }: PropType) {
   const {
     id,
     name,
-    image,
+    image_url,
     description,
     quantity,
     purchase_price,
     sales_price,
   } = item;
 
+  console.log(item);
+
   return (
     <tr>
       <td>
-        <img src={image} alt={name} />
+        <img src={image_url ?? ""} alt={name} />
       </td>
       <td>{name}</td>
       <td>{id}</td>

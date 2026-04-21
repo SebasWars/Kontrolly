@@ -12,7 +12,7 @@ export type CreateStockType = Omit<WarehousesDetails, "id">;
 export type Items = {
   id: string;
   name: string;
-  image: string | null;
+  image_url: string | null;
   description: string;
   quantity: number;
   purchase_price: number;
