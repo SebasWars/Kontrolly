@@ -1,6 +1,6 @@
-import type { StocksTypes } from "../Front/Types/StockTypes";
+import type { WarehousesDetails } from "../Front/Types/StockTypes";
 
-export const Stocks: StocksTypes[] = [
+export const Stocks: WarehousesDetails[] = [
   {
     warehouse: "Electrodomésticos",
     id: 'almacen-1',
