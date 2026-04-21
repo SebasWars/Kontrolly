@@ -1,18 +1,24 @@
-import type { StocksTypes } from "./StockTypes";
+import type { Items, WarehousesMeta } from "./StockTypes";
 
-export type Actions = SelectWarehouse | SetWarehouses 
+export type Actions = SelectWarehouse | SetWarehouses | SetWarehousesItems;
 
-export interface State{
-    warehouses: StocksTypes[],
-    selectedWarehouse: string | null
+export interface State {
+  warehouses: WarehousesMeta[];
+  selectedWarehouseId: string | null;
+  warehouseItems: Items[] | null;
 }
 
-interface SelectWarehouse{
-    type: 'SELECT_WAREHOUSE',
-    payload: string
+interface SelectWarehouse {
+  type: "SELECT_WAREHOUSE";
+  payload: string;
 }
 
-interface SetWarehouses{
-    type: 'SET_WAREHOUSES',
-    payload: StocksTypes[]
+interface SetWarehouses {
+  type: "SET_WAREHOUSES";
+  payload: WarehousesMeta[];
+}
+
+interface SetWarehousesItems {
+  type: "SET_WAREHOUSE_ITEMS";
+  payload: Items[];
 }

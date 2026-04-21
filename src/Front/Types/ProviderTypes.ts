@@ -1,13 +1,14 @@
 import type { ReactNode } from "react";
 import type { Actions } from "./ReducerTypes";
-import type { StocksTypes } from "./StockTypes";
+import type { Items, WarehousesMeta } from "./StockTypes";
 
 export interface PropProviderType {
   children: ReactNode;
 }
 
 export interface WarehouseContextType {
-  warehouses: StocksTypes[];
-  selectedWarehouse: StocksTypes | null;
+  warehouses: WarehousesMeta[];
+  selectedWarehouseId: string | null;
+  warehouseItems: Items[] | null;
   dispatch: React.Dispatch<Actions>;
 }

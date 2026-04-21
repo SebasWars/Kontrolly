@@ -1,10 +1,13 @@
-export interface StocksTypes {
+export interface WarehousesMeta {
   warehouse: string;
   id: string;
+}
+
+export interface WarehousesDetails extends WarehousesMeta {
   items: Items[];
 }
 
-export type CreateStockType = Omit<StocksTypes, 'id'>
+export type CreateStockType = Omit<WarehousesDetails, "id">;
 
 export type Items = {
   id: string;
