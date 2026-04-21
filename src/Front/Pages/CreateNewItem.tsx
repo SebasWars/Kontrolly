@@ -9,6 +9,7 @@ import UploadImage from "../components/warehouse/UploadImage";
 import "../styles/addNewItem.css";
 import type { ModifyFormData, NewItem } from "../Types/StockTypes";
 import { getWarehouseName } from "../Utils/StockUtils";
+import { createNewItem } from "../conection/httpConection";
 
 function CreateNewItem() {
   const { id } = useParams();
@@ -25,6 +26,7 @@ function CreateNewItem() {
   const modifyFormData: ModifyFormData = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
+
 
   useEffect(() => {
     if (!id) return;
@@ -51,7 +53,7 @@ function CreateNewItem() {
                 <button className="discard_btn">Descartar</button>
                 <button
                   className="save_btn"
-                  onClick={() => console.log(formData)}
+                  onClick={async () => createNewItem(selectedWarehouseId, formData)}
                 >
                   guardar
                 </button>
