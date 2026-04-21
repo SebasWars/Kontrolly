@@ -6,11 +6,10 @@ export const WarehouseContext = createContext<WarehouseContextType | undefined>(
 
 export function WarehouseProvider({ children }: PropProviderType) {
   const [state, dispatch] = useReducer(warehouseReducer, initalState);
-  const selectedWarehouse = state.warehouses.find((w) => w.id === state.selectedWarehouse) || null;
 
   return (
     <WarehouseContext.Provider
-      value={{ warehouses: state.warehouses, selectedWarehouse, dispatch }}
+      value={{warehouses: state.warehouses, selectedWarehouseId: state.selectedWarehouseId, warehouseItems: state.warehouseItems, dispatch}}
     >
       {children}
     </WarehouseContext.Provider>

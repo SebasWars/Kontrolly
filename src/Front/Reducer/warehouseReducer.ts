@@ -2,7 +2,8 @@ import type { Actions, State } from "../Types/ReducerTypes";
 
 export const initalState: State = {
   warehouses: [],
-  selectedWarehouse: null,
+  selectedWarehouseId: null,
+  warehouseItems: null,
 };
 
 export const warehouseReducer = (state: State, action: Actions) => {
@@ -13,7 +14,9 @@ export const warehouseReducer = (state: State, action: Actions) => {
       return { ...state, warehouses: payload };
     /* WAREHOUSE CHILDREN ACTIONS */
     case "SELECT_WAREHOUSE":
-      return { ...state, selectedWarehouse: payload };
+      return { ...state, selectedWarehouseId: payload };
+    case "SET_WAREHOUSE_ITEMS":
+      return {...state, warehouseItems: payload}
     default:
       return state;
   }
