@@ -16,6 +16,20 @@ app.use(
   }),
 );
 
+app.get("/inventario", (req, res) => {
+  const warehouses = Stocks.map((W) => ({warehouse: W.warehouse, id: W.id}));
+  return res.json({ warehouses });
+});
+
+app.get("/inventario/:id", (req, res) => {
+  const { id } = req.params;
+  const warehouse = Stocks.find((W) => W.id === id);
+  if (!warehouse) {
+    return res.json({ message: "Warehouse non-existent" });
+  }
+  return res.json({ warehouse: warehouse.items });
+});
+
 app.post('/inventario', (req,res) => {
   const {warehouse, items} = req.body
 
@@ -40,19 +54,6 @@ app.post('/inventario', (req,res) => {
 
 /* -------------------------- */
 
-app.get("/", (req, res) => {
-  const warehouses = Stocks;
-  return res.json({ warehouses });
-});
-
-app.get("/:id", (req, res) => {
-  const { id } = req.params;
-  const warehouse = Stocks.find((W) => W.id === id);
-  if (!warehouse) {
-    return res.json({ message: "Warehouse non-existent" });
-  }
-  return res.json({ warehouse: warehouse });
-});
 
 app.post("/:id", upload.single("file"), (req, res) => {
   const { id } = req.params;
