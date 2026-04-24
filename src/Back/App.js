@@ -2,8 +2,7 @@ import express from "express";
 import multer from "multer";
 import cors from "cors";
 
-import { Stocks } from "./MockData_Back.js";
-import { randomUUID } from "node:crypto";
+import { warehousesRoute } from "./routes/stock.js";
 
 const PORT = process.env.PORT ?? 3000;
 const app = express();
@@ -17,42 +16,7 @@ app.use(
 );
 app.use("/uploads", express.static("uploads"));
 
-app.get("/inventario", (req, res) => {
-  const warehouses = Stocks.map((W) => ({ warehouse: W.warehouse, id: W.id }));
-  return res.json({ warehouses });
-});
-
-app.get("/inventario/:id", (req, res) => {
-  const { id } = req.params;
-  const warehouse = Stocks.find((W) => W.id === id);
-  if (!warehouse) {
-    return res.json({ message: "Warehouse non-existent" });
-  }
-  return res.json({ warehouse: warehouse.items });
-});
-
-app.post("/inventario", (req, res) => {
-  const { warehouse, items } = req.body;
-
-  if (!warehouse || typeof warehouse !== "string") {
-    return res
-      .status(400)
-      .json({ message: "Warehouse is required and must be an string" });
-  }
-
-  if (!Array.isArray(items)) {
-    return res.status(400).json({ message: "Items must be an array" });
-  }
-
-  const newWarehouse = {
-    id: randomUUID(),
-    warehouse,
-    items,
-  };
-
-  Stocks.push(newWarehouse);
-  res.status(201).json({ messge: "New warehouse created succesfylly" });
-});
+app.use('/inventario', warehousesRoute)
 
 /* -------------------------- */
 
