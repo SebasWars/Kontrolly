@@ -8,7 +8,7 @@ function StockItem({ item }: PropType) {
   const {
     id,
     name,
-    image,
+    image_url,
     description,
     quantity,
     purchase_price,
@@ -18,7 +18,7 @@ function StockItem({ item }: PropType) {
   return (
     <tr>
       <td>
-        <img src={image} alt={name} />
+        <img src={image_url ?? ""} alt={name} />
       </td>
       <td>{name}</td>
       <td>{id}</td>

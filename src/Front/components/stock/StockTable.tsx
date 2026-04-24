@@ -1,8 +1,8 @@
-import type { StocksTypes } from "../../Types/StockTypes";
+import type { Items } from "../../Types/StockTypes";
 import StockItem from "./StockItem";
 
 interface PropsType {
-  currentWarehouse: StocksTypes | null;
+  currentWarehouse: Items[] | null;
 }
 
 function StockTable({ currentWarehouse }: PropsType) {
@@ -21,7 +21,7 @@ function StockTable({ currentWarehouse }: PropsType) {
           </tr>
         </thead>
         <tbody>
-          {currentWarehouse?.items.map((item) => {
+          {currentWarehouse?.map((item) => {
             return <StockItem key={item.id} item={item} />;
           })}
         </tbody>
