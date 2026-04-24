@@ -15,8 +15,6 @@ function StockItem({ item }: PropType) {
     sales_price,
   } = item;
 
-  console.log(item);
-
   return (
     <tr>
       <td>

@@ -14,7 +14,7 @@ export function useStockActions() {
 
   const goToNewItem = () => {
     if (!selectedWarehouseId) return;
-    navigate(`${selectedWarehouseId}/anadir-nuevo-item`);
+    navigate(`${selectedWarehouseId}/items`);
   };
 
   return { handleSelector, goToNewItem };
