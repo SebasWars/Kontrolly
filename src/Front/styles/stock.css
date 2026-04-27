@@ -234,3 +234,7 @@ table {
     color: white;
   }
 }
+.selector_menus{
+  display: flex;
+  gap: 10px;
+}

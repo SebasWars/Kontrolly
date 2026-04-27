@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import Selector from "../components/stock/Selector";
 import StockDetailsCards from "../components/stock/StockDetailsCard";
 import StockHeader from "../components/stock/StockHeader";
 import CreateNewWarehouse from "../components/stock/CreateNewWarehouse";
@@ -16,12 +15,13 @@ import useWarehouse from "../Hooks/UseWarehouse";
 
 import { useStockActions } from "../Hooks/useStockActions";
 import { useFetchWarehouses } from "../Hooks/useFetchWarehouses";
+import { StockSelectorMenus } from "../components/stock/StockSelectorMenus";
 
 function Stock() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { selectedWarehouseId, warehouseItems } = useWarehouse();
+  const { warehouseItems } = useWarehouse();
   const { fetchWarehouses } = useFetchWarehouses();
-  const { handleSelector, goToNewItem, deleteWarehouse } = useStockActions();
+  const { goToNewItem } = useStockActions();
   const toggleModal = (state: boolean) => setIsModalOpen(state);
 
   return (
@@ -29,11 +29,7 @@ function Stock() {
       <StockHeader toggleModal={toggleModal} />
       <div className="warehouse">
         <div className="title">
-          <Selector
-            warehouse={selectedWarehouseId || ""}
-            handleSelector={handleSelector}
-          />
-          <button onClick={deleteWarehouse}>Eliminar almacen</button>
+          <StockSelectorMenus />
           <button onClick={goToNewItem}>Añadir nuevo item</button>
         </div>
 
