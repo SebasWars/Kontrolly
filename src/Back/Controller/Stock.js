@@ -35,4 +35,13 @@ export class StockController {
       "warehouse created": newWarehouse,
     });
 }
+
+ static async deleteWarehouse(req,res) {
+  const {id} = req.params;
+  const deleted = await StockModel.deleteWarehouse({id});
+  if(!deleted){
+    return res.status(404).json({ message: "Warehouse non-existent" });
+  }
+  return res.status(202).json({message: 'Stock removed'})
+ }
 }

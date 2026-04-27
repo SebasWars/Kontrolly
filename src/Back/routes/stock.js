@@ -7,3 +7,4 @@ export const warehousesRoute = Router();
 warehousesRoute.get("/", StockController.getWarehouses);
 warehousesRoute.get("/:id", StockController.getWarehouseByID);
 warehousesRoute.post("/", StockController.createWarehouse);
+warehousesRoute.delete('/:id', StockController.deleteWarehouse)
