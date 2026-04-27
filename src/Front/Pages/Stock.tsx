@@ -18,18 +18,20 @@ import { useFetchWarehouses } from "../Hooks/useFetchWarehouses";
 import { StockSelectorMenus } from "../components/stock/StockSelectorMenus";
 
 function Stock() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalMode, setModalMode] = useState<"create" | "edit" | null>(null);
   const { warehouseItems } = useWarehouse();
   const { fetchWarehouses } = useFetchWarehouses();
   const { goToNewItem } = useStockActions();
-  const toggleModal = (state: boolean) => setIsModalOpen(state);
+  const openCreate = () => setModalMode("create");
+  const openEdit = () => setModalMode("edit");
+  const closeModal = () => setModalMode(null);
 
   return (
-    <div className={`stock_container ${isModalOpen ? "active" : ""}`}>
-      <StockHeader toggleModal={toggleModal} />
+    <div className={`stock_container ${modalMode ? "active" : ""}`}>
+      <StockHeader openCreate={openCreate} />
       <div className="warehouse">
         <div className="title">
-          <StockSelectorMenus />
+          <StockSelectorMenus openEdit={openEdit} />
           <button onClick={goToNewItem}>Añadir nuevo item</button>
         </div>
 
@@ -50,9 +52,11 @@ function Stock() {
       </div>
       <StockTable currentWarehouse={warehouseItems} />
 
-      {isModalOpen && (
+      {modalMode && (
         <CreateNewWarehouse
-          toggleModal={toggleModal}
+          modalMode={modalMode}
+          openEdit={openEdit}
+          closeModal={closeModal}
           refreshWarehouse={fetchWarehouses}
         />
       )}

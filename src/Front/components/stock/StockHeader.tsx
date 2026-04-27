@@ -1,12 +1,12 @@
 interface PropsType {
-  toggleModal: (state: boolean) => void;
+  openCreate: (state: 'create') => void;
 }
 
-function StockHeader({ toggleModal }: PropsType) {
+function StockHeader({ openCreate }: PropsType) {
   return (
     <div className="stock_header">
       <h1>Inventario</h1>
-      <button onClick={() => toggleModal(true)}>Añadir Almacen</button>
+      <button onClick={() => openCreate('create')}>Añadir Almacen</button>
     </div>
   );
 }

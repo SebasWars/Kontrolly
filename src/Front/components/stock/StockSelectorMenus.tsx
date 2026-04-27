@@ -3,7 +3,11 @@ import useWarehouse from "../../Hooks/UseWarehouse";
 import DropDown from "./DropDown";
 import Selector from "./Selector";
 
-export function StockSelectorMenus() {
+interface PropsTypes {
+  openEdit: (state: 'edit') => void;
+}
+
+export function StockSelectorMenus({ openEdit }: PropsTypes) {
   const { selectedWarehouseId } = useWarehouse();
   const { handleSelector } = useStockActions();
   return (
@@ -12,7 +16,7 @@ export function StockSelectorMenus() {
         warehouse={selectedWarehouseId || ""}
         handleSelector={handleSelector}
       />
-      {selectedWarehouseId && (<DropDown />)}
+      {selectedWarehouseId && <DropDown openEdit={openEdit}/>}
     </section>
   );
 }
