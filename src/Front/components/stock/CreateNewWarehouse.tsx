@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import type { CreateStockType } from "../../Types/StockTypes";
 import { createNewWarehouse } from "../../conection/httpConection";
+import useWarehouse from "../../Hooks/UseWarehouse";
 
 interface PropsType {
   toggleModal: (state: boolean) => void;
   refreshWarehouse: () => void;
 }
 
-function CreateNewWarehouse({ toggleModal , refreshWarehouse}: PropsType) {
+function CreateNewWarehouse({ toggleModal, refreshWarehouse }: PropsType) {
+  const { dispatch } = useWarehouse();
   const [newWarehouse, setNewWarehouse] = useState<CreateStockType>({
     warehouse: "",
     items: [],
@@ -18,9 +20,13 @@ function CreateNewWarehouse({ toggleModal , refreshWarehouse}: PropsType) {
   };
 
   const saveNewWarehouse = async () => {
-    await createNewWarehouse(newWarehouse)
-    refreshWarehouse()
+    const created = await createNewWarehouse(newWarehouse);
+    refreshWarehouse();
     toggleModal(false);
+    dispatch({
+      type: "SELECT_WAREHOUSE",
+      payload: created.warehouse_created.id,
+    });
   };
 
   return (

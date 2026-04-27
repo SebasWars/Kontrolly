@@ -32,7 +32,7 @@ export class StockController {
     .status(201)
     .json({
       messge: "New warehouse created succesfylly",
-      "warehouse created": newWarehouse,
+      "warehouse_created": newWarehouse,
     });
 }
 
