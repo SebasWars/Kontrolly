@@ -8,7 +8,7 @@ export async function getWarehouses() {
   return data;
 }
 
-export async function getWarehousebyID(id:string | null) {
+export async function getWarehousebyID(id: string | null) {
   const response = await fetch(`${apiUrl}/inventario/${id}`);
   const data = await response.json();
   return data;
@@ -18,7 +18,7 @@ export async function createNewWarehouse(newWarehouse: CreateStockType) {
   const response = await fetch(`${apiUrl}/inventario`, {
     method: "POST",
     headers: {
-        'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(newWarehouse),
   });
@@ -29,28 +29,39 @@ export async function createNewWarehouse(newWarehouse: CreateStockType) {
   return data;
 }
 
-
 export async function createNewItem(id: string, formData: NewItem) {
   const data = new FormData();
 
-  data.append('name', formData.name)
-  data.append('description', formData.description)
-  data.append('quantity', formData.quantity)
-  data.append('purchase_price', formData.purchase_price)
-  data.append('sales_price', formData.sales_price)
+  data.append("name", formData.name);
+  data.append("description", formData.description);
+  data.append("quantity", formData.quantity);
+  data.append("purchase_price", formData.purchase_price);
+  data.append("sales_price", formData.sales_price);
 
-  if(formData.image){
-    data.append('file', formData.image)
+  if (formData.image) {
+    data.append("file", formData.image);
   }
 
   const response = await fetch(`${apiUrl}/inventario/${id}/anadir-nuevo-item`, {
-    method: 'POST',
-    body: data
-  })
+    method: "POST",
+    body: data,
+  });
 
-  if(!response.ok){
-    throw new Error('Error creating item')
+  if (!response.ok) {
+    throw new Error("Error creating item");
   }
 
-  return await response.json()
+  return await response.json();
+}
+
+export async function deleteStock(id: string) {
+  const response = await fetch(`${apiUrl}/inventario/${id}`, {
+    method: "DELETE",
+  });
+
+  if (response.status === 204) {
+    return true;
+  }
+
+  return await response.json();
 }
