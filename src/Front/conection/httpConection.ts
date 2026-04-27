@@ -42,7 +42,7 @@ export async function createNewItem(id: string, formData: NewItem) {
     data.append("file", formData.image);
   }
 
-  const response = await fetch(`${apiUrl}/inventario/${id}/anadir-nuevo-item`, {
+  const response = await fetch(`${apiUrl}/inventario/${id}/items`, {
     method: "POST",
     body: data,
   });
