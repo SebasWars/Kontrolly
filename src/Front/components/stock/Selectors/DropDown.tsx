@@ -1,7 +1,7 @@
 import * as React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useStockActions } from "../../Hooks/useStockActions";
+import { useStockActions } from "../../../Hooks/useStockActions";
 
 interface PropsTypes {
   openEdit: (state: 'edit') => void;

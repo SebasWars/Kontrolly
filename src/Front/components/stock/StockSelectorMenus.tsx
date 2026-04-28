@@ -1,7 +1,7 @@
 import { useStockActions } from "../../Hooks/useStockActions";
 import useWarehouse from "../../Hooks/UseWarehouse";
-import DropDown from "./DropDown";
-import Selector from "./Selector";
+import DropDown from "./Selectors/DropDown";
+import Selector from "../stock/Selectors/Selector";
 
 interface PropsTypes {
   openEdit: (state: 'edit') => void;

@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import StockDetailsCards from "../components/stock/StockDetailsCard";
 import StockHeader from "../components/stock/StockHeader";
-import CreateNewWarehouse from "../components/stock/CreateNewWarehouse";
 import StockTable from "../components/stock/StockTable";
 
 import "../styles/stock.css";
@@ -16,6 +15,7 @@ import useWarehouse from "../Hooks/UseWarehouse";
 import { useStockActions } from "../Hooks/useStockActions";
 import { useFetchWarehouses } from "../Hooks/useFetchWarehouses";
 import { StockSelectorMenus } from "../components/stock/StockSelectorMenus";
+import { CreateOrEdit } from "../components/stock/CreateOrEditForm/CreateOrEditWarehouse";
 
 function Stock() {
   const [modalMode, setModalMode] = useState<"create" | "edit" | null>(null);
@@ -53,9 +53,8 @@ function Stock() {
       <StockTable currentWarehouse={warehouseItems} />
 
       {modalMode && (
-        <CreateNewWarehouse
+        <CreateOrEdit
           modalMode={modalMode}
-          openEdit={openEdit}
           closeModal={closeModal}
           refreshWarehouse={fetchWarehouses}
         />
