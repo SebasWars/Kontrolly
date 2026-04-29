@@ -11,6 +11,7 @@ export const warehousesRoute = Router();
 warehousesRoute.get("/", StockController.getWarehouses);
 warehousesRoute.get("/:id", StockController.getWarehouseByID);
 warehousesRoute.post("/", StockController.createWarehouse);
+warehousesRoute.patch("/:id", StockController.modifyWarehouse)
 warehousesRoute.delete('/:id', StockController.deleteWarehouse)
 
 warehousesRoute.post('/:id/items',upload.single("file"), ItemsController.createItem)

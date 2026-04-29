@@ -25,7 +25,7 @@ export function WarehouseForm({
     <>
       <div className="create_new_warehouse_modal">
         <h2>{title}</h2>
-        <input onChange={handleInput} type="text" className="new_ware_house" />
+        <input onChange={handleInput} value={formData.warehouse} type="text" className="new_ware_house" />
         <div className="action_buttons">
           <button className="discard_btn" onClick={onClose}>
             Descartar

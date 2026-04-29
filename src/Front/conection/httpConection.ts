@@ -25,8 +25,22 @@ export async function createNewWarehouse(newWarehouse: CreateStockType) {
   if (!response.ok) {
     throw new Error("Error creating new warehouse");
   }
-  const data = await response.json();
-  return data;
+
+  return await response.json();
+}
+
+export async function updateWarehouse(id: string, warehouseName: string) {
+  const response = await fetch(`${apiUrl}/inventario/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ warehouseName}),
+  });
+  if (!response.ok) {
+    throw new Error("Error to update");
+  }
+  return await response.json();
 }
 
 export async function createNewItem(id: string, formData: NewItem) {

@@ -1,4 +1,7 @@
-import { createNewWarehouse } from "../../../conection/httpConection";
+import {
+  createNewWarehouse,
+  updateWarehouse,
+} from "../../../conection/httpConection";
 import useWarehouse from "../../../Hooks/UseWarehouse";
 import type { CreateStockType } from "../../../Types/StockTypes";
 import { WarehouseForm } from "./WarehouseForm";
@@ -9,7 +12,11 @@ interface PropsType {
   refreshWarehouse: () => void;
 }
 
-export function CreateOrEdit({ modalMode, closeModal, refreshWarehouse }:PropsType) {
+export function CreateOrEdit({
+  modalMode,
+  closeModal,
+  refreshWarehouse,
+}: PropsType) {
   const { dispatch, selectedWarehouseId, warehouses } = useWarehouse();
   const currentWarehouse = warehouses.find((W) => W.id === selectedWarehouseId);
   const isEdit = modalMode === "edit";
@@ -21,7 +28,9 @@ export function CreateOrEdit({ modalMode, closeModal, refreshWarehouse }:PropsTy
 
   const handleSubmit = async (data: CreateStockType) => {
     if (isEdit && currentWarehouse) {
-      //todo
+      await updateWarehouse(currentWarehouse.id, data.warehouse);
+      refreshWarehouse();
+      closeModal(null);
     } else {
       const created = await createNewWarehouse(data);
       dispatch({
