@@ -1,7 +1,7 @@
 import {
   createNewWarehouse,
   updateWarehouse,
-} from "../../../conection/httpConection";
+} from "../../../services/httpConection";
 import useWarehouse from "../../../Hooks/UseWarehouse";
 import type { CreateStockType } from "../../../Types/StockTypes";
 import { WarehouseForm } from "./WarehouseForm";

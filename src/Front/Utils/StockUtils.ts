@@ -9,7 +9,13 @@ export const _calculateInvesment = (items: Items[] | null): number => {
 };
 
 export const _calculateProfits = (items: Items[] | null): number => {
-  return items?.reduce((acc, item) => acc + item.sales_price, 0) || 0;
+  return (
+    items?.reduce(
+      (acc, item) =>
+        acc + (item.sales_price - item.purchase_price) * item.quantity,
+      0,
+    ) || 0
+  );
 };
 
 export const getWarehouseName = (arr: WarehousesMeta[], id: string) => {

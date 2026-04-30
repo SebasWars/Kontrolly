@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { createNewItem } from "../conection/httpConection";
+import { createNewItem } from "../services/httpConection";
 import type { NewItem } from "../Types/StockTypes";
 
 export function useItemsActions() {

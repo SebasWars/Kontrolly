@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useWarehouse from "./UseWarehouse";
 import { useFetchDataByID, useFetchWarehouses } from "./useFetchWarehouses";
-import { deleteStock } from "../conection/httpConection";
+import { deleteStock } from "../services/httpConection";
 
 export function useStockActions() {
   const { selectedWarehouseId, dispatch } = useWarehouse();
