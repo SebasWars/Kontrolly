@@ -12,9 +12,9 @@ export class ItemsController {
       id,
       name,
       description,
-      quantity,
-      purchase_price,
-      sales_price,
+      quantity: Number(quantity),
+      purchase_price: Number(purchase_price),
+      sales_price: Number(sales_price),
       file,
     });
 
