@@ -1,9 +1,7 @@
 import { useState } from "react";
 
-import Selector from "../components/stock/Selector";
 import StockDetailsCards from "../components/stock/StockDetailsCard";
 import StockHeader from "../components/stock/StockHeader";
-import CreateNewWarehouse from "../components/stock/CreateNewWarehouse";
 import StockTable from "../components/stock/StockTable";
 
 import "../styles/stock.css";
@@ -16,23 +14,24 @@ import useWarehouse from "../Hooks/UseWarehouse";
 
 import { useStockActions } from "../Hooks/useStockActions";
 import { useFetchWarehouses } from "../Hooks/useFetchWarehouses";
+import { StockSelectorMenus } from "../components/stock/StockSelectorMenus";
+import { CreateOrEdit } from "../components/stock/CreateOrEditForm/CreateOrEditWarehouse";
 
 function Stock() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { selectedWarehouseId, warehouseItems } = useWarehouse();
+  const [modalMode, setModalMode] = useState<"create" | "edit" | null>(null);
+  const { warehouseItems } = useWarehouse();
   const { fetchWarehouses } = useFetchWarehouses();
-  const { handleSelector, goToNewItem } = useStockActions();
-  const toggleModal = (state: boolean) => setIsModalOpen(state);
+  const { goToNewItem } = useStockActions();
+  const openCreate = () => setModalMode("create");
+  const openEdit = () => setModalMode("edit");
+  const closeModal = () => setModalMode(null);
 
   return (
-    <div className={`stock_container ${isModalOpen ? "active" : ""}`}>
-      <StockHeader toggleModal={toggleModal} />
+    <div className={`stock_container ${modalMode ? "active" : ""}`}>
+      <StockHeader openCreate={openCreate} />
       <div className="warehouse">
         <div className="title">
-          <Selector
-            warehouse={selectedWarehouseId || ""}
-            handleSelector={handleSelector}
-          />
+          <StockSelectorMenus openEdit={openEdit} />
           <button onClick={goToNewItem}>Añadir nuevo item</button>
         </div>
 
@@ -53,9 +52,10 @@ function Stock() {
       </div>
       <StockTable currentWarehouse={warehouseItems} />
 
-      {isModalOpen && (
-        <CreateNewWarehouse
-          toggleModal={toggleModal}
+      {modalMode && (
+        <CreateOrEdit
+          modalMode={modalMode}
+          closeModal={closeModal}
           refreshWarehouse={fetchWarehouses}
         />
       )}

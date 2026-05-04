@@ -23,6 +23,29 @@ export class StockModel {
     };
 
     Stocks.push(newWarehouse);
-    return newWarehouse
+    return newWarehouse;
+  }
+
+  static async updateWarehosue({ id, warehouseName }) {
+    const currentWarehosue = Stocks.findIndex((W) => W.id === id);
+
+    if (currentWarehosue === -1) return false;
+
+    const updated = {
+      ...Stocks[currentWarehosue],
+      warehouse: warehouseName,
+    };
+
+    Stocks[currentWarehosue] = updated;
+    return updated;
+  }
+
+  static async deleteWarehouse({ id }) {
+    const index = Stocks.findIndex((W) => W.id === id);
+    if (index === -1) return false;
+
+    Stocks.splice(index, 1);
+
+    return true;
   }
 }

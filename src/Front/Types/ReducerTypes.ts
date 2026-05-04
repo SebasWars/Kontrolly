@@ -10,7 +10,7 @@ export interface State {
 
 interface SelectWarehouse {
   type: "SELECT_WAREHOUSE";
-  payload: string;
+  payload: string | null;
 }
 
 interface SetWarehouses {
@@ -20,5 +20,5 @@ interface SetWarehouses {
 
 interface SetWarehousesItems {
   type: "SET_WAREHOUSE_ITEMS";
-  payload: Items[];
+  payload: Items[] | null;
 }
