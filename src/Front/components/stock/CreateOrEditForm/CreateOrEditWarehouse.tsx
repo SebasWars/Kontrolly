@@ -27,6 +27,7 @@ export function CreateOrEdit({
       : { warehouse: "", items: [] };
 
   const handleSubmit = async (data: CreateStockType) => {
+    if(data.warehouse === '') return;
     if (isEdit && currentWarehouse) {
       await updateWarehouse(currentWarehouse.id, data.warehouse);
       refreshWarehouse();

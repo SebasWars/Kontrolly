@@ -5,7 +5,12 @@ export const _calculateQuantity = (items: Items[] | null): number => {
 };
 
 export const _calculateInvesment = (items: Items[] | null): number => {
-  return items?.reduce((acc, item) => acc + item.purchase_price, 0) || 0;
+  return (
+    items?.reduce(
+      (acc, item) => acc + item.quantity * item.purchase_price,
+      0,
+    ) || 0
+  );
 };
 
 export const _calculateProfits = (items: Items[] | null): number => {

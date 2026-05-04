@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useWarehouse from "./UseWarehouse";
 import { useFetchDataByID, useFetchWarehouses } from "./useFetchWarehouses";
-import { deleteStock } from "../services/httpConection";
+import { removeWarehouse } from "../services/httpConection";
 
 export function useStockActions() {
   const { selectedWarehouseId, dispatch } = useWarehouse();
@@ -16,7 +16,7 @@ export function useStockActions() {
 
   const deleteWarehouse = async () => {
     if (!selectedWarehouseId) return;
-    await deleteStock(selectedWarehouseId);
+    await removeWarehouse(selectedWarehouseId);
     await fetchWarehouses();
     dispatch({ type: "SELECT_WAREHOUSE", payload: null });
     dispatch({ type: "SET_WAREHOUSE_ITEMS", payload: null });

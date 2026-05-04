@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import useWarehouse from "../Hooks/UseWarehouse";
 
@@ -10,9 +10,12 @@ import type { Items, ModifyFormData, NewItem } from "../Types/StockTypes";
 import BasicInfo from "../components/warehouse/BasicInfo";
 import Fees from "../components/warehouse/Fees";
 import UploadImage from "../components/warehouse/UploadImage";
+import { removeItem, updateItem } from "../services/httpConection";
+import { validateUpdateItem } from "../Utils/validation";
 
 function ModifyItem() {
-  const { itemID } = useParams();
+  const { itemID } = useParams<{itemID: string}>();
+  const navigate = useNavigate();
   const { warehouses, selectedWarehouseId, warehouseItems } = useWarehouse();
   const { discardItem } = useItemsActions();
   const [dataToModify, setDataToModify] = useState<NewItem | null>(null);
@@ -38,9 +41,30 @@ function ModifyItem() {
     setDataToModify((prev) => (prev ? { ...prev, [key]: value } : prev));
   };
 
+  const modifyItem = async (
+    warehouseID: string,
+    itemID: string ,
+    formData: NewItem,
+  ) => {
+    if (!itemID) return;
+    const errors = validateUpdateItem(formData);
+    if (Object.keys(errors).length > 0) {
+      //TODO AÑADIR FEEDBACK PARA EL USUARIO FRONT
+      return;
+    }
+    await updateItem(warehouseID, itemID, formData);
+    navigate("/inventario");
+  };
+
+  const deleteItem = async (warehouseId: string, itemID: string) => {
+    if(!itemID) return
+    await removeItem(warehouseId, itemID);
+    navigate('/inventario')
+  };
+
   return (
     <>
-      {!selectedWarehouseId || !dataToModify ? (
+      {!selectedWarehouseId || !itemID || !dataToModify ? (
         <p>Cargando...</p>
       ) : (
         <div className="create_new_item_container">
@@ -61,10 +85,20 @@ function ModifyItem() {
                 initialImage={currentItem?.image_url ?? null}
               />
               <div className="action_buttons">
+                <button onClick={() => deleteItem(selectedWarehouseId, itemID)} className="remove_btn">
+                  Eliminar
+                </button>
                 <button onClick={discardItem} className="discard_btn">
                   Descartar
                 </button>
-                <button className="save_btn">guardar</button>
+                <button
+                  onClick={() =>
+                    modifyItem(selectedWarehouseId, itemID, dataToModify)
+                  }
+                  className="save_btn"
+                >
+                  guardar
+                </button>
               </div>
             </div>
           </section>

@@ -35,11 +35,23 @@ export async function updateWarehouse(id: string, warehouseName: string) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ warehouseName}),
+    body: JSON.stringify({ warehouseName }),
   });
   if (!response.ok) {
     throw new Error("Error to update");
   }
+  return await response.json();
+}
+
+export async function removeWarehouse(id: string) {
+  const response = await fetch(`${apiUrl}/inventario/${id}`, {
+    method: "DELETE",
+  });
+
+  if (response.status === 204) {
+    return true;
+  }
+
   return await response.json();
 }
 
@@ -68,10 +80,45 @@ export async function createNewItem(id: string, formData: NewItem) {
   return await response.json();
 }
 
-export async function deleteStock(id: string) {
-  const response = await fetch(`${apiUrl}/inventario/${id}`, {
-    method: "DELETE",
-  });
+export async function updateItem(
+  warehouseId: string,
+  itemID: string,
+  formData: NewItem,
+) {
+  const data = new FormData();
+
+  data.append("name", formData.name);
+  data.append("description", formData.description);
+  data.append("quantity", formData.quantity);
+  data.append("purchase_price", formData.purchase_price);
+  data.append("sales_price", formData.sales_price);
+
+  if (formData.image) {
+    data.append("file", formData.image);
+  }
+
+  const response = await fetch(
+    `${apiUrl}/inventario/${warehouseId}/items/${itemID}/edit`,
+    {
+      method: "PATCH",
+      body: data,
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Error to update item");
+  }
+
+  return await response.json();
+}
+
+export async function removeItem(warehouseId: string, itemID: string) {
+  const response = await fetch(
+    `${apiUrl}/inventario/${warehouseId}/items/${itemID}/edit`,
+    {
+      method: "DELETE",
+    },
+  );
 
   if (response.status === 204) {
     return true;

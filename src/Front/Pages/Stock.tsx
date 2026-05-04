@@ -45,7 +45,7 @@ function Stock() {
             quantity={_calculateInvesment(warehouseItems)}
           />
           <StockDetailsCards
-            value="Ingresos estimados"
+            value="Ingresos estimados(Libres)"
             quantity={_calculateProfits(warehouseItems)}
           />
         </div>
