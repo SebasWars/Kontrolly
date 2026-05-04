@@ -48,7 +48,7 @@ function CreateNewItem() {
             </div>
 
             <div className="add_item_section_rigth_side">
-              <UploadImage modifyFormData={modifyFormData} />
+              <UploadImage modifyFormData={modifyFormData} initialImage={null}/>
               <div className="action_buttons">
                 <button onClick={discardItem} className="discard_btn">
                   Descartar
