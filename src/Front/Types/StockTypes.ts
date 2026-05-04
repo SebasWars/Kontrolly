@@ -38,4 +38,6 @@ export interface PropsCreateItemChild {
   modifyFormData: ModifyFormData;
 }
 
-export type PropsCreateItemImage = Omit<PropsCreateItemChild, "formData">;
+export type PropsCreateItemImage = Omit<PropsCreateItemChild, "formData"> & {
+  initialImage: string | null;
+};

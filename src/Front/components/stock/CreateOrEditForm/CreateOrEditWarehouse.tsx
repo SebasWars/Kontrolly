@@ -27,6 +27,7 @@ export function CreateOrEdit({
       : { warehouse: "", items: [] };
 
   const handleSubmit = async (data: CreateStockType) => {
+    if(data.warehouse === '') return;
     if (isEdit && currentWarehouse) {
       await updateWarehouse(currentWarehouse.id, data.warehouse);
       refreshWarehouse();
@@ -37,7 +38,6 @@ export function CreateOrEdit({
         type: "SELECT_WAREHOUSE",
         payload: created.warehouse_created.id,
       });
-
       refreshWarehouse();
       closeModal(null);
     }

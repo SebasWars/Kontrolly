@@ -1,10 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import type { Items } from "../../Types/StockTypes";
+import useWarehouse from "../../Hooks/UseWarehouse";
 
 type PropType = {
   item: Items;
 };
 
 function StockItem({ item }: PropType) {
+  const navigate = useNavigate();
+  const { selectedWarehouseId } = useWarehouse();
   const {
     id,
     name,
@@ -16,7 +20,9 @@ function StockItem({ item }: PropType) {
   } = item;
 
   return (
-    <tr>
+    <tr
+      onClick={() => navigate(`${selectedWarehouseId}/items/${item.id}/edit`)}
+    >
       <td>
         <img src={image_url ?? ""} alt={name} />
       </td>

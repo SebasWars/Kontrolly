@@ -15,3 +15,5 @@ warehousesRoute.patch("/:id", StockController.modifyWarehouse)
 warehousesRoute.delete('/:id', StockController.deleteWarehouse)
 
 warehousesRoute.post('/:id/items',upload.single("file"), ItemsController.createItem)
+warehousesRoute.patch('/:warehouseID/items/:itemID/edit',upload.single("file"), ItemsController.modifyItem)
+warehousesRoute.delete('/:warehouseID/items/:itemID/edit',ItemsController.deleteItem)

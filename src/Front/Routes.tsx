@@ -5,6 +5,7 @@ import Invoices from "./Pages/Invoices";
 import { Layout } from "./Layout";
 import Principal from "./Pages/Principal";
 import CreateNewItem from "./Pages/CreateNewItem";
+import ModifyItem from "./Pages/ModifyItem";
 
 export const routes = createBrowserRouter([
   {
@@ -23,8 +24,11 @@ export const routes = createBrowserRouter([
             element: <Stock />,
           },
           {
-            path: ":id/items",
+            path: ":warehouseID/items",
             element: <CreateNewItem/>
+          },{
+            path: ':warehouseID/items/:itemID/edit',
+            element: <ModifyItem />,
           }
         ],
       },

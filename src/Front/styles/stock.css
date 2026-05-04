@@ -208,6 +208,7 @@ table {
 }
 
 .action_buttons {
+  display: flex;
   margin-top: 1rem;
   align-self: flex-end;
 
@@ -230,6 +231,11 @@ table {
   }
   .save_btn:hover {
     background-color: #752a9d;
+    border: 1px solid white;
+    color: white;
+  }
+  .remove_btn:hover {
+    background-color: #ff4000;
     border: 1px solid white;
     color: white;
   }
