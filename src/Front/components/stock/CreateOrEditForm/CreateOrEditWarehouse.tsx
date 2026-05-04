@@ -37,7 +37,6 @@ export function CreateOrEdit({
         type: "SELECT_WAREHOUSE",
         payload: created.warehouse_created.id,
       });
-
       refreshWarehouse();
       closeModal(null);
     }
