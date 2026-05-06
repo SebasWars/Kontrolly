@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import useWarehouse from "../Hooks/UseWarehouse";
+import useWarehouse from "../Hooks/StockHooks/UseWarehouse";
 
 import "../styles/addNewItem.css";
 import { getWarehouseName } from "../Utils/StockUtils";
-import { useItemsActions } from "../Hooks/useItemsActions";
+import { useItemsActions } from "../Hooks/StockHooks/useItemsActions";
 import type { Items, ModifyFormData, NewItem } from "../Types/StockTypes";
 import BasicInfo from "../components/warehouse/BasicInfo";
 import Fees from "../components/warehouse/Fees";

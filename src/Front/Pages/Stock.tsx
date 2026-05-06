@@ -10,10 +10,10 @@ import {
   _calculateProfits,
   _calculateQuantity,
 } from "../Utils/StockUtils";
-import useWarehouse from "../Hooks/UseWarehouse";
+import useWarehouse from "../Hooks/StockHooks/UseWarehouse";
 
-import { useStockActions } from "../Hooks/useStockActions";
-import { useFetchWarehouses } from "../Hooks/useFetchWarehouses";
+import { useStockActions } from "../Hooks/StockHooks/useStockActions";
+import { useFetchWarehouses } from "../Hooks/StockHooks/useFetchWarehouses";
 import { StockSelectorMenus } from "../components/stock/StockSelectorMenus";
 import { CreateOrEdit } from "../components/stock/CreateOrEditForm/CreateOrEditWarehouse";
 
