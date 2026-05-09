@@ -10,5 +10,6 @@ export interface WarehouseContextType {
   warehouses: WarehousesMeta[];
   selectedWarehouseId: string | null;
   warehouseItems: Items[] | null;
+  stocksForSales: string | null;
   dispatch: React.Dispatch<Actions>;
 }

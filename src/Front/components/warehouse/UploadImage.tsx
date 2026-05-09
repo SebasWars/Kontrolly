@@ -1,7 +1,12 @@
 import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import type { PropsCreateItemImage } from "../../Types/StockTypes";
+import type { ModifyFormData } from "../../Types/StockTypes";
+
+interface PropsCreateItemImage {
+  modifyFormData: ModifyFormData;
+  initialImage: string | null;
+}
 
 function UploadImage({ modifyFormData, initialImage }: PropsCreateItemImage) {
   const [imagePreview, setImagePreview] = useState<string | null>(

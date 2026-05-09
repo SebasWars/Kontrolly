@@ -1,4 +1,9 @@
-import type { PropsCreateItemChild } from "../../Types/StockTypes";
+import type { ModifyFormData, NewItem } from "../../Types/StockTypes";
+
+interface PropsCreateItemChild {
+  formData: NewItem;
+  modifyFormData: ModifyFormData;
+}
 
 function BasicInfo({ formData, modifyFormData }: PropsCreateItemChild) {
   return (

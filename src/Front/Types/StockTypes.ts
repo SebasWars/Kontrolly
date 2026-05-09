@@ -32,12 +32,3 @@ export type ModifyFormData = <K extends keyof NewItem>(
   key: K,
   value: NewItem[K],
 ) => void;
-
-export interface PropsCreateItemChild {
-  formData: NewItem;
-  modifyFormData: ModifyFormData;
-}
-
-export type PropsCreateItemImage = Omit<PropsCreateItemChild, "formData"> & {
-  initialImage: string | null;
-};

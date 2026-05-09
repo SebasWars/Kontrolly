@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Items } from "../../Types/StockTypes";
-import useWarehouse from "../../Hooks/UseWarehouse";
+import useWarehouse from "../../Hooks/StockHooks/UseWarehouse";
 
 type PropType = {
   item: Items;

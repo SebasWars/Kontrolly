@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import useWarehouse from "../Hooks/UseWarehouse";
+import useWarehouse from "../Hooks/StockHooks/UseWarehouse";
 import BasicInfo from "../components/warehouse/BasicInfo";
 import Fees from "../components/warehouse/Fees";
 import UploadImage from "../components/warehouse/UploadImage";
@@ -9,7 +9,7 @@ import UploadImage from "../components/warehouse/UploadImage";
 import "../styles/addNewItem.css";
 import type { ModifyFormData, NewItem } from "../Types/StockTypes";
 import { getWarehouseName } from "../Utils/StockUtils";
-import { useItemsActions } from "../Hooks/useItemsActions";
+import { useItemsActions } from "../Hooks/StockHooks/useItemsActions";
 
 function CreateNewItem() {
   const { id } = useParams();
@@ -30,7 +30,7 @@ function CreateNewItem() {
 
   useEffect(() => {
     if (!id) return;
-    dispatch({ type: "SELECT_WAREHOUSE", payload: id });
+    dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: id });
   }, [id]);
 
   return (
