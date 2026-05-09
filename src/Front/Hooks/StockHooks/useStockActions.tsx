@@ -10,7 +10,7 @@ export function useStockActions() {
   const navigate = useNavigate();
 
   const handleSelector = (value: string) => {
-    dispatch({ type: "SELECT_WAREHOUSE", payload: value });
+    dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: value });
     fetchWarehousesById(value);
   };
 
@@ -18,7 +18,7 @@ export function useStockActions() {
     if (!selectedWarehouseId) return;
     await removeWarehouse(selectedWarehouseId);
     await fetchWarehouses();
-    dispatch({ type: "SELECT_WAREHOUSE", payload: null });
+    dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: null });
     dispatch({ type: "SET_WAREHOUSE_ITEMS", payload: null });
   };
 

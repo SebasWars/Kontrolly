@@ -30,7 +30,7 @@ function CreateNewItem() {
 
   useEffect(() => {
     if (!id) return;
-    dispatch({ type: "SELECT_WAREHOUSE", payload: id });
+    dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: id });
   }, [id]);
 
   return (
