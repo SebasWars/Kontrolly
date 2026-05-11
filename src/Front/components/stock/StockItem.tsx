@@ -21,7 +21,7 @@ function StockItem({ item }: PropType) {
 
   return (
     <tr
-      onClick={() => navigate(`${selectedWarehouseId}/items/${item.id}/edit`)}
+      onClick={() => navigate(`${selectedWarehouseId}/items/${item.id}`)}
     >
       <td>
         <img src={image_url ?? ""} alt={name} />
