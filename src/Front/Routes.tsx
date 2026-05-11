@@ -27,7 +27,7 @@ export const routes = createBrowserRouter([
             path: ":warehouseID/items",
             element: <CreateNewItem/>
           },{
-            path: ':warehouseID/items/:itemID/edit',
+            path: ':warehouseID/items/:itemID',
             element: <ModifyItem />,
           }
         ],
