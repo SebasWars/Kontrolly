@@ -4,7 +4,8 @@ export const initalState: State = {
   warehouses: [],
   selectedWarehouseId: null,
   warehouseItems: null,
-  stocksForSales: null
+  selectWarehouseSalesId: null,
+  itemsSales: null
 };
 
 export const warehouseReducer = (state: State, action: Actions) => {
@@ -20,7 +21,9 @@ export const warehouseReducer = (state: State, action: Actions) => {
       return {...state, warehouseItems: payload}
       /* WAREHOUSE FOR SALES */
     case 'SET_WAREHOUSE_SALES':
-      return {...state, stocksForSales: payload}
+      return {...state, selectWarehouseSalesId: payload}
+    case 'SET_ITEMS_SALES':
+      return {...state, itemsSales: payload}
     default:
       return state;
   }

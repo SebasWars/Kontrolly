@@ -98,7 +98,7 @@ export async function updateItem(
   }
 
   const response = await fetch(
-    `${apiUrl}/inventario/${warehouseId}/items/${itemID}/edit`,
+    `${apiUrl}/inventario/${warehouseId}/items/${itemID}`,
     {
       method: "PATCH",
       body: data,
@@ -114,7 +114,7 @@ export async function updateItem(
 
 export async function removeItem(warehouseId: string, itemID: string) {
   const response = await fetch(
-    `${apiUrl}/inventario/${warehouseId}/items/${itemID}/edit`,
+    `${apiUrl}/inventario/${warehouseId}/items/${itemID}`,
     {
       method: "DELETE",
     },
