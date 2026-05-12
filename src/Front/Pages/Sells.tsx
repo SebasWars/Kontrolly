@@ -9,7 +9,7 @@ import "../styles/sales.css";
 import { useFetchSalesItems } from "../Hooks/SellsHooks/useFetchSales";
 
 function Sells() {
-  const { dispatch, selectWarehouseSalesId, itemsSales } = useWarehouse();
+  const { dispatch, selectWarehouseSalesId, itemsSales} = useWarehouse();
   const {getItemsforSale} = useFetchSalesItems()
   const { fetchWarehouses } = useFetchWarehouses();
 
@@ -18,9 +18,19 @@ function Sells() {
     getItemsforSale(value)
   };
 
+  const addToCart = (id: string) => {
+    const item = itemsSales?.find((item) => item.id === id)
+    if(!item) return;
+    dispatch({type: 'ADD_ITEM_TO_CART', payload: {
+      id: item.id,
+      name: item.name,
+      image_url: item.image_url,
+      sales_price: item.sales_price,
+      quantity: 1
+    }})
+  }
   useEffect(() => {
     fetchWarehouses();
-    console.log(itemsSales);
   }, [selectWarehouseSalesId]);
 
   return (
@@ -30,7 +40,7 @@ function Sells() {
           handleChange={handleSelectorSales}
           stockForSalesID={selectWarehouseSalesId || ""}
         />
-        <SalesItemsGrid itemsSales={itemsSales}/>
+        <SalesItemsGrid itemsSales={itemsSales} addToCart={addToCart}/>
       </section>
       <SalesResume />
     </div>
