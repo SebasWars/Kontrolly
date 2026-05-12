@@ -5,3 +5,11 @@ export interface SaleItems {
   quantity: number;
   sales_price: number;
 }
+
+export interface currentSale {
+  id: string;
+  name: string;
+  image_url: string | null;
+  sales_price: number;
+  quantity: number;
+}
