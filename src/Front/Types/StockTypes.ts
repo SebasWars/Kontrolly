@@ -9,7 +9,7 @@ export interface WarehousesDetails extends WarehousesMeta {
 
 export type CreateStockType = Omit<WarehousesDetails, "id">;
 
-export type Items = {
+export interface Items {
   id: string;
   name: string;
   image_url: string | null;
@@ -19,7 +19,7 @@ export type Items = {
   sales_price: number;
 };
 
-export type NewItem = {
+export interface NewItem {
   name: string;
   image: File | null;
   description: string;

@@ -13,7 +13,7 @@ export function useFetchWarehouses() {
         payload: data.warehouses,
       });
     } catch (error) {
-      console.error("Error cargando warehouses:", error);
+      console.error("Error loading warehouses:", error);
     }
   }
 

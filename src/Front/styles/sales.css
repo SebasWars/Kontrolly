@@ -1,3 +1,7 @@
+:root {
+  --border-color: rgb(194, 192, 192);
+  --card-color: rgb(255, 255, 255);
+}
 /* CONTAINERS */
 * {
   font-family:
@@ -31,9 +35,10 @@
 
 .sales_resume_container {
   width: 30%;
-  border-radius: 0.4rem;
+  border-radius: 0.3rem;
   padding: 1rem;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--card-color);
+  border: 1px solid var(--border-color);
 }
 
 /* LEFT SIDE STYLES */
@@ -46,7 +51,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--card-color);
+  border: 1px solid var(--border-color);
 }
 
 .search_sales_title .search_item {
@@ -55,7 +61,7 @@
   gap: 10px;
   align-items: center;
   padding: 0.3rem 0.6rem;
-  border: 1px solid rgb(36, 38, 69);
+  border: 1px solid var(--border-color);
 
   border-radius: 0.4rem;
 
@@ -76,27 +82,41 @@
 
 .search_sales_title select {
   padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-color);
 }
 
 .sales_items_grid {
   height: calc(100% - 13%);
-  background-color: rgb(255, 255, 255);
+  border: 1px solid var(--border-color);
+  background-color: var(--card-color);
+  border-radius: 0.1rem;
   overflow: scroll;
 }
 
 .sales_items_grid .cards_container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
   padding: 1rem;
   gap: 10px;
   width: 100%;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .item_grid_container {
-  height: 150px;
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  border: 1px solid var(--border-color);
   border-radius: 0.2rem;
   padding: 0.3rem;
   background-color: rgb(245, 243, 243);
+}
+
+.item_grid_container img {
+  width: 70%;
+  height: 80%;
+  object-fit: contain;
 }

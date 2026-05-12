@@ -1,12 +1,20 @@
-export function SalesItemsGrid() {
-  const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+import type { SaleItems } from "../../Types/SalesTypes";
+
+interface Props {
+  itemsSales: SaleItems[] | null;
+  addToCart: (id: string) => void
+}
+export function SalesItemsGrid({ itemsSales, addToCart}: Props) {
   return (
     <div className="sales_items_grid">
       <div className="cards_container">
-        {items.map((item, index) => {
+        {itemsSales?.map((item, index) => {
+          const { id, name, image_url, sales_price } = item;
           return (
-            <div key={index} className="item_grid_container">
-              <p>{item}</p>
+            <div onClick={() => addToCart(id)} key={index} className="item_grid_container">
+              <img src={image_url || ""} alt={`${name}_image`} />
+              <p>{name}</p>
+              <p>€ {sales_price}</p>
             </div>
           );
         })}

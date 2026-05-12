@@ -35,7 +35,7 @@ export function CreateOrEdit({
     } else {
       const created = await createNewWarehouse(data);
       dispatch({
-        type: "SELECT_WAREHOUSE",
+        type: "SELECT_WAREHOUSE_STOCK",
         payload: created.warehouse_created.id,
       });
       refreshWarehouse();
