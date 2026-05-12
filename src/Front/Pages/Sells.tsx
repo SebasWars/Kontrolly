@@ -11,13 +11,11 @@ import { useFetchSalesItems } from "../Hooks/SellsHooks/useFetchSales";
 function Sells() {
   const { dispatch, selectWarehouseSalesId, itemsSales } = useWarehouse();
   const {getItemsforSale} = useFetchSalesItems()
-  /* MOVER ESTO AL COMPONENTE PADRE EN CUANTO LO NECESTE,  */
   const { fetchWarehouses } = useFetchWarehouses();
 
   const handleSelectorSales = (value: string) => {
     dispatch({ type: "SET_WAREHOUSE_SALES", payload: value });
     getItemsforSale(value)
-    /* FETCH PARA LA LISTA DE LOS ITEMS */
   };
 
   useEffect(() => {
@@ -32,7 +30,7 @@ function Sells() {
           handleChange={handleSelectorSales}
           stockForSalesID={selectWarehouseSalesId || ""}
         />
-        <SalesItemsGrid />
+        <SalesItemsGrid itemsSales={itemsSales}/>
       </section>
       <SalesResume />
     </div>
