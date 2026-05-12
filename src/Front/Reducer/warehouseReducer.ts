@@ -3,9 +3,9 @@ import type { Actions, State } from "../Types/ReducerTypes";
 export const initalState: State = {
   warehouses: [],
   selectedWarehouseId: null,
-  warehouseItems: null,
+  warehouseItems: [],
   selectWarehouseSalesId: null,
-  itemsSales: null,
+  itemsSales: [],
   currentSale: [],
 };
 
@@ -31,8 +31,8 @@ export const warehouseReducer = (state: State, action: Actions) => {
         (item) => item.id === payload.id,
       );
       let updateCart;
-
       if (!currentStock || currentStock.quantity <= 0) return state;
+
 
       if (exist) {
         updateCart = state.currentSale.map((item) =>

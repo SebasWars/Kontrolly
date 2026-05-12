@@ -10,9 +10,9 @@ export interface PropProviderType {
 export interface WarehouseContextType {
   warehouses: WarehousesMeta[];
   selectedWarehouseId: string | null;
-  warehouseItems: Items[] | null;
-  selectWarehouseSalesId: string | null;
-  itemsSales: SaleItems[] | null
-  currentSale: currentSale[] ,
+  warehouseItems: Items[];
+  selectWarehouseSalesId: string | null;
+  itemsSales: SaleItems[];
+  currentSale: currentSale[];
   dispatch: React.Dispatch<Actions>;
 }

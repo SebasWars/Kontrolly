@@ -12,9 +12,9 @@ export type Actions =
 export interface State {
   warehouses: WarehousesMeta[];
   selectedWarehouseId: string | null;
-  warehouseItems: Items[] | null;
+  warehouseItems: Items[];
   selectWarehouseSalesId: string | null;
-  itemsSales: SaleItems[] | null;
+  itemsSales: SaleItems[];
   currentSale: currentSale[] ;
 }
 
@@ -30,7 +30,7 @@ interface SetWarehouses {
 
 interface SetWarehousesItems {
   type: "SET_WAREHOUSE_ITEMS";
-  payload: Items[] | null;
+  payload: Items[];
 }
 
 interface SetWarehouseForSales {
@@ -44,7 +44,7 @@ interface SetWarehouseForSales {
 
 interface SetSalesItems {
   type: "SET_ITEMS_SALES";
-  payload: SaleItems[] | null;
+  payload: SaleItems[];
 }
 
 interface AddItemToCart {
