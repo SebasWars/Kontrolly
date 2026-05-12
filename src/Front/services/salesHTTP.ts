@@ -6,6 +6,5 @@ export async function getItems(id: string) {
     throw new Error("No items found");
   }
   const data = await response.json();
-  console.log(data)
   return data
 }
