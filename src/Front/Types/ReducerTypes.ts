@@ -7,7 +7,9 @@ export type Actions =
   | SetWarehousesItems
   | SetWarehouseForSales
   | SetSalesItems
-  | AddItemToCart;
+  | AddItemToCart
+  | AddOne
+  | RemoveOne;
 
 export interface State {
   warehouses: WarehousesMeta[];
@@ -15,7 +17,7 @@ export interface State {
   warehouseItems: Items[];
   selectWarehouseSalesId: string | null;
   itemsSales: SaleItems[];
-  currentSale: SaleItems[] ;
+  currentSale: SaleItems[];
 }
 
 interface SelectWarehouse {
@@ -50,4 +52,14 @@ interface SetSalesItems {
 interface AddItemToCart {
   type: "ADD_ITEM_TO_CART";
   payload: SaleItems;
+}
+
+interface AddOne {
+  type: "ADD_ONE";
+  payload: string
+}
+
+interface RemoveOne {
+  type: "REMOVE_ONE";
+  payload: string
 }

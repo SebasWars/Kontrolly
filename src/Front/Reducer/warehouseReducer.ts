@@ -33,11 +33,10 @@ export const warehouseReducer = (state: State, action: Actions) => {
       let updateCart;
       if (!currentStock || currentStock.quantity <= 0) return state;
 
-
       if (!exist) {
         updateCart = [...state.currentSale, payload];
-      }else{
-        return state
+      } else {
+        return state;
       }
 
       const updateItemsStock = state.itemsSales?.map((item) =>
@@ -50,6 +49,40 @@ export const warehouseReducer = (state: State, action: Actions) => {
         ...state,
         currentSale: updateCart,
         itemsSales: updateItemsStock,
+      };
+    case "ADD_ONE":
+      const stockItemAdd = state.itemsSales.find((item) => item.id === payload);
+      if (!stockItemAdd || stockItemAdd.quantity <= 0) return state;
+
+      const addOneCartQuantity = state.currentSale.map((item) =>
+        item.id === payload ? { ...item, quantity: item.quantity + 1 } : item,
+      );
+
+      const removeOneItemsQuantity = state.itemsSales?.map((item) =>
+        item.id === payload ? { ...item, quantity: item.quantity - 1 } : item,
+      );
+
+      return {
+        ...state,
+        currentSale: addOneCartQuantity,
+        itemsSales: removeOneItemsQuantity,
+      };
+    case "REMOVE_ONE":
+
+      const removeOneCartQuantity = state.currentSale
+        .map((item) =>
+          item.id === payload ? { ...item, quantity: item.quantity - 1 } : item,
+        )
+        .filter((item) => item.quantity > 0);
+
+      const addOneItemsQuantity = state.itemsSales?.map((item) =>
+        item.id === payload ? { ...item, quantity: item.quantity + 1 } : item,
+      );
+
+      return {
+        ...state,
+        currentSale: removeOneCartQuantity,
+        itemsSales: addOneItemsQuantity,
       };
     default:
       return state;
