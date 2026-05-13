@@ -34,14 +34,10 @@ export const warehouseReducer = (state: State, action: Actions) => {
       if (!currentStock || currentStock.quantity <= 0) return state;
 
 
-      if (exist) {
-        updateCart = state.currentSale.map((item) =>
-          item.id === payload.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        );
-      } else {
+      if (!exist) {
         updateCart = [...state.currentSale, payload];
+      }else{
+        return state
       }
 
       const updateItemsStock = state.itemsSales?.map((item) =>

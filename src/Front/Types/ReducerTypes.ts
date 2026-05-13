@@ -1,4 +1,4 @@
-import type { currentSale, SaleItems } from "./SalesTypes";
+import type { SaleItems } from "./SalesTypes";
 import type { Items, WarehousesMeta } from "./StockTypes";
 
 export type Actions =
@@ -15,7 +15,7 @@ export interface State {
   warehouseItems: Items[];
   selectWarehouseSalesId: string | null;
   itemsSales: SaleItems[];
-  currentSale: currentSale[] ;
+  currentSale: SaleItems[] ;
 }
 
 interface SelectWarehouse {
@@ -49,5 +49,5 @@ interface SetSalesItems {
 
 interface AddItemToCart {
   type: "ADD_ITEM_TO_CART";
-  payload: currentSale;
+  payload: SaleItems;
 }
