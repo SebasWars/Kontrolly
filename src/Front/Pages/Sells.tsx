@@ -14,6 +14,11 @@ function Sells() {
   const { fetchWarehouses } = useFetchWarehouses();
 
   const handleSelectorSales = (value: string) => {
+    if(itemsSales.length > 0 && selectWarehouseSalesId !== value){
+      //TODO: UN POP UP PARA EVITAR EL CAMBIO DE WAREHOUSE Y PERDER LA COMPRA
+      alert('Si cambias de almacen, tu compra se eliminara')
+      dispatch({ type: "CLEAR_CART" });
+    }
     dispatch({ type: "SET_WAREHOUSE_SALES", payload: value });
     getItemsforSale(value)
   };
