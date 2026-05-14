@@ -12,7 +12,7 @@ export function SaleItem({ saleItems }: Props) {
       {saleItems.map((item) => {
         const { id, name, image_url, quantity, sales_price } = item;
         return (
-          <div className="curren_sale_items">
+          <div key={id} className="curren_sale_items">
             <section className="image">
               <img src={image_url ?? ""} alt={name} />
             </section>

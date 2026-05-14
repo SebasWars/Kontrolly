@@ -68,7 +68,6 @@ export const warehouseReducer = (state: State, action: Actions) => {
         itemsSales: removeOneItemsQuantity,
       };
     case "REMOVE_ONE":
-
       const removeOneCartQuantity = state.currentSale
         .map((item) =>
           item.id === payload ? { ...item, quantity: item.quantity - 1 } : item,
