@@ -1,5 +1,6 @@
 import useWarehouse from "../../Hooks/StockHooks/UseWarehouse";
 import type { SaleItems } from "../../Types/SalesTypes";
+import { shortName } from "../../Utils/SalesUtils";
 
 interface Props {
   saleItems: SaleItems[];
@@ -17,7 +18,7 @@ export function SaleItem({ saleItems }: Props) {
               <img src={image_url ?? ""} alt={name} />
             </section>
             <section className="item_details">
-              <strong>{name}</strong>
+              <strong>{shortName(name)}</strong>
               <p className="price">€{sales_price}</p>
               <div className="quantity_opt">
                 <button

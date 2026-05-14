@@ -1,17 +1,11 @@
 import type { SaleItems } from "../../Types/SalesTypes";
+import { shortName } from "../../Utils/SalesUtils";
 
 interface Props {
   itemsSales: SaleItems[] | null;
   addToCart: (id: string) => void;
 }
 export function SalesItemsGrid({ itemsSales, addToCart }: Props) {
-  const shortName = (name: string) => {
-    if (name.length > 17) {
-      return `${name.slice(0, 17)}...`;
-    }
-    return name;
-  };
-
   return (
     <div className="sales_items_grid">
       <div className="cards_container">
