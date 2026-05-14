@@ -9,7 +9,8 @@ export type Actions =
   | SetSalesItems
   | AddItemToCart
   | AddOne
-  | RemoveOne;
+  | RemoveOne
+  | ClearCart;
 
 export interface State {
   warehouses: WarehousesMeta[];
@@ -56,10 +57,14 @@ interface AddItemToCart {
 
 interface AddOne {
   type: "ADD_ONE";
-  payload: string
+  payload: string;
 }
 
 interface RemoveOne {
   type: "REMOVE_ONE";
-  payload: string
+  payload: string;
+}
+
+interface ClearCart {
+  type: "CLEAR_CART";
 }
