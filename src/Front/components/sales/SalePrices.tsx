@@ -1,15 +1,16 @@
-import type { SaleItems } from "../../Types/SalesTypes";
+import { useFetchSalesItems } from "../../Hooks/SellsHooks/useFetchSales";
+import useWarehouse from "../../Hooks/UseWarehouse";
+
 import {
   calculateIVA,
   calculatePrice,
   CalculateTotal,
 } from "../../Utils/SalesUtils";
 
-interface Props {
-  currentSale: SaleItems[];
-}
+export function SalesPrices() {
+  const { selectWarehouseSalesId, currentSale } = useWarehouse();
+  const { completeCurrentSale } = useFetchSalesItems();
 
-export function SalesPrices({ currentSale }: Props) {
   return (
     <div className="sales_prices_resume">
       <section className="sub_total">
@@ -30,8 +31,14 @@ export function SalesPrices({ currentSale }: Props) {
         </p>
       </section>
       <div className="action_buttons_sales">
-        <button>Cotizacion</button>
-        <button>Venta</button>
+        <button onClick={() => console.log(currentSale)}>Cotizacion</button>
+        <button
+          onClick={() =>
+            completeCurrentSale(currentSale, selectWarehouseSalesId)
+          }
+        >
+          Venta
+        </button>
       </div>
     </div>
   );

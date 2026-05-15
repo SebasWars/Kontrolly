@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import useWarehouse from "./UseWarehouse";
+import useWarehouse from "../UseWarehouse";
 import { useFetchDataByID, useFetchWarehouses } from "./useFetchWarehouses";
 import { removeWarehouse } from "../../services/httpConection";
 
@@ -19,7 +19,7 @@ export function useStockActions() {
     await removeWarehouse(selectedWarehouseId);
     await fetchWarehouses();
     dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: null });
-    dispatch({ type: "SET_WAREHOUSE_ITEMS", payload: null });
+    dispatch({ type: "SET_WAREHOUSE_ITEMS", payload: [] });
   };
 
   const goToNewItem = () => {
@@ -27,5 +27,5 @@ export function useStockActions() {
     navigate(`${selectedWarehouseId}/items`);
   };
 
-  return { handleSelector, goToNewItem , deleteWarehouse};
+  return { handleSelector, goToNewItem, deleteWarehouse };
 }

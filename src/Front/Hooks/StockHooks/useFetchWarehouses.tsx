@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { getWarehousebyID, getWarehouses } from "../../services/httpConection";
-import useWarehouse from "./UseWarehouse";
+import useWarehouse from "../UseWarehouse";
 
 export function useFetchWarehouses() {
   const { dispatch } = useWarehouse();

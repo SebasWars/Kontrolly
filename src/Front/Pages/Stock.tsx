@@ -10,7 +10,7 @@ import {
   _calculateProfits,
   _calculateQuantity,
 } from "../Utils/StockUtils";
-import useWarehouse from "../Hooks/StockHooks/UseWarehouse";
+import useWarehouse from "../Hooks/UseWarehouse";
 
 import { useStockActions } from "../Hooks/StockHooks/useStockActions";
 import { useFetchWarehouses } from "../Hooks/StockHooks/useFetchWarehouses";

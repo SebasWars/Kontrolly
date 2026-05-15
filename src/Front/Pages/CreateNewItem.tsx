@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import useWarehouse from "../Hooks/StockHooks/UseWarehouse";
+import useWarehouse from "../Hooks/UseWarehouse";
 import BasicInfo from "../components/warehouse/BasicInfo";
 import Fees from "../components/warehouse/Fees";
 import UploadImage from "../components/warehouse/UploadImage";

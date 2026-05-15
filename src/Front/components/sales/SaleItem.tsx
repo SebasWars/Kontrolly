@@ -1,16 +1,12 @@
-import useWarehouse from "../../Hooks/StockHooks/UseWarehouse";
-import type { SaleItems } from "../../Types/SalesTypes";
+import useWarehouse from "../../Hooks/UseWarehouse";
 import { shortName } from "../../Utils/SalesUtils";
 
-interface Props {
-  saleItems: SaleItems[];
-}
+export function SaleItem() {
+  const { dispatch, currentSale } = useWarehouse();
 
-export function SaleItem({ saleItems }: Props) {
-  const { dispatch } = useWarehouse();
   return (
     <>
-      {saleItems.map((item) => {
+      {currentSale.map((item) => {
         const { id, name, image_url, quantity, sales_price } = item;
         return (
           <div key={id} className="curren_sale_items">
