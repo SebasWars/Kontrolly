@@ -12,6 +12,7 @@ export interface WarehouseContextType {
   selectedWarehouseId: string | null;
   warehouseItems: Items[];
   selectWarehouseSalesId: string | null;
+  modalState: boolean;
   itemsSales: SaleItems[];
   currentSale: SaleItems[];
   dispatch: React.Dispatch<Actions>;

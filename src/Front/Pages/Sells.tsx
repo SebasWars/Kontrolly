@@ -6,6 +6,7 @@ import { useFetchWarehouses } from "../Hooks/StockHooks/useFetchWarehouses";
 import useWarehouse from "../Hooks/UseWarehouse";
 
 import "../styles/sales.css";
+import { PopUp } from "../components/UI/PopUp";
 
 function Sells() {
   const { selectWarehouseSalesId, warehouseItems } = useWarehouse();
@@ -18,7 +19,11 @@ function Sells() {
   return (
     <div className="sales_container">
       <section className="sales_left_container">
-        <SalesSearch/>
+        <SalesSearch />
+        <PopUp
+          title={"Venta completada"}
+          message={"La venta se ha realizado exitosamente"}
+        />
         <SalesItemsGrid />
       </section>
       <SalesResume />

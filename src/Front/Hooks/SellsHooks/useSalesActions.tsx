@@ -2,7 +2,8 @@ import useWarehouse from "../UseWarehouse";
 import { useFetchSalesItems } from "./useFetchSales";
 
 export function useSalesActions() {
-  const { dispatch, itemsSales, selectWarehouseSalesId, currentSale } = useWarehouse();
+  const { dispatch, itemsSales, selectWarehouseSalesId, currentSale } =
+    useWarehouse();
   const { getItemsforSale } = useFetchSalesItems();
 
   const addToCart = (id: string) => {
@@ -24,12 +25,12 @@ export function useSalesActions() {
     if (currentSale.length > 0 && selectWarehouseSalesId !== value) {
       //TODO: UN POP UP PARA EVITAR EL CAMBIO DE WAREHOUSE Y PERDER LA COMPRA
       alert("Si cambias de almacen, tu compra se eliminara");
-      console.log(currentSale)
+      console.log(currentSale);
       dispatch({ type: "CLEAR_CART" });
     }
     dispatch({ type: "SET_WAREHOUSE_SALES", payload: value });
     getItemsforSale(value);
   };
 
-  return { addToCart, handleSelectorSales};
+  return { addToCart, handleSelectorSales };
 }

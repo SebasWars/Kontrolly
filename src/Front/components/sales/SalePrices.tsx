@@ -8,8 +8,15 @@ import {
 } from "../../Utils/SalesUtils";
 
 export function SalesPrices() {
-  const { selectWarehouseSalesId, currentSale } = useWarehouse();
+  const { selectWarehouseSalesId, currentSale, dispatch } = useWarehouse();
   const { completeCurrentSale } = useFetchSalesItems();
+
+  function closeSale() {
+    completeCurrentSale(currentSale, selectWarehouseSalesId);
+    if(currentSale.length > 0){
+      dispatch({type: 'TOGGLE_MODAL', payload: true})
+    }
+  }
 
   return (
     <div className="sales_prices_resume">
@@ -32,13 +39,7 @@ export function SalesPrices() {
       </section>
       <div className="action_buttons_sales">
         <button onClick={() => console.log(currentSale)}>Cotizacion</button>
-        <button
-          onClick={() =>
-            completeCurrentSale(currentSale, selectWarehouseSalesId)
-          }
-        >
-          Venta
-        </button>
+        <button onClick={closeSale}>Venta</button>
       </div>
     </div>
   );

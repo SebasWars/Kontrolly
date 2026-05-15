@@ -19,6 +19,7 @@ export function WarehouseProvider({ children }: PropProviderType) {
         selectedWarehouseId: state.selectedWarehouseId,
         warehouseItems: state.warehouseItems,
         selectWarehouseSalesId: state.selectWarehouseSalesId,
+        modalState: state.modalState,
         itemsSales: state.itemsSales,
         currentSale: state.currentSale,
         dispatch,

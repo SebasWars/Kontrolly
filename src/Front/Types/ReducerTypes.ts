@@ -6,6 +6,7 @@ export type Actions =
   | SetWarehouses
   | SetWarehousesItems
   | SetWarehouseForSales
+  | setModal
   | SetSalesItems
   | AddItemToCart
   | AddOne
@@ -17,6 +18,7 @@ export interface State {
   selectedWarehouseId: string | null;
   warehouseItems: Items[];
   selectWarehouseSalesId: string | null;
+  modalState: boolean;
   itemsSales: SaleItems[];
   currentSale: SaleItems[];
 }
@@ -39,6 +41,11 @@ interface SetWarehousesItems {
 interface SetWarehouseForSales {
   type: "SET_WAREHOUSE_SALES";
   payload: string | null;
+}
+
+interface setModal{
+  type: 'TOGGLE_MODAL',
+  payload: boolean
 }
 
 /* DE MOMENTO, PUEDE QUE EN UN FUTURO LO MEJOR SEA SOLO OBTENER 

@@ -7,6 +7,7 @@ export const initalState: State = {
   selectWarehouseSalesId: null,
   itemsSales: [],
   currentSale: [],
+  modalState: false
 };
 
 export const warehouseReducer = (state: State, action: Actions) => {
@@ -25,6 +26,8 @@ export const warehouseReducer = (state: State, action: Actions) => {
       return { ...state, selectWarehouseSalesId: action.payload };
     case "SET_ITEMS_SALES":
       return { ...state, itemsSales: action.payload };
+    case 'TOGGLE_MODAL':
+      return {...state, modalState: action.payload}
     case "ADD_ITEM_TO_CART":
       const exist = state.currentSale.find(
         (item) => item.id === action.payload.id,

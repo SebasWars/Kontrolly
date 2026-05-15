@@ -5,7 +5,7 @@ import type { SaleItems } from "../../Types/SalesTypes";
 
 export function useFetchSalesItems() {
   const { dispatch, selectWarehouseSalesId } = useWarehouse();
-
+  
   async function getItemsforSale(id: string) {
     try {
       const data = await getItems(id);
@@ -19,10 +19,10 @@ export function useFetchSalesItems() {
     cartItems: SaleItems[],
     warehouseId: string | null,
   ) {
-    if (!warehouseId || cartItems.length <= 0) return
+    if (!warehouseId || cartItems.length <= 0) return;
     try {
       await createSell(cartItems, warehouseId);
-      dispatch({type: "CLEAR_CART"})
+      dispatch({ type: "CLEAR_CART" });
     } catch (error) {
       throw new Error("Error creating sale");
     }
