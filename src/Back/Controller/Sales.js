@@ -11,4 +11,19 @@ export class SalesController {
 
     return res.status(200).json(items);
   }
+
+  static async createSell(req,res){
+    const {id} = req.params;
+    const {items} = req.body;
+    const updateStock = await salesModel.createSell({id, items});
+
+    if(!updateStock){
+      return res.status(404).json({message: 'It was not possible to complete the sale'});
+    }
+
+    return res.status(200).json({
+      message: 'Items sold!',
+      items: updateStock
+    })
+  }
 }

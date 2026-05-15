@@ -1,4 +1,4 @@
-import useWarehouse from "../../../Hooks/StockHooks/UseWarehouse";
+import useWarehouse from "../../../Hooks/UseWarehouse";
 
 type PropsTypes = {
   warehouse: string;

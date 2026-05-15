@@ -1,16 +1,16 @@
 import Selector from "../stock/Selectors/Selector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import useWarehouse from "../../Hooks/UseWarehouse";
+import { useSalesActions } from "../../Hooks/SellsHooks/useSalesActions";
 
-interface Props {
-  handleChange: (value: string) => void;
-  stockForSalesID: string;
-}
-
-export function SalesSearch({ handleChange, stockForSalesID }: Props) {
+export function SalesSearch() {
+  const { selectWarehouseSalesId } = useWarehouse();
+  const { handleSelectorSales } = useSalesActions();
   return (
     <div className="search_sales_title">
       <div className="search_item">
+        {/* TO DO: HACER LA BUSQUEDA POR COINCIDENCIA DE NOMBRE CON EL BACK */}
         <input type="text" />
         <button className="search_item_btn">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -18,8 +18,8 @@ export function SalesSearch({ handleChange, stockForSalesID }: Props) {
       </div>
 
       <Selector
-        warehouse={stockForSalesID || ""}
-        handleSelector={handleChange}
+        warehouse={selectWarehouseSalesId || ""}
+        handleSelector={handleSelectorSales}
       />
     </div>
   );

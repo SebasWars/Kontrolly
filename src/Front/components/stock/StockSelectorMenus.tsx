@@ -1,5 +1,5 @@
 import { useStockActions } from "../../Hooks/StockHooks/useStockActions";
-import useWarehouse from "../../Hooks/StockHooks/UseWarehouse";
+import useWarehouse from "../../Hooks/UseWarehouse";
 import DropDown from "./Selectors/DropDown";
 import Selector from "../stock/Selectors/Selector";
 

@@ -14,3 +14,4 @@ DELETE => SI QUIERO ELIMINAR UNA VENTA, CANCELACION O DEVOLUCION.
 */
 
 salesRoute.get('/:id', SalesController.getItems)
+salesRoute.post('/:id', SalesController.createSell)

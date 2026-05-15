@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import useWarehouse from "../Hooks/StockHooks/UseWarehouse";
+import useWarehouse from "../Hooks/UseWarehouse";
 
 import "../styles/addNewItem.css";
 import { getWarehouseName } from "../Utils/StockUtils";

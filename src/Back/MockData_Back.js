@@ -1,13 +1,14 @@
 export const Stocks = [
   {
     warehouse: "Electrodomésticos",
-    id: 'almacen-1',
+    id: "almacen-1",
     items: [
       {
         id: crypto.randomUUID(),
         name: "TV 58'' Samsung",
-        image_url: 'https://images.samsung.com/is/image/samsung/es-uhdtv-mu6125-ue58mu6125kxxc-frontblack-80708680?$Q90_1248_936_F_PNG$',
-        description: 'Televisor 4K UHD',
+        image_url:
+          "https://images.samsung.com/is/image/samsung/es-uhdtv-mu6125-ue58mu6125kxxc-frontblack-80708680?$Q90_1248_936_F_PNG$",
+        description: "Televisor 4K UHD",
         quantity: 12,
         purchase_price: 400,
         sales_price: 650,
@@ -15,8 +16,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Lavadora LG 9kg",
-        image_url: 'https://expertclima.es/7162-large_default/lavadora-lg-f4j7vy2wd-9-kg-1400-rpm-wifi.jpg',
-        description: 'Carga frontal',
+        image_url:
+          "https://expertclima.es/7162-large_default/lavadora-lg-f4j7vy2wd-9-kg-1400-rpm-wifi.jpg",
+        description: "Carga frontal",
         quantity: 8,
         purchase_price: 300,
         sales_price: 520,
@@ -24,8 +26,8 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Microondas Panasonic",
-        image_url: 'https://i.ytimg.com/vi/59MPJIVmIv8/maxresdefault.jpg',
-        description: '20L digital',
+        image_url: "https://i.ytimg.com/vi/59MPJIVmIv8/maxresdefault.jpg",
+        description: "20L digital",
         quantity: 20,
         purchase_price: 60,
         sales_price: 110,
@@ -33,8 +35,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Refrigerador Bosch",
-        image_url: 'https://cdn.grupoelcorteingles.es/SGFM/dctm/MEDIA03/202404/02/00104721764175____1__1200x1200.jpg',
-        description: 'No Frost',
+        image_url:
+          "https://cdn.grupoelcorteingles.es/SGFM/dctm/MEDIA03/202404/02/00104721764175____1__1200x1200.jpg",
+        description: "No Frost",
         quantity: 5,
         purchase_price: 700,
         sales_price: 1100,
@@ -42,8 +45,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Aspiradora Dyson",
-        image_url: 'https://dyson-h.assetsadobe2.com/is/image/content/dam/dyson/images/products/primary/479333-01.png',
-        description: 'Sin cable',
+        image_url:
+          "https://dyson-h.assetsadobe2.com/is/image/content/dam/dyson/images/products/primary/479333-01.png",
+        description: "Sin cable",
         quantity: 10,
         purchase_price: 250,
         sales_price: 450,
@@ -52,13 +56,14 @@ export const Stocks = [
   },
   {
     warehouse: "Tecnología",
-    id:'almacen-2',
+    id: "almacen-2",
     items: [
       {
         id: crypto.randomUUID(),
         name: "Laptop Dell XPS 13",
-        image_url: 'https://m.media-amazon.com/images/I/91MXLpouhoL._AC_UF894,1000_QL80_.jpg',
-        description: 'Intel i7, 16GB RAM',
+        image_url:
+          "https://m.media-amazon.com/images/I/91MXLpouhoL._AC_UF894,1000_QL80_.jpg",
+        description: "Intel i7, 16GB RAM",
         quantity: 6,
         purchase_price: 900,
         sales_price: 1400,
@@ -66,8 +71,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "iPhone 14",
-        image_url: 'https://m.media-amazon.com/images/I/71yzJoE7WlL._AC_UF1000,1000_QL80_.jpg',
-        description: '128GB',
+        image_url:
+          "https://m.media-amazon.com/images/I/71yzJoE7WlL._AC_UF1000,1000_QL80_.jpg",
+        description: "128GB",
         quantity: 15,
         purchase_price: 700,
         sales_price: 1000,
@@ -75,8 +81,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Tablet iPad Air",
-        image_url: 'https://macnificos.com/cdn/shop/files/Apple-iPad-Air-rossellimac-productos-macnificos.jpg?v=1746530328',
-        description: '64GB WiFi',
+        image_url:
+          "https://macnificos.com/cdn/shop/files/Apple-iPad-Air-rossellimac-productos-macnificos.jpg?v=1746530328",
+        description: "64GB WiFi",
         quantity: 10,
         purchase_price: 500,
         sales_price: 750,
@@ -84,8 +91,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Monitor LG 27''",
-        image_url: 'https://canarias.worten.es/i/91810c2aabe6136d77cea6e849a8a96d4d083566',
-        description: 'Full HD IPS',
+        image_url:
+          "https://canarias.worten.es/i/91810c2aabe6136d77cea6e849a8a96d4d083566",
+        description: "Full HD IPS",
         quantity: 18,
         purchase_price: 150,
         sales_price: 280,
@@ -93,8 +101,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Teclado Mecánico Logitech",
-        image_url: 'https://img.pccomponentes.com/articles/1001/10012182/1219-logitech-g-pro-teclado-mecanico-tkl-gaming-rgb-switch-gx-blue-con-clic-perceptible-5e485cec-f514-493f-9d30-1decf0589998.jpg',
-        description: 'RGB',
+        image_url:
+          "https://img.pccomponentes.com/articles/1001/10012182/1219-logitech-g-pro-teclado-mecanico-tkl-gaming-rgb-switch-gx-blue-con-clic-perceptible-5e485cec-f514-493f-9d30-1decf0589998.jpg",
+        description: "RGB",
         quantity: 25,
         purchase_price: 70,
         sales_price: 130,
@@ -103,13 +112,14 @@ export const Stocks = [
   },
   {
     warehouse: "Hogar",
-    id: 'almacen-3',
+    id: "almacen-3",
     items: [
       {
         id: crypto.randomUUID(),
         name: "Sofá 3 plazas",
-        image_url: 'https://mubak.com/3837-large_default/sofa-3-plazas-de-198-cm.jpg',
-        description: 'Tela gris',
+        image_url:
+          "https://mubak.com/3837-large_default/sofa-3-plazas-de-198-cm.jpg",
+        description: "Tela gris",
         quantity: 4,
         purchase_price: 350,
         sales_price: 700,
@@ -117,8 +127,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Mesa de comedor",
-        image_url: 'https://www.idmarket.com/43558-product_main_2x/detroit-mesa-de-comedor-rectangular-extensible-8-12-personas-200-250-cm.jpg',
-        description: 'Madera maciza',
+        image_url:
+          "https://www.idmarket.com/43558-product_main_2x/detroit-mesa-de-comedor-rectangular-extensible-8-12-personas-200-250-cm.jpg",
+        description: "Madera maciza",
         quantity: 7,
         purchase_price: 200,
         sales_price: 450,
@@ -126,8 +137,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Silla ergonómica",
-        image_url: 'https://www.ofisillas.es/images/product/1/large/pl_1_1_6066.jpg',
-        description: 'Oficina',
+        image_url:
+          "https://www.ofisillas.es/images/product/1/large/pl_1_1_6066.jpg",
+        description: "Oficina",
         quantity: 14,
         purchase_price: 80,
         sales_price: 160,
@@ -135,8 +147,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Lámpara LED",
-        image_url: 'https://kosiluz.es/23684-large_default/lampara-de-interior-negra-rectangular-led-regulable-otso.jpg',
-        description: 'Luz cálida',
+        image_url:
+          "https://kosiluz.es/23684-large_default/lampara-de-interior-negra-rectangular-led-regulable-otso.jpg",
+        description: "Luz cálida",
         quantity: 30,
         purchase_price: 15,
         sales_price: 35,
@@ -144,8 +157,9 @@ export const Stocks = [
       {
         id: crypto.randomUUID(),
         name: "Alfombra decorativa",
-        image_url: 'https://pkm.store/cdn/shop/files/S958fee1731bd4bc88c6fc02ca03e156fP.webp?v=1700148353',
-        description: '2x3 metros',
+        image_url:
+          "https://pkm.store/cdn/shop/files/S958fee1731bd4bc88c6fc02ca03e156fP.webp?v=1700148353",
+        description: "2x3 metros",
         quantity: 9,
         purchase_price: 60,
         sales_price: 120,
@@ -153,3 +167,5 @@ export const Stocks = [
     ],
   },
 ];
+
+export const SalesRegister = [];
