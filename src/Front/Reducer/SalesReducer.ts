@@ -1,48 +1,67 @@
-import type { Actions, State } from "../Types/ReducerTypes";
+export interface SalesState {
+  selectWarehouseSalesId: string | null;
+  itemsSales: SaleItems[];
+  currentSale: SaleItems[];
+}
 
-export const initalState: State = {
-  warehouses: [],
-  selectedWarehouseId: null,
-  warehouseItems: [],
+export const initalStateSales: SalesState = {
   selectWarehouseSalesId: null,
   itemsSales: [],
   currentSale: [],
-  popupState: {
-    open: false,
-    type: null,
-    title: "",
-    message: "",
-  },
 };
 
-export const warehouseReducer = (state: State, action: Actions) => {
+export interface SaleItems {
+  id: string;
+  name: string;
+  image_url: string | null;
+  quantity: number;
+  sales_price: number;
+}
+
+type Actions =
+  | SetWarehouseForSales
+  | SetSalesItems
+  | AddItemToCart
+  | AddOne
+  | RemoveOne
+  | ClearCart;
+
+interface SetWarehouseForSales {
+  type: "SET_WAREHOUSE_SALES";
+  payload: string | null;
+}
+
+interface SetSalesItems {
+  type: "SET_ITEMS_SALES";
+  payload: SaleItems[];
+}
+
+interface AddItemToCart {
+  type: "ADD_ITEM_TO_CART";
+  payload: SaleItems;
+}
+
+interface AddOne {
+  type: "ADD_ONE";
+  payload: string;
+}
+
+interface RemoveOne {
+  type: "REMOVE_ONE";
+  payload: string;
+}
+
+interface ClearCart {
+  type: "CLEAR_CART";
+}
+
+export const salesReducer = (state: SalesState, action: Actions) => {
   const { type } = action;
   switch (type) {
-    /* WAREHOUSES FATHER ACTIONS */
-    case "SET_WAREHOUSES":
-      return { ...state, warehouses: action.payload };
-    /* WAREHOUSE CHILDREN ACTIONS */
-    case "SELECT_WAREHOUSE_STOCK":
-      return { ...state, selectedWarehouseId: action.payload };
-    case "SET_WAREHOUSE_ITEMS":
-      return { ...state, warehouseItems: action.payload };
-    /* WAREHOUSE FOR SALES */
     case "SET_WAREHOUSE_SALES":
       return { ...state, selectWarehouseSalesId: action.payload };
     case "SET_ITEMS_SALES":
       return { ...state, itemsSales: action.payload };
-    case "SHOW_POPUP":
-      return {
-        ...state,
-        popupState: {
-          open: true,
-          type: action.payload.type,
-          title: action.payload.title,
-          message: action.payload.message,
-        },
-      };
-    case 'HIDE_POPUP':
-      return{...state, popupState: {...state.popupState, open: false}}
     case "ADD_ITEM_TO_CART":
       const exist = state.currentSale.find(
         (item) => item.id === action.payload.id,
