@@ -1,21 +1,24 @@
+import { useEffect } from "react";
 import useWarehouse from "../../Hooks/UseWarehouse";
-import "../../styles/UIComponents.css";
+import '../../styles/UIComponents.css'
 
-interface Props {
-  title: string;
-  message: String;
-}
-export function PopUp({ title, message }: Props) {
-  const { dispatch, modalState } = useWarehouse();
-  if (modalState) {
-    setTimeout(() => {
-      dispatch({ type: "TOGGLE_MODAL", payload: false });
-    }, 3000);
-  }
+export function PopUp() {
+  const { popupState, dispatch } = useWarehouse();
+
+  useEffect(() => {
+    if (!popupState.open) return;
+
+    const timer = setTimeout(() => {
+      dispatch({ type: "HIDE_POPUP" });
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [popupState.open]);
+
   return (
-    <div className={`popUp_container ${modalState ? "active" : ""}`}>
-      <h4>{title}</h4>
-      <p>{message}</p>
+    <div className={`popUp_container ${popupState.open? 'active' : ''}`}>
+      <h4>{popupState.title}</h4>
+      <p>{popupState.message}</p>
     </div>
   );
 }

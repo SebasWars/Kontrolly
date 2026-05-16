@@ -33,6 +33,17 @@ function CreateNewItem() {
     dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: id });
   }, [id]);
 
+  const createAndSave = () => {
+    if(!selectedWarehouseId) return;
+    createItem(selectedWarehouseId, formData)
+    dispatch({type: 'SHOW_POPUP',payload: {
+          open: true,
+          type: "create",
+          title: "Item añadido",
+          message: "Item añadido correctamente",
+        },})
+  }
+
   return (
     <>
       {!selectedWarehouseId ? (
@@ -55,7 +66,7 @@ function CreateNewItem() {
                 </button>
                 <button
                   className="save_btn"
-                  onClick={() => createItem(selectedWarehouseId, formData)}
+                  onClick={createAndSave}
                 >
                   guardar
                 </button>

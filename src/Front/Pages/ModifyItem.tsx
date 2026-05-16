@@ -16,7 +16,7 @@ import { validateUpdateItem } from "../Utils/validation";
 function ModifyItem() {
   const { itemID } = useParams<{itemID: string}>();
   const navigate = useNavigate();
-  const { warehouses, selectedWarehouseId, warehouseItems } = useWarehouse();
+  const {dispatch, warehouses, selectedWarehouseId, warehouseItems } = useWarehouse();
   const { discardItem } = useItemsActions();
   const [dataToModify, setDataToModify] = useState<NewItem | null>(null);
   const currentItem = warehouseItems?.find((W) => W.id === itemID);
@@ -62,6 +62,17 @@ function ModifyItem() {
     navigate('/inventario')
   };
 
+  const modifyAndSave = () => {
+    if(!selectedWarehouseId || !itemID || !dataToModify ) return;
+     modifyItem(selectedWarehouseId, itemID, dataToModify)
+     dispatch({type:'SHOW_POPUP', payload: {
+          open: true,
+          type: "update",
+          title: "Item actualizado",
+          message: "El item se ha correctamente",
+        },})
+  }
+
   return (
     <>
       {!selectedWarehouseId || !itemID || !dataToModify ? (
@@ -92,9 +103,7 @@ function ModifyItem() {
                   Descartar
                 </button>
                 <button
-                  onClick={() =>
-                    modifyItem(selectedWarehouseId, itemID, dataToModify)
-                  }
+                  onClick={modifyAndSave}
                   className="save_btn"
                 >
                   guardar

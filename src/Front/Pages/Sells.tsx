@@ -20,10 +20,7 @@ function Sells() {
     <div className="sales_container">
       <section className="sales_left_container">
         <SalesSearch />
-        <PopUp
-          title={"Venta completada"}
-          message={"La venta se ha realizado exitosamente"}
-        />
+        <PopUp/>
         <SalesItemsGrid />
       </section>
       <SalesResume />

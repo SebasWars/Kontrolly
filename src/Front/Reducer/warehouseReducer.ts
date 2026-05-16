@@ -7,7 +7,12 @@ export const initalState: State = {
   selectWarehouseSalesId: null,
   itemsSales: [],
   currentSale: [],
-  modalState: false
+  popupState: {
+    open: false,
+    type: null,
+    title: "",
+    message: "",
+  },
 };
 
 export const warehouseReducer = (state: State, action: Actions) => {
@@ -26,8 +31,18 @@ export const warehouseReducer = (state: State, action: Actions) => {
       return { ...state, selectWarehouseSalesId: action.payload };
     case "SET_ITEMS_SALES":
       return { ...state, itemsSales: action.payload };
-    case 'TOGGLE_MODAL':
-      return {...state, modalState: action.payload}
+    case "SHOW_POPUP":
+      return {
+        ...state,
+        popupState: {
+          open: true,
+          type: action.payload.type,
+          title: action.payload.title,
+          message: action.payload.message,
+        },
+      };
+    case 'HIDE_POPUP':
+      return{...state, popupState: {...state, open: false}}
     case "ADD_ITEM_TO_CART":
       const exist = state.currentSale.find(
         (item) => item.id === action.payload.id,

@@ -13,8 +13,16 @@ export function SalesPrices() {
 
   function closeSale() {
     completeCurrentSale(currentSale, selectWarehouseSalesId);
-    if(currentSale.length > 0){
-      dispatch({type: 'TOGGLE_MODAL', payload: true})
+    if (currentSale.length > 0) {
+      dispatch({
+        type: "SHOW_POPUP",
+        payload: {
+          open: true,
+          type: "sale",
+          title: "Venta realizada",
+          message: "La venta se completó correctamente",
+        },
+      });
     }
   }
 

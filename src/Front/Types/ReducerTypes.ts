@@ -1,4 +1,4 @@
-import type { SaleItems } from "./SalesTypes";
+import type { PopupState, SaleItems } from "./SalesTypes";
 import type { Items, WarehousesMeta } from "./StockTypes";
 
 export type Actions =
@@ -6,7 +6,8 @@ export type Actions =
   | SetWarehouses
   | SetWarehousesItems
   | SetWarehouseForSales
-  | setModal
+  | PopUpModal
+  | HidePopup
   | SetSalesItems
   | AddItemToCart
   | AddOne
@@ -18,7 +19,7 @@ export interface State {
   selectedWarehouseId: string | null;
   warehouseItems: Items[];
   selectWarehouseSalesId: string | null;
-  modalState: boolean;
+  popupState: PopupState;
   itemsSales: SaleItems[];
   currentSale: SaleItems[];
 }
@@ -43,9 +44,13 @@ interface SetWarehouseForSales {
   payload: string | null;
 }
 
-interface setModal{
-  type: 'TOGGLE_MODAL',
-  payload: boolean
+interface PopUpModal{
+  type: 'SHOW_POPUP',
+  payload: PopupState
+}
+
+interface HidePopup {
+  type: "HIDE_POPUP";
 }
 
 /* DE MOMENTO, PUEDE QUE EN UN FUTURO LO MEJOR SEA SOLO OBTENER 

@@ -2,14 +2,16 @@ import * as React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useStockActions } from "../../../Hooks/StockHooks/useStockActions";
+import useWarehouse from "../../../Hooks/UseWarehouse";
 
 interface PropsTypes {
-  openEdit: (state: 'edit') => void;
+  openEdit: (state: "edit") => void;
 }
 
-export default function DropDown({openEdit}:PropsTypes) {
+export default function DropDown({ openEdit }: PropsTypes) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { deleteWarehouse } = useStockActions();
+  const { dispatch } = useWarehouse();
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,10 +24,19 @@ export default function DropDown({openEdit}:PropsTypes) {
   const removeWarehouse = () => {
     deleteWarehouse();
     handleClose();
+    dispatch({
+      type: "SHOW_POPUP",
+      payload: {
+        open: true,
+        type: "update",
+        title: "Almacen eliminado",
+        message: "Almacen eliminado correctamente",
+      },
+    });
   };
 
   const updateWarehouse = () => {
-    openEdit('edit')
+    openEdit("edit");
     handleClose();
   };
 
@@ -40,8 +51,8 @@ export default function DropDown({openEdit}:PropsTypes) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={removeWarehouse}>Eliminar</MenuItem>
         <MenuItem onClick={updateWarehouse}>Editar</MenuItem>
+        <MenuItem onClick={removeWarehouse}>Eliminar</MenuItem>
       </Menu>
     </div>
   );
