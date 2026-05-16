@@ -4,13 +4,13 @@ import { useFetchDataByID, useFetchWarehouses } from "./useFetchWarehouses";
 import { removeWarehouse } from "../../services/httpConection";
 
 export function useStockActions() {
-  const { selectedWarehouseId, dispatch } = useWarehouse();
+  const { selectedWarehouseId, selectWarehouse, clear } = useWarehouse();
   const { fetchWarehousesById } = useFetchDataByID();
   const { fetchWarehouses } = useFetchWarehouses();
   const navigate = useNavigate();
 
   const handleSelector = (value: string) => {
-    dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: value });
+    selectWarehouse(value)
     fetchWarehousesById(value);
   };
 
@@ -18,8 +18,7 @@ export function useStockActions() {
     if (!selectedWarehouseId) return;
     await removeWarehouse(selectedWarehouseId);
     await fetchWarehouses();
-    dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: null });
-    dispatch({ type: "SET_WAREHOUSE_ITEMS", payload: [] });
+    clear()
   };
 
   const goToNewItem = () => {

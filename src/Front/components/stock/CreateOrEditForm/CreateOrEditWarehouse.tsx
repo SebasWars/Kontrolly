@@ -17,7 +17,7 @@ export function CreateOrEdit({
   closeModal,
   refreshWarehouse,
 }: PropsType) {
-  const { dispatch, selectedWarehouseId, warehouses } = useWarehouse();
+  const { selectedWarehouseId, warehouses, selectWarehouse } = useWarehouse();
   const currentWarehouse = warehouses.find((W) => W.id === selectedWarehouseId);
   const isEdit = modalMode === "edit";
 
@@ -31,31 +31,10 @@ export function CreateOrEdit({
     if (isEdit && currentWarehouse) {
       await updateWarehouse(currentWarehouse.id, data.warehouse);
       refreshWarehouse();
-      dispatch({
-        type: "SHOW_POPUP",
-        payload: {
-          open: true,
-          type: "update",
-          title: "Almacen actualizado",
-          message: "Almacen actualizado correctamente",
-        },
-      });
       closeModal(null);
     } else {
       const created = await createNewWarehouse(data);
-      dispatch({
-        type: "SELECT_WAREHOUSE_STOCK",
-        payload: created.warehouse_created.id,
-      });
-      dispatch({
-        type: "SHOW_POPUP",
-        payload: {
-          open: true,
-          type: "create",
-          title: "Almacen creado",
-          message: "Almacen creado correctamente",
-        },
-      });
+      selectWarehouse(created.warehouse_created.id)
       refreshWarehouse();
       closeModal(null);
     }

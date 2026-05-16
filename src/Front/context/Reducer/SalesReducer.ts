@@ -1,59 +1,10 @@
-export interface SalesState {
-  selectWarehouseSalesId: string | null;
-  itemsSales: SaleItems[];
-  currentSale: SaleItems[];
-}
+import type { Actions, SalesState } from "../RecuderTypes/SalesReduce";
 
 export const initalStateSales: SalesState = {
   selectWarehouseSalesId: null,
   itemsSales: [],
   currentSale: [],
 };
-
-export interface SaleItems {
-  id: string;
-  name: string;
-  image_url: string | null;
-  quantity: number;
-  sales_price: number;
-}
-
-type Actions =
-  | SetWarehouseForSales
-  | SetSalesItems
-  | AddItemToCart
-  | AddOne
-  | RemoveOne
-  | ClearCart;
-
-interface SetWarehouseForSales {
-  type: "SET_WAREHOUSE_SALES";
-  payload: string | null;
-}
-
-interface SetSalesItems {
-  type: "SET_ITEMS_SALES";
-  payload: SaleItems[];
-}
-
-interface AddItemToCart {
-  type: "ADD_ITEM_TO_CART";
-  payload: SaleItems;
-}
-
-interface AddOne {
-  type: "ADD_ONE";
-  payload: string;
-}
-
-interface RemoveOne {
-  type: "REMOVE_ONE";
-  payload: string;
-}
-
-interface ClearCart {
-  type: "CLEAR_CART";
-}
 
 export const salesReducer = (state: SalesState, action: Actions) => {
   const { type } = action;

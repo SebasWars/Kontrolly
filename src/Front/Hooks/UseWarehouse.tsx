@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { WarehouseContext } from "../Provider";
+import { WarehouseContext } from "../context/Providers/WarehouseContext";
+
 
 function useWarehouse() {
   const context = useContext(WarehouseContext);

@@ -13,7 +13,7 @@ import { useItemsActions } from "../Hooks/StockHooks/useItemsActions";
 
 function CreateNewItem() {
   const { id } = useParams();
-  const { warehouses, selectedWarehouseId, dispatch } = useWarehouse();
+  const { warehouses, selectedWarehouseId, selectWarehouse } = useWarehouse();
   const { createItem, discardItem } = useItemsActions();
   const [formData, setFormData] = useState<NewItem>({
     name: "",
@@ -30,18 +30,12 @@ function CreateNewItem() {
 
   useEffect(() => {
     if (!id) return;
-    dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: id });
+    selectWarehouse(id)
   }, [id]);
 
   const createAndSave = () => {
     if(!selectedWarehouseId) return;
     createItem(selectedWarehouseId, formData)
-    dispatch({type: 'SHOW_POPUP',payload: {
-          open: true,
-          type: "create",
-          title: "Item añadido",
-          message: "Item añadido correctamente",
-        },})
   }
 
   return (

@@ -1,33 +1,10 @@
-import type { Items, WarehousesMeta } from "../Types/StockTypes";
-
-export interface WarehouseState {
-  warehouses: WarehousesMeta[];
-  selectedWarehouseId: string | null;
-  warehouseItems: Items[];
-}
+import type { Actions, WarehouseState } from "../RecuderTypes/WarehouseReduce";
 
 export const initialState: WarehouseState = {
   warehouses: [],
   selectedWarehouseId: null,
   warehouseItems: [],
 };
-
-type Actions = SelectWarehouse | SetWarehouses | SetWarehousesItems;
-
-interface SelectWarehouse {
-  type: "SELECT_WAREHOUSE_STOCK";
-  payload: string | null;
-}
-
-interface SetWarehouses {
-  type: "SET_WAREHOUSES";
-  payload: WarehousesMeta[];
-}
-
-interface SetWarehousesItems {
-  type: "SET_WAREHOUSE_ITEMS";
-  payload: Items[];
-}
 
 export const warehouseReducer = (state: WarehouseState, action: Actions) => {
   const { type } = action;

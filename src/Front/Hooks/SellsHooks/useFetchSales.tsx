@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { createSell, getItems } from "../../services/salesHTTP";
-import useWarehouse from "../UseWarehouse";
 import type { SaleItems } from "../../Types/SalesTypes";
+import useSales from "../UseSales";
 
 export function useFetchSalesItems() {
-  const { dispatch, selectWarehouseSalesId } = useWarehouse();
+  const { selectWarehouseSalesId, setItemsSales, clearCart} = useSales();
   
   async function getItemsforSale(id: string) {
     try {
       const data = await getItems(id);
-      dispatch({ type: "SET_ITEMS_SALES", payload: data });
+      setItemsSales(data)
     } catch (error) {
       throw new Error("Error loading items");
     }
@@ -22,7 +22,7 @@ export function useFetchSalesItems() {
     if (!warehouseId || cartItems.length <= 0) return;
     try {
       await createSell(cartItems, warehouseId);
-      dispatch({ type: "CLEAR_CART" });
+      clearCart()
     } catch (error) {
       throw new Error("Error creating sale");
     }
@@ -31,7 +31,7 @@ export function useFetchSalesItems() {
   useEffect(() => {
     if (!selectWarehouseSalesId) return;
     getItemsforSale(selectWarehouseSalesId);
-  }, [selectWarehouseSalesId, dispatch]);
+  }, [selectWarehouseSalesId]);
 
   return { getItemsforSale, completeCurrentSale };
 }

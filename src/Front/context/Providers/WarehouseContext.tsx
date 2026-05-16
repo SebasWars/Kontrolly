@@ -1,22 +1,13 @@
 import { createContext, useReducer, type ReactNode } from "react";
-import type { Items, WarehousesMeta } from "../Types/StockTypes";
-import { initialState, warehouseReducer } from "../Reducer/WarehouseReducerNEW";
+import type { Items, WarehousesMeta } from "../../Types/StockTypes";
+import { initialState, warehouseReducer } from "../Reducer/WarehouseReducer";
+import type { WarehouseContextType } from "../RecuderTypes/WarehouseReduce";
 
 export interface PropProviderType {
   children: ReactNode;
 }
 
-interface WarehouseContextType {
-  warehouses: WarehousesMeta[];
-  selectedWarehouseId: string | null;
-  warehouseItems: Items[];
-
-  setWarehouses: (warehouses: WarehousesMeta[]) => void;
-  selectWarehouse: (id: string) => void
-  setWarehouseItems: (items: Items[]) => void
-}
-
-const WarehouseContext = createContext<WarehouseContextType | undefined>(
+export const WarehouseContext = createContext<WarehouseContextType | undefined>(
   undefined,
 );
 
@@ -27,12 +18,17 @@ export const WarehouseProvider = ({ children }: PropProviderType) => {
     dispatch({ type: "SET_WAREHOUSES", payload: warehouses });
   };
 
-  const selectWarehouse = (id: string) => {
+  const selectWarehouse = (id: string| null) => {
     dispatch({type: 'SELECT_WAREHOUSE_STOCK', payload: id})
   }
 
   const setWarehouseItems = (items: Items[]) => {
     dispatch({type: 'SET_WAREHOUSE_ITEMS', payload: items})
+  }
+
+  const clear = () => {
+    selectWarehouse(null)
+    setWarehouseItems([])
   }
 
   return (
@@ -44,7 +40,8 @@ export const WarehouseProvider = ({ children }: PropProviderType) => {
 
         setWarehouses,
         selectWarehouse,
-        setWarehouseItems
+        setWarehouseItems,
+        clear
       }}
     >
       {children}

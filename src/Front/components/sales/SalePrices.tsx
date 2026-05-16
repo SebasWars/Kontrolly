@@ -1,5 +1,5 @@
 import { useFetchSalesItems } from "../../Hooks/SellsHooks/useFetchSales";
-import useWarehouse from "../../Hooks/UseWarehouse";
+import useSales from "../../Hooks/UseSales";
 
 import {
   calculateIVA,
@@ -8,21 +8,12 @@ import {
 } from "../../Utils/SalesUtils";
 
 export function SalesPrices() {
-  const { selectWarehouseSalesId, currentSale, dispatch } = useWarehouse();
+  const { selectWarehouseSalesId, currentSale } = useSales();
   const { completeCurrentSale } = useFetchSalesItems();
 
   function closeSale() {
     completeCurrentSale(currentSale, selectWarehouseSalesId);
     if (currentSale.length > 0) {
-      dispatch({
-        type: "SHOW_POPUP",
-        payload: {
-          open: true,
-          type: "sale",
-          title: "Venta realizada",
-          message: "La venta se completó correctamente",
-        },
-      });
     }
   }
 

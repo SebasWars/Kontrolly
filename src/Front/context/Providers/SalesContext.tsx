@@ -1,21 +1,10 @@
 import { createContext, useReducer, type ReactNode } from "react";
 
-import { salesReducer, type SaleItems } from "../Reducer/SalesReducer";
-import { initalStateSales } from "../Reducer/SalesReducer";
+import { type SaleItems, type SalesContextType } from "../RecuderTypes/SalesReduce";
+import { initalStateSales, salesReducer } from "../Reducer/SalesReducer";
 
 export interface PropProviderType {
   children: ReactNode;
-}
-
-interface SalesContextType {
-  selectWarehouseSalesId: string | null;
-  itemsSales: SaleItems[];
-  currentSale: SaleItems[];
-
-  addItemToCart: (item: SaleItems) => void
-  addOne: (id: string) => void
-  removeOne: (id: string) => void
-  clearCart: () => void
 }
 
 export const SalesContext = createContext<SalesContextType | undefined>(
@@ -31,19 +20,25 @@ export function SalesProvider({children }: PropProviderType) {
   const addOne = (id: string) => {
     dispatch({ type: "ADD_ONE", payload: id });
   };
-
   const removeOne = (id: string) => {
     dispatch({
       type: "REMOVE_ONE",
       payload: id,
     });
   };
-
   const clearCart = () => {
     dispatch({
       type: "CLEAR_CART",
     });
   };
+
+  const setWarehouseSales = (id: string) => {
+    dispatch({type: 'SET_WAREHOUSE_SALES', payload: id})
+  }
+
+  const setItemsSales = (item: SaleItems[]) => {
+    dispatch({type: 'SET_ITEMS_SALES', payload: item})
+  }
 
   return (
     <SalesContext.Provider
@@ -56,6 +51,8 @@ export function SalesProvider({children }: PropProviderType) {
         addOne,
         removeOne,
         clearCart,
+        setWarehouseSales,
+        setItemsSales
       }}
     >
       {children}
