@@ -1,24 +1,24 @@
 import { useEffect } from "react";
-import useWarehouse from "../../Hooks/UseWarehouse";
 import '../../styles/UIComponents.css'
+import usePopUp from "../../Hooks/UsePopup";
 
 export function PopUp() {
-  const { popupState, dispatch } = useWarehouse();
+  const { hidePopup, popup } = usePopUp();
 
   useEffect(() => {
-    if (!popupState.open) return;
+    if (!popup.open) return;
 
     const timer = setTimeout(() => {
-      dispatch({ type: "HIDE_POPUP" });
+      hidePopup()
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [popupState.open]);
+  }, [popup.open]);
 
   return (
-    <div className={`popUp_container ${popupState.open? 'active' : ''}`}>
-      <h4>{popupState.title}</h4>
-      <p>{popupState.message}</p>
+    <div className={`popUp_container ${popup.open? 'active' : ''}`}>
+      <h4>{popup.title}</h4>
+      <p>{popup.message}</p>
     </div>
   );
 }

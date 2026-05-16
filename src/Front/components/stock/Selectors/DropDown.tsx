@@ -2,6 +2,7 @@ import * as React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useStockActions } from "../../../Hooks/StockHooks/useStockActions";
+import usePopUp from "../../../Hooks/UsePopup";
 
 interface PropsTypes {
   openEdit: (state: "edit") => void;
@@ -10,6 +11,7 @@ interface PropsTypes {
 export default function DropDown({ openEdit }: PropsTypes) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { deleteWarehouse } = useStockActions();
+  const { showPopup} = usePopUp()
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,6 +24,12 @@ export default function DropDown({ openEdit }: PropsTypes) {
   const removeWarehouse = () => {
     deleteWarehouse();
     handleClose();
+    showPopup({
+      open: true,
+      type: 'update',
+      title: 'Almacen eliminado',
+      message: 'Almacen eliminado exitosamente'
+    })
   };
 
   const updateWarehouse = () => {

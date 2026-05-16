@@ -2,7 +2,7 @@ import { createContext, type ReactNode } from "react";
 
 export interface PopupContextType {
   popup: PopupState;
-  showPopup: (data: Omit<PopupState, "open">) => void;
+  showPopup: (data: PopupState) => void;
   hidePopup: () => void;
 }
 
@@ -31,10 +31,12 @@ export const PopupProvider = ({ children }: PropProviderType) => {
     message: "",
   });
 
-  const showPopup = (data: Omit<PopupState, "open">) => {
+  const showPopup = (data: PopupState) => {
     setPopup({
-      ...data,
-      open: true,
+      open: data.open,
+      type: data.type,
+      title: data.title,
+      message: data.message
     });
   };
 

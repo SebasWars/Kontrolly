@@ -16,6 +16,7 @@ import { useStockActions } from "../Hooks/StockHooks/useStockActions";
 import { useFetchWarehouses } from "../Hooks/StockHooks/useFetchWarehouses";
 import { StockSelectorMenus } from "../components/stock/StockSelectorMenus";
 import { CreateOrEdit } from "../components/stock/CreateOrEditForm/CreateOrEditWarehouse";
+import { PopUp } from "../components/UI/PopUp";
 
 function Stock() {
   const [modalMode, setModalMode] = useState<"create" | "edit" | null>(null);
@@ -34,7 +35,7 @@ function Stock() {
           <StockSelectorMenus openEdit={openEdit} />
           <button onClick={goToNewItem}>Añadir nuevo item</button>
         </div>
-
+        <PopUp/>
         <div className="cards">
           <StockDetailsCards
             value="Cantidad de productos"

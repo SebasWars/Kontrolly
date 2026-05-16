@@ -6,6 +6,7 @@ import { useFetchWarehouses } from "../Hooks/StockHooks/useFetchWarehouses";
 
 import "../styles/sales.css";
 import useSales from "../Hooks/UseSales";
+import { PopUp } from "../components/UI/PopUp";
 
 function Sells() {
   const { selectWarehouseSalesId, itemsSales } = useSales();
@@ -17,6 +18,7 @@ function Sells() {
 
   return (
     <div className="sales_container">
+      <PopUp/>
       <section className="sales_left_container">
         <SalesSearch />
         <SalesItemsGrid />

@@ -10,10 +10,12 @@ import "../styles/addNewItem.css";
 import type { ModifyFormData, NewItem } from "../Types/StockTypes";
 import { getWarehouseName } from "../Utils/StockUtils";
 import { useItemsActions } from "../Hooks/StockHooks/useItemsActions";
+import usePopUp from "../Hooks/UsePopup";
 
 function CreateNewItem() {
   const { id } = useParams();
   const { warehouses, selectedWarehouseId, selectWarehouse } = useWarehouse();
+  const { showPopup } = usePopUp();
   const { createItem, discardItem } = useItemsActions();
   const [formData, setFormData] = useState<NewItem>({
     name: "",
@@ -30,13 +32,19 @@ function CreateNewItem() {
 
   useEffect(() => {
     if (!id) return;
-    selectWarehouse(id)
+    selectWarehouse(id);
   }, [id]);
 
   const createAndSave = () => {
-    if(!selectedWarehouseId) return;
-    createItem(selectedWarehouseId, formData)
-  }
+    if (!selectedWarehouseId) return;
+    createItem(selectedWarehouseId, formData);
+    showPopup({
+      open: true,
+      type: "create",
+      title: "Item creado",
+      message: "Item creado exitosamente!",
+    });
+  };
 
   return (
     <>
@@ -53,15 +61,15 @@ function CreateNewItem() {
             </div>
 
             <div className="add_item_section_rigth_side">
-              <UploadImage modifyFormData={modifyFormData} initialImage={null}/>
+              <UploadImage
+                modifyFormData={modifyFormData}
+                initialImage={null}
+              />
               <div className="action_buttons">
                 <button onClick={discardItem} className="discard_btn">
                   Descartar
                 </button>
-                <button
-                  className="save_btn"
-                  onClick={createAndSave}
-                >
+                <button className="save_btn" onClick={createAndSave}>
                   guardar
                 </button>
               </div>
