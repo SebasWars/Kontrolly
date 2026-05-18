@@ -3,7 +3,6 @@ import {
   faStore,
   faCartShopping,
   faBoxesStacked,
-  faBuildingColumns,
   faFileInvoice,
   faChartLine,
 } from "@fortawesome/free-solid-svg-icons";
@@ -20,7 +19,6 @@ function SideBar() {
         <SideBarButton to='/' icon={faStore} value="Principal" />
         <SideBarButton to='ventas' icon={faCartShopping} value="Pedidos" />
         <SideBarButton to='inventario' icon={faBoxesStacked} value="Inventario" />
-        <SideBarButton to='finanzas' icon={faBuildingColumns} value="Finanzas" />
         <SideBarButton to='facturas' icon={faFileInvoice} value="Facturas" />
         <SideBarButton to='analiticas' icon={faChartLine} value="Analiticas" />
       </section>
