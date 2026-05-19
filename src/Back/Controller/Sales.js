@@ -1,9 +1,9 @@
-import { salesModel } from "../model/Sales.js";
+import { SalesModel } from "../model/Sales.js";
 
 export class SalesController {
   static async getItems(req, res) {
     const { id } = req.params;
-    const items = await salesModel.getItems({ id });
+    const items = await SalesModel.getItems({ id });
 
     if (!items) {
       return res.status(404).json({ message: "No items found" });
@@ -15,7 +15,7 @@ export class SalesController {
   static async createSell(req,res){
     const {id} = req.params;
     const {items} = req.body;
-    const updateStock = await salesModel.createSell({id, items});
+    const updateStock = await SalesModel.createSell({id, items});
 
     if(!updateStock){
       return res.status(404).json({message: 'It was not possible to complete the sale'});

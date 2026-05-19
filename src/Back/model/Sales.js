@@ -1,6 +1,6 @@
 import { SalesRegister, Stocks } from "../MockData_Back.js";
 
-export class salesModel {
+export class SalesModel {
   static async getItems({ id }) {
     const warehouse = Stocks.find((W) => W.id === id);
 
@@ -46,8 +46,10 @@ export class salesModel {
 
     const sale = {
       id: crypto.randomUUID(),
+      state: 'sold',
       warehouse: id,
       itemsSold: items,
+      createdAt: new Date().toISOString(),
     };
 
     SalesRegister.push(sale);
