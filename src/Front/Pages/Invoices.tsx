@@ -5,15 +5,12 @@ import { InvoicesTable } from "../components/invoices/InvoicesTable";
 import { useFetchInvoices } from "../Hooks/InvoicesHooks/useFetchInvoices";
 
 import "../styles/invoices.css";
-import useInvoices from "../Hooks/UseInvoices";
 
 function Invoices() {
   const { getInvoicesList } = useFetchInvoices();
-  const {invoices} = useInvoices()
 
   useEffect(() => {
     getInvoicesList();
-    console.log(invoices);
   }, []);
 
   return (

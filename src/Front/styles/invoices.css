@@ -110,12 +110,15 @@
 .invoices_table_container {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   background-color: var(--card-color);
   border: 1px solid var(--border-color);
 }
 
 .invoices_table_container .table_title {
   display: flex;
+  height: 10%;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1.5rem;
@@ -143,9 +146,16 @@
 }
 
 .invoices_table_container {
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   box-sizing: border-box;
+  border-radius: 0.3rem;
   overflow: scroll;
+}
+
+.invoices_table_container .invoices_table {
+  height: 90%;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
 }
 
 .invoices_table_container .invoices_table table {
@@ -154,34 +164,34 @@
   background-color: #fff;
   font-size: 14px;
   box-sizing: border-box;
-  border-radius: 10px 10px 0 0;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid transparent;
 
   border-collapse: separate;
   border-spacing: 0;
   overflow: hidden;
 
   thead {
-    background-color: #f5f7fa;
-
     th {
       text-align: left;
       font-weight: 600;
       color: #333;
       padding: 5px 10px;
+      border: 1px solid transparent;
     }
 
     th:nth-child(1) {
-      border-radius: 9px 0 0 0;
+      border-radius: 2px 0 0 0;
     }
     th:nth-child(6) {
-      border-radius: 0 9px 0 0;
+      border-radius: 0 2px 0 0;
     }
   }
 
   td {
     text-align: left;
-    padding: 5px 10px;
-    border: 1px solid rgb(208, 205, 205);
+    padding: 6px 10px;
+    border: 1px solid transparent;
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -189,7 +199,7 @@
   }
 
   tbody tr:hover {
-    background-color: #4f4f60;
+    background-color: #787892;
     color: white;
     transition: background 0.2s ease;
   }
@@ -201,7 +211,13 @@
 
   th:nth-child(6),
   td:nth-child(6) {
-    width: 1%;
+    width: 2%;
     text-align: center;
   }
+}
+
+.drop_down_button {
+  border: 1px solid var(--border-color);
+  padding: 0.1rem;
+  border-radius: 0.2rem;
 }

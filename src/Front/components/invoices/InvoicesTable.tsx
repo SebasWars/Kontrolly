@@ -1,4 +1,8 @@
+import useInvoices from "../../Hooks/UseInvoices";
+import { TableRows } from "./TableRows";
+
 export function InvoicesTable() {
+  const { invoices } = useInvoices();
   return (
     <div className="invoices_table">
       <table>
@@ -12,6 +16,11 @@ export function InvoicesTable() {
             <th scope="col"></th>
           </tr>
         </thead>
+        <tbody>
+          {invoices.map((invoice) => (
+            <TableRows key={invoice.id} invoiceList={invoice}/>
+          ))}
+        </tbody>
       </table>
     </div>
   );
