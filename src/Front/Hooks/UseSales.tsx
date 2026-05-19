@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SalesContext } from "../context/Providers/SalesContext";
+import { SalesContext } from "../context/Providers/SalesProvider";
 
 function useSales() {
   const context = useContext(SalesContext);

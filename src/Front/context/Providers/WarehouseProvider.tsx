@@ -3,7 +3,7 @@ import type { Items, WarehousesMeta } from "../../Types/StockTypes";
 import { initialState, warehouseReducer } from "../Reducer/WarehouseReducer";
 import type { WarehouseContextType } from "../RecuderTypes/WarehouseReduce";
 
-export interface PropProviderType {
+interface PropProviderType {
   children: ReactNode;
 }
 

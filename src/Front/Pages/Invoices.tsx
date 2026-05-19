@@ -1,10 +1,21 @@
+import { useEffect } from "react";
 import { InvoicesHeaderOptions } from "../components/invoices/InvoicesHeaderOptions";
 import { InvoicesResumeInformation } from "../components/invoices/InvoicesResumeInformation";
 import { InvoicesTable } from "../components/invoices/InvoicesTable";
+import { useFetchInvoices } from "../Hooks/InvoicesHooks/useFetchInvoices";
 
 import "../styles/invoices.css";
+import useInvoices from "../Hooks/UseInvoices";
 
 function Invoices() {
+  const { getInvoicesList } = useFetchInvoices();
+  const {invoices} = useInvoices()
+
+  useEffect(() => {
+    getInvoicesList();
+    console.log(invoices);
+  }, []);
+
   return (
     <div className="invoices_main_container">
       <h1>Facturas</h1>
@@ -12,16 +23,16 @@ function Invoices() {
         <InvoicesHeaderOptions />
         <InvoicesResumeInformation />
       </header>
-      
+
       <div className="invoices_table_container">
         <div className="table_title">
           <h3>Resumen de facturas</h3>
           <div className="table_filters">
             <button className="sort">ordenar</button>
-            <input type="text"  placeholder="Bucar..."/>
+            <input type="text" placeholder="Bucar..." />
           </div>
         </div>
-        <InvoicesTable/>
+        <InvoicesTable />
       </div>
     </div>
   );

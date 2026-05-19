@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
-import { WarehouseProvider } from "./Providers/WarehouseContext";
+import { WarehouseProvider } from "./Providers/WarehouseProvider";
 import { PopupProvider } from "./Providers/PopupProvider";
-import { SalesProvider } from "./Providers/SalesContext";
+import { SalesProvider } from "./Providers/SalesProvider";
+import { InvoicesProvider } from "./Providers/InvoiceProvider";
 
 
 export interface PropProviderType {
@@ -14,7 +15,9 @@ export const AppProviders = ({ children }: PropProviderType) => {
     <PopupProvider>
       <WarehouseProvider>
         <SalesProvider>
+          <InvoicesProvider>
           {children}
+          </InvoicesProvider>
         </SalesProvider>
       </WarehouseProvider>
     </PopupProvider>
