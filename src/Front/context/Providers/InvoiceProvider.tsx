@@ -32,6 +32,7 @@ export const InvoicesProvider = ({ children }: PropType) => {
     <InvoicesContext.Provider
       value={{
         invoices: state.invoices,
+        invoicesValues: state.invoicesValues,
 
         setInvoices,
         setInvoicesValues

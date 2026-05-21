@@ -2,7 +2,6 @@ import { SalesRegister, Stocks } from "../MockData_Back.js";
 
 export class InvoicesModel {
   static async getInvoices() {
-
     const getWarehouse = (id) => {
       const warehouse = Stocks.find((W) => W.id === id);
       return warehouse?.warehouse;

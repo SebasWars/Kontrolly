@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { InvoicesHeaderOptions } from "../components/invoices/InvoicesHeaderOptions";
-import { InvoicesResumeInformation } from "../components/invoices/InvoicesResumeInformation";
+import { InvoicesResumeInformation } from "../components/invoices/InvoicesResumeInfo/InvoicesResumeInformation";
 import { InvoicesTable } from "../components/invoices/InvoicesTable";
 import { useFetchInvoices } from "../Hooks/InvoicesHooks/useFetchInvoices";
 

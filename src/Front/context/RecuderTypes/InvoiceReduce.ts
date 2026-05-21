@@ -1,5 +1,6 @@
 export interface InvoicesContextType {
   invoices: Invoice[];
+  invoicesValues: InvoicesValues;
 
   setInvoices: (invoices: Invoice[]) => void;
   setInvoicesValues: (invoicesValues: InvoicesValues) => void;
