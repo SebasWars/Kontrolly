@@ -7,10 +7,11 @@ import { useFetchInvoices } from "../Hooks/InvoicesHooks/useFetchInvoices";
 import "../styles/invoices.css";
 
 function Invoices() {
-  const { getInvoicesList } = useFetchInvoices();
+  const { getInvoicesList, getInvoicesValuesObj } = useFetchInvoices();
 
   useEffect(() => {
     getInvoicesList();
+    getInvoicesValuesObj()
   }, []);
 
   return (

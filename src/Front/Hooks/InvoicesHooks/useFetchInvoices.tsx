@@ -1,10 +1,10 @@
-import type { Invoice } from "../../context/RecuderTypes/InvoiceReduce";
-import { getInvoices } from "../../services/invoicesHTTP";
+import type { Invoice, InvoicesValues } from "../../context/RecuderTypes/InvoiceReduce";
+import { getInvoices, getInvoiesValues } from "../../services/invoicesHTTP";
 import useInvoices from "../UseInvoices";
 
 
 export function useFetchInvoices() {
-  const { setInvoices} = useInvoices();
+  const { setInvoices,setInvoicesValues} = useInvoices();
 
   async function getInvoicesList() {
     try {
@@ -15,5 +15,14 @@ export function useFetchInvoices() {
     }
   }
 
-  return { getInvoicesList };
+  async function getInvoicesValuesObj() {
+    try {
+      const invoicesValues: InvoicesValues = await getInvoiesValues();
+      setInvoicesValues(invoicesValues)
+    } catch (error) {
+      throw new Error("Error loading values");
+    }
+  }
+
+  return { getInvoicesList, getInvoicesValuesObj};
 }

@@ -21,6 +21,15 @@ export class SalesModel {
 
   static async createSell({ id, items }) {
     const warehouse = Stocks.find((W) => W.id === id);
+    const sale = {
+      id: crypto.randomUUID(),
+      state: "sold", //-> TO CHANGE
+      warehouseID: id,
+      itemsList: [],
+      total: 0,
+      createdAt: new Date().toISOString(),
+    };
+
     if (!warehouse) {
       throw new Error("Warehouse not found");
     }
@@ -41,16 +50,16 @@ export class SalesModel {
 
     for (const item of items) {
       const warehouseItem = getItem(item.id);
+      sale.total += item.quantity * warehouseItem.sales_price
+      sale.itemsList.push({
+      name: warehouseItem.name,
+      id: warehouseItem.id,
+      description: warehouseItem.description,
+      sales_price: warehouseItem.sales_price,
+      quantity: item.quantity,
+      })
       warehouseItem.quantity -= item.quantity;
     }
-
-    const sale = {
-      id: crypto.randomUUID(),
-      state: 'sold',
-      warehouse: id,
-      itemsSold: items,
-      createdAt: new Date().toISOString(),
-    };
 
     SalesRegister.push(sale);
     return sale;

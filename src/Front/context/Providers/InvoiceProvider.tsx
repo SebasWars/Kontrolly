@@ -2,6 +2,7 @@ import { createContext, useReducer, type ReactNode } from "react";
 import type {
   Invoice,
   InvoicesContextType,
+  InvoicesValues,
 } from "../RecuderTypes/InvoiceReduce";
 import {
   initialStateInvoices,
@@ -23,12 +24,17 @@ export const InvoicesProvider = ({ children }: PropType) => {
     dispatch({ type: "SET_INVOICES", payload: invoices });
   };
 
+  const setInvoicesValues = (invoicesValues: InvoicesValues) => {
+    dispatch({ type: "SET_INVOICES_VALUES", payload: invoicesValues });
+  };
+
   return (
     <InvoicesContext.Provider
       value={{
         invoices: state.invoices,
 
         setInvoices,
+        setInvoicesValues
       }}
     >
       {children}

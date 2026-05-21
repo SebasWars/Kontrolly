@@ -6,12 +6,12 @@ interface PropsType {
 }
 
 export function TableRows({ invoiceList }: PropsType) {
-  const { id, warehouse, date, state, total } = invoiceList;
-  const sliceDate = date.slice(0,10)
+  const { id, warehouseID, date, state, total } = invoiceList;
+  const sliceDate = date?.slice(0,10)
   return (
     <tr>
       <td>{id}</td>
-      <td>{warehouse}</td>
+      <td>{warehouseID}</td>
       <td>{sliceDate}</td>
       <td>{state}</td>
       <td>{`€${total}`}</td>
