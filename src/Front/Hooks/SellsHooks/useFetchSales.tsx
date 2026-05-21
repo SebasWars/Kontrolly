@@ -20,15 +20,18 @@ export function useFetchSalesItems() {
   async function completeCurrentSale(
     cartItems: SaleItems[],
     warehouseId: string | null,
+    type: 'sold' | 'price'
   ) {
     if (!warehouseId || cartItems.length <= 0) return;
     try {
-      await createSell(cartItems, warehouseId);
+      await createSell(cartItems, warehouseId, type);
+      let titleOp = type === 'sold' ? 'Venta realizada' : 'Cotización realizada'
+      let messageOp = type === 'sold' ? 'Venta realizada exitosamente!' : 'Cotización realizada exitosamente!'
       showPopup({
         open: true,
         type: "create",
-        title: "Venta realizada",
-        message: "Venta realizada exitosamente!",
+        title: titleOp,
+        message: messageOp,
       });
       clearCart();
     } catch (error) {

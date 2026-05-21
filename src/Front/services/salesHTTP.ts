@@ -11,7 +11,7 @@ export async function getItems(id: string) {
   return data;
 }
 
-export async function createSell(cart: SaleItems[], warehouseID: string) {
+export async function createSell(cart: SaleItems[], warehouseID: string, type: 'sold'| 'price') {
   const items = cart.map(({ id, quantity }) => ({ id, quantity }));
 
   const response = await fetch(`${apiUrl}/ventas/${warehouseID}`, {
@@ -19,7 +19,7 @@ export async function createSell(cart: SaleItems[], warehouseID: string) {
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ items }),
+    body: JSON.stringify({ items, type: type}),
   });
 
   if (!response.ok) {

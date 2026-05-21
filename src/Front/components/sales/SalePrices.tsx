@@ -11,8 +11,8 @@ export function SalesPrices() {
   const { selectWarehouseSalesId, currentSale } = useSales();
   const { completeCurrentSale } = useFetchSalesItems();
 
-  function closeSale() {
-    completeCurrentSale(currentSale, selectWarehouseSalesId);
+  function closeSale(type: 'sold' | 'price') {
+    completeCurrentSale(currentSale, selectWarehouseSalesId, type);
     if (currentSale.length > 0) {
     }
   }
@@ -37,8 +37,8 @@ export function SalesPrices() {
         </p>
       </section>
       <div className="action_buttons_sales">
-        <button onClick={() => console.log(currentSale)}>Cotizacion</button>
-        <button onClick={closeSale}>Venta</button>
+        <button onClick={() => closeSale('price')}>Cotizacion</button>
+        <button onClick={() => closeSale('sold')}>Venta</button>
       </div>
     </div>
   );
