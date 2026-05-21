@@ -1,14 +1,14 @@
 import type { Invoice, InvoicesValues } from "../../context/RecuderTypes/InvoiceReduce";
-import { getInvoices, getInvoiesValues } from "../../services/invoicesHTTP";
+import { getInvoicesByType, getInvoiesValues } from "../../services/invoicesHTTP";
 import useInvoices from "../UseInvoices";
 
 
 export function useFetchInvoices() {
-  const { setInvoices,setInvoicesValues} = useInvoices();
+  const { setInvoices ,setInvoicesValues} = useInvoices();
 
-  async function getInvoicesList() {
+  async function getInvoicesType(type: 'all' | 'sold' | 'price') {
     try {
-      const invoices: Invoice[] = await getInvoices();
+      const invoices: Invoice[] = await getInvoicesByType(type);
       setInvoices(invoices);
     } catch (error) {
         throw new Error("Error loading invoices");
@@ -24,5 +24,5 @@ export function useFetchInvoices() {
     }
   }
 
-  return { getInvoicesList, getInvoicesValuesObj};
+  return {  getInvoicesValuesObj, getInvoicesType};
 }

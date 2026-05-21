@@ -14,8 +14,8 @@ export class SalesController {
 
   static async createSell(req,res){
     const {id} = req.params;
-    const {items} = req.body;
-    const updateStock = await SalesModel.createSell({id, items});
+    const {items, type} = req.body;
+    const updateStock = await SalesModel.createSell({id, items, type});
 
     if(!updateStock){
       return res.status(404).json({message: 'It was not possible to complete the sale'});

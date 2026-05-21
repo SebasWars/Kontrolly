@@ -1,11 +1,24 @@
 import { SalesRegister, Stocks } from "../MockData_Back.js";
 
 export class InvoicesModel {
-  static async getInvoices() {
+  static async getInvoicesByType(type) {
     const getWarehouse = (id) => {
       const warehouse = Stocks.find((W) => W.id === id);
       return warehouse?.warehouse;
     };
+
+    if (type === "sold" || type === "price") {
+      const invoices = SalesRegister.filter(
+        (invoice) => invoice.state === type,
+      ).map((invoice) => ({
+        id: invoice.id,
+        warehouseID: getWarehouse(invoice.warehouseID),
+        state: invoice.state,
+        total: invoice.total,
+        date: invoice.createdAt,
+      }));
+      return invoices;
+    }
 
     const invoices = SalesRegister.map((invoice) => {
       return {

@@ -19,11 +19,11 @@ export class SalesModel {
     return itemsData;
   }
 
-  static async createSell({ id, items }) {
+  static async createSell({ id, items, type}) {
     const warehouse = Stocks.find((W) => W.id === id);
     const sale = {
       id: crypto.randomUUID(),
-      state: "sold", //-> TO CHANGE
+      state: type, //-> TO CHANGE
       warehouseID: id,
       itemsList: [],
       total: 0,

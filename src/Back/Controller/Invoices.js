@@ -1,10 +1,10 @@
 import { InvoicesModel } from "../model/Invoices.js";
 
 export class InvoicesController {
-  static async getInvoices(req, res) {
+  static async getInvoicesByType(req,res){
     try {
-      const invoices = await InvoicesModel.getInvoices();
-
+      const {type} = req.params
+      const invoices = await InvoicesModel.getInvoicesByType(type);
       return res.status(200).json(invoices);
     } catch (error) {
       return res.status(404).json({ message: "Invoices not found" });
