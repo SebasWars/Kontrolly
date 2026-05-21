@@ -50,14 +50,16 @@ export class SalesModel {
 
     for (const item of items) {
       const warehouseItem = getItem(item.id);
-      sale.total += item.quantity * warehouseItem.sales_price
+      sale.total += item.quantity * warehouseItem.sales_price;
+
       sale.itemsList.push({
-      name: warehouseItem.name,
-      id: warehouseItem.id,
-      description: warehouseItem.description,
-      sales_price: warehouseItem.sales_price,
-      quantity: item.quantity,
-      })
+        name: warehouseItem.name,
+        id: warehouseItem.id,
+        description: warehouseItem.description,
+        sales_price: warehouseItem.sales_price,
+        quantity: item.quantity,
+      });
+
       warehouseItem.quantity -= item.quantity;
     }
 
