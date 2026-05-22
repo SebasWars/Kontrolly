@@ -1,26 +1,14 @@
-import type { Actions, State } from "../Types/ReducerTypes";
+import type { Actions, SalesState } from "../RecuderTypes/SalesReduce";
 
-export const initalState: State = {
-  warehouses: [],
-  selectedWarehouseId: null,
-  warehouseItems: [],
+export const initalStateSales: SalesState = {
   selectWarehouseSalesId: null,
   itemsSales: [],
   currentSale: [],
 };
 
-export const warehouseReducer = (state: State, action: Actions) => {
+export const salesReducer = (state: SalesState, action: Actions) => {
   const { type } = action;
   switch (type) {
-    /* WAREHOUSES FATHER ACTIONS */
-    case "SET_WAREHOUSES":
-      return { ...state, warehouses: action.payload };
-    /* WAREHOUSE CHILDREN ACTIONS */
-    case "SELECT_WAREHOUSE_STOCK":
-      return { ...state, selectedWarehouseId: action.payload };
-    case "SET_WAREHOUSE_ITEMS":
-      return { ...state, warehouseItems: action.payload };
-    /* WAREHOUSE FOR SALES */
     case "SET_WAREHOUSE_SALES":
       return { ...state, selectWarehouseSalesId: action.payload };
     case "SET_ITEMS_SALES":

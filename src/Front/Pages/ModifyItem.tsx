@@ -12,11 +12,13 @@ import Fees from "../components/warehouse/Fees";
 import UploadImage from "../components/warehouse/UploadImage";
 import { removeItem, updateItem } from "../services/httpConection";
 import { validateUpdateItem } from "../Utils/validation";
+import usePopUp from "../Hooks/UsePopup";
 
 function ModifyItem() {
-  const { itemID } = useParams<{itemID: string}>();
+  const { itemID } = useParams<{ itemID: string }>();
   const navigate = useNavigate();
   const { warehouses, selectedWarehouseId, warehouseItems } = useWarehouse();
+  const { showPopup } = usePopUp();
   const { discardItem } = useItemsActions();
   const [dataToModify, setDataToModify] = useState<NewItem | null>(null);
   const currentItem = warehouseItems?.find((W) => W.id === itemID);
@@ -43,7 +45,7 @@ function ModifyItem() {
 
   const modifyItem = async (
     warehouseID: string,
-    itemID: string ,
+    itemID: string,
     formData: NewItem,
   ) => {
     if (!itemID) return;
@@ -54,12 +56,29 @@ function ModifyItem() {
     }
     await updateItem(warehouseID, itemID, formData);
     navigate("/inventario");
+    showPopup({
+      open: true,
+      type: "update",
+      title: "Item actualizado",
+      message: "Item actualizado exitosamente!",
+    });
   };
 
   const deleteItem = async (warehouseId: string, itemID: string) => {
-    if(!itemID) return
+    if (!itemID) return;
     await removeItem(warehouseId, itemID);
-    navigate('/inventario')
+    navigate("/inventario");
+    showPopup({
+      open: true,
+      type: "update",
+      title: "Item eliminado",
+      message: "Item eliminado exitosamente!",
+    });
+  };
+
+  const modifyAndSave = () => {
+    if (!selectedWarehouseId || !itemID || !dataToModify) return;
+    modifyItem(selectedWarehouseId, itemID, dataToModify);
   };
 
   return (
@@ -85,18 +104,16 @@ function ModifyItem() {
                 initialImage={currentItem?.image_url ?? null}
               />
               <div className="action_buttons">
-                <button onClick={() => deleteItem(selectedWarehouseId, itemID)} className="remove_btn">
+                <button
+                  onClick={() => deleteItem(selectedWarehouseId, itemID)}
+                  className="remove_btn"
+                >
                   Eliminar
                 </button>
                 <button onClick={discardItem} className="discard_btn">
                   Descartar
                 </button>
-                <button
-                  onClick={() =>
-                    modifyItem(selectedWarehouseId, itemID, dataToModify)
-                  }
-                  className="save_btn"
-                >
+                <button onClick={modifyAndSave} className="save_btn">
                   guardar
                 </button>
               </div>

@@ -1,5 +1,5 @@
 import { useFetchSalesItems } from "../../Hooks/SellsHooks/useFetchSales";
-import useWarehouse from "../../Hooks/UseWarehouse";
+import useSales from "../../Hooks/UseSales";
 
 import {
   calculateIVA,
@@ -8,8 +8,14 @@ import {
 } from "../../Utils/SalesUtils";
 
 export function SalesPrices() {
-  const { selectWarehouseSalesId, currentSale } = useWarehouse();
+  const { selectWarehouseSalesId, currentSale } = useSales();
   const { completeCurrentSale } = useFetchSalesItems();
+
+  function closeSale(type: 'sold' | 'price') {
+    completeCurrentSale(currentSale, selectWarehouseSalesId, type);
+    if (currentSale.length > 0) {
+    }
+  }
 
   return (
     <div className="sales_prices_resume">
@@ -31,14 +37,8 @@ export function SalesPrices() {
         </p>
       </section>
       <div className="action_buttons_sales">
-        <button onClick={() => console.log(currentSale)}>Cotizacion</button>
-        <button
-          onClick={() =>
-            completeCurrentSale(currentSale, selectWarehouseSalesId)
-          }
-        >
-          Venta
-        </button>
+        <button onClick={() => closeSale('price')}>Cotizacion</button>
+        <button onClick={() => closeSale('sold')}>Venta</button>
       </div>
     </div>
   );

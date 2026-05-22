@@ -3,15 +3,12 @@ import { getWarehousebyID, getWarehouses } from "../../services/httpConection";
 import useWarehouse from "../UseWarehouse";
 
 export function useFetchWarehouses() {
-  const { dispatch } = useWarehouse();
+  const {setWarehouses } = useWarehouse();
 
   async function fetchWarehouses() {
     try {
       const data = await getWarehouses();
-      dispatch({
-        type: "SET_WAREHOUSES",
-        payload: data.warehouses,
-      });
+      setWarehouses(data.warehouses)
     } catch (error) {
       console.error("Error loading warehouses:", error);
     }
@@ -19,17 +16,17 @@ export function useFetchWarehouses() {
 
   useEffect(() => {
     fetchWarehouses();
-  }, [dispatch]);
+  }, []);
 
   return { fetchWarehouses };
 }
 
 export function useFetchDataByID() {
-  const { selectedWarehouseId, dispatch} = useWarehouse();
+  const { selectedWarehouseId, setWarehouseItems} = useWarehouse();
 
   async function fetchWarehousesById(id: string) {
     const data = await getWarehousebyID(id);
-    dispatch({ type: "SET_WAREHOUSE_ITEMS", payload: data.warehouse });
+    setWarehouseItems(data.warehouse )
   }
   useEffect(() => {
     if(!selectedWarehouseId) return;

@@ -1,9 +1,9 @@
 import { useSalesActions } from "../../Hooks/SellsHooks/useSalesActions";
-import useWarehouse from "../../Hooks/UseWarehouse";
+import useSales from "../../Hooks/UseSales";
 import { shortName } from "../../Utils/SalesUtils";
 
 export function SaleItemGrid() {
-  const { itemsSales } = useWarehouse();
+  const { itemsSales } = useSales();
   const { addToCart } = useSalesActions();
 
   return (

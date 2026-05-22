@@ -1,0 +1,230 @@
+:root {
+  --border-color: rgb(208, 205, 205);
+  --back-color: rgb(245, 242, 242);
+  --card-color: rgb(255, 255, 255);
+}
+
+.invoices_main_container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0.8rem 2rem;
+  background-color: var(--back-color);
+}
+
+/* ---------------------------  INVOICES HEADER OPTIONS --------------------------- */
+
+.invoices_main_container .invoices_title {
+  width: 100%;
+  max-height: 25%;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  box-sizing: border-box;
+  background-color: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.3rem;
+}
+
+.invoices_title .filter_invoices_types_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.filter_invoices_types_container .button_group {
+  width: 240px;
+  border: 2px solid var(--border-color);
+  border-radius: 0.3rem;
+}
+
+.filter_invoices_types_container .button_group button {
+  width: 80px;
+  padding: 0.3rem 0.5rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.button_group .all_btn {
+  border: transparent;
+  border-radius: 0.2rem 0 0 0.2rem;
+}
+
+.button_group .price_btn {
+  border-radius: 0 0.2rem 0.2rem 0;
+  border: none;
+}
+
+.button_group .active{
+  background-color: #11111f;
+  color: #fff;
+  transition: .2s ease-in-out;
+}
+
+.sells_btn {
+  border-left: 2px solid var(--border-color);
+  border-right: 2px solid var(--border-color);
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.generate_report_btn {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  outline: none;
+  color: white;
+  background-color: #11111f;
+  border-radius: 0.3rem;
+  outline: none;
+  border: 1px solid var(--border-color);
+}
+
+/* ---------------------------  INVOICES RESUME INFORMACTION --------------------------- */
+
+.invoices_resume_information {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 20px;
+}
+
+.invoice_mini_resume_container {
+  border: 1px solid var(--border-color);
+  min-height: 60px;
+  background-color: var(--back-color);
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+
+  h3 {
+    font-weight: 400;
+    font-size: 1.1rem;
+  }
+  h2 {
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+}
+
+/* ---------------------------  INVOICES TABLE  --------------------------- */
+
+.invoices_table_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-color);
+  border: 1px solid var(--border-color);
+}
+
+.invoices_table_container .table_title {
+  display: flex;
+  height: 10%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1.5rem;
+}
+
+.table_title .table_filters {
+  width: 240px;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+
+  .sort {
+    padding: 0.2rem 0.3rem;
+    border-radius: 0.3rem;
+    outline: none;
+    border: 1px solid var(--border-color);
+    background-color: var(--back-color);
+  }
+
+  input {
+    border: 1px solid var(--border-color);
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.3rem;
+  }
+}
+
+.invoices_table_container {
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.3rem;
+  overflow: scroll;
+}
+
+.invoices_table_container .invoices_table {
+  height: 90%;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+.invoices_table_container .invoices_table table {
+  width: 100%;
+  table-layout: fixed;
+  background-color: #fff;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid transparent;
+
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+
+  thead {
+    th {
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      padding: 5px 10px;
+      border: 1px solid transparent;
+    }
+
+    th:nth-child(1) {
+      border-radius: 2px 0 0 0;
+    }
+    th:nth-child(6) {
+      border-radius: 0 2px 0 0;
+    }
+  }
+
+  td {
+    text-align: left;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  tbody tr:hover {
+    background-color: #787892;
+    color: white;
+    transition: background 0.2s ease;
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 25%;
+  }
+
+  th:nth-child(6),
+  td:nth-child(6) {
+    width: 2%;
+    text-align: center;
+  }
+}
+
+.drop_down_button {
+  border: 1px solid var(--border-color);
+  padding: 0.1rem;
+  border-radius: 0.2rem;
+}

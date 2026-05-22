@@ -1,8 +1,8 @@
-import useWarehouse from "../../Hooks/UseWarehouse";
+import useSales from "../../Hooks/UseSales";
 import { shortName } from "../../Utils/SalesUtils";
 
 export function SaleItem() {
-  const { dispatch, currentSale } = useWarehouse();
+  const { currentSale, addOne,removeOne} = useSales();
 
   return (
     <>
@@ -18,13 +18,13 @@ export function SaleItem() {
               <p className="price">€{sales_price}</p>
               <div className="quantity_opt">
                 <button
-                  onClick={() => dispatch({ type: "REMOVE_ONE", payload: id })}
+                  onClick={() => removeOne(id)}
                 >
                   -
                 </button>
                 <p>{quantity}</p>
                 <button
-                  onClick={() => dispatch({ type: "ADD_ONE", payload: id })}
+                  onClick={() => addOne(id)}
                 >
                   +
                 </button>

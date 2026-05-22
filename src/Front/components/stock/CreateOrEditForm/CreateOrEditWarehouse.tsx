@@ -5,6 +5,7 @@ import {
 import useWarehouse from "../../../Hooks/UseWarehouse";
 import type { CreateStockType } from "../../../Types/StockTypes";
 import { WarehouseForm } from "./WarehouseForm";
+import usePopUp from "../../../Hooks/UsePopup";
 
 interface PropsType {
   modalMode: "create" | "edit" | null;
@@ -17,7 +18,8 @@ export function CreateOrEdit({
   closeModal,
   refreshWarehouse,
 }: PropsType) {
-  const { dispatch, selectedWarehouseId, warehouses } = useWarehouse();
+  const { selectedWarehouseId, warehouses, selectWarehouse } = useWarehouse();
+  const { showPopup } = usePopUp();
   const currentWarehouse = warehouses.find((W) => W.id === selectedWarehouseId);
   const isEdit = modalMode === "edit";
 
@@ -27,18 +29,27 @@ export function CreateOrEdit({
       : { warehouse: "", items: [] };
 
   const handleSubmit = async (data: CreateStockType) => {
-    if(data.warehouse === '') return;
+    if (data.warehouse === "") return;
     if (isEdit && currentWarehouse) {
       await updateWarehouse(currentWarehouse.id, data.warehouse);
       refreshWarehouse();
+      showPopup({
+        open: true,
+        type: "update",
+        title: "Almacen actualizado",
+        message: "Almace actualizado exitosamente!",
+      });
       closeModal(null);
     } else {
       const created = await createNewWarehouse(data);
-      dispatch({
-        type: "SELECT_WAREHOUSE_STOCK",
-        payload: created.warehouse_created.id,
-      });
+      selectWarehouse(created.warehouse_created.id);
       refreshWarehouse();
+      showPopup({
+        open: true,
+        type: "create",
+        title: "Almacen creado",
+        message: "Almace creado exitosamente!",
+      });
       closeModal(null);
     }
   };
