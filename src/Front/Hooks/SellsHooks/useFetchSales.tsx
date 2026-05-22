@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   createSell,
   getItems,
@@ -9,7 +8,7 @@ import useSales from "../UseSales";
 import usePopUp from "../UsePopup";
 
 export function useFetchSalesItems() {
-  const { selectWarehouseSalesId, setItemsSales, clearCart } = useSales();
+  const { setItemsSales, clearCart } = useSales();
   const { showPopup } = usePopUp();
 
   async function getItemsforSale(id: string, query?: string) {
@@ -48,11 +47,6 @@ export function useFetchSalesItems() {
       throw new Error("Error creating sale");
     }
   }
-
-  useEffect(() => {
-    if (!selectWarehouseSalesId) return;
-    getItemsforSale(selectWarehouseSalesId);
-  }, [selectWarehouseSalesId]);
 
   return { getItemsforSale, completeCurrentSale };
 }
