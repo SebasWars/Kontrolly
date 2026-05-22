@@ -10,7 +10,7 @@ export function useStockActions() {
   const navigate = useNavigate();
 
   const handleSelector = (value: string) => {
-    selectWarehouse(value)
+    selectWarehouse(value);
     fetchWarehousesById(value);
   };
 
@@ -18,7 +18,7 @@ export function useStockActions() {
     if (!selectedWarehouseId) return;
     await removeWarehouse(selectedWarehouseId);
     await fetchWarehouses();
-    clear()
+    clear();
   };
 
   const goToNewItem = () => {

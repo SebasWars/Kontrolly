@@ -19,6 +19,14 @@ export interface Items {
   sales_price: number;
 };
 
+export type SortableItems =
+  | "name"
+  | "id"
+  | "description"
+  | "quantity"
+  | "purchase_price"
+  | "sales_price";
+
 export interface NewItem {
   name: string;
   image: File | null;
