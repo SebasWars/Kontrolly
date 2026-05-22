@@ -15,6 +15,15 @@ export async function getInvoiesValues() {
     throw new Error("No invoices values found");
   }
   const data = await response.json();
-  console.log(data);
   return data;
+}
+
+export async function removeInvoice(id:string){
+  const response = await fetch(`${apiUrl}/facturas/${id}`,{
+    method: 'DELETE'
+  });
+  if(!response.ok){
+    throw new Error('No invoice found available to delete');
+  }
+  return await response.json()
 }

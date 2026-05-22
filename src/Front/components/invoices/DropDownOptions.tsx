@@ -2,8 +2,16 @@ import * as React from "react";
 import { DropDownSelector } from "../UI/DropDownComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { removeInvoice } from "../../services/invoicesHTTP";
+import { useFetchInvoices } from "../../Hooks/InvoicesHooks/useFetchInvoices";
 
-export default function DropDown() {
+interface PropsType {
+  invoiceId: string
+  state: 'sold' | 'price'
+}
+
+export default function DropDown({invoiceId, state}: PropsType) {
+  const { getInvoicesType, getInvoicesValuesObj} = useFetchInvoices()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -14,8 +22,13 @@ export default function DropDown() {
     setAnchorEl(null);
   };
 
-  const removeWarehouse = () => {
-    console.log("eliminar");
+  const removeWarehouse = async () => {
+    await removeInvoice(invoiceId)
+    if(state !== 'price' && state !== 'sold'){
+       getInvoicesType('all')
+    }
+    getInvoicesType(state);
+    getInvoicesValuesObj()
   };
 
   const updateWarehouse = () => {

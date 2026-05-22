@@ -17,7 +17,7 @@ export function TableRows({ invoiceList }: PropsType) {
       <td>{translate}</td>
       <td>{`€${total}`}</td>
       <td>
-        <DropDown />
+        <DropDown invoiceId={id} state={state}/>
       </td>
     </tr>
   );

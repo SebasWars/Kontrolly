@@ -80,4 +80,27 @@ export class InvoicesModel {
     );
     return totalPriceInvoices;
   }
+
+  static async deleteInvoice({id}){
+    const invoiceIndex = SalesRegister.findIndex((i) => i.id === id);
+    if(invoiceIndex === -1) return false;
+
+    const currentInvoice = SalesRegister[invoiceIndex]
+
+    if(currentInvoice.state === 'price'){
+      const warehouse = Stocks.find((W) => W.id === currentInvoice.warehouseID);
+      if(!warehouse) return false;
+
+      for(let invoiceItem of currentInvoice.itemsList){
+        const {id, quantity} = invoiceItem;
+        const stockItem = warehouse.items.find((item) => item.id === id)
+        if(stockItem){
+          stockItem.quantity += quantity
+        }
+      }
+    }
+
+    SalesRegister.splice(invoiceIndex, 1);
+    return true
+  }
 }
