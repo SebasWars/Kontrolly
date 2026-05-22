@@ -1,7 +1,5 @@
-import type { Items, SortableItems } from "../Types/StockTypes";
-
-export const sortItemsByParam = (items: Items[], param: SortableItems) => {
-  return items.sort((a, b) => {
+export function sortItemsByParam<T, K extends keyof T>(list: T[], param: K) {
+  return [...list].sort((a, b) => {
     const valueA = a[param];
     const valueB = b[param];
 
@@ -12,6 +10,10 @@ export const sortItemsByParam = (items: Items[], param: SortableItems) => {
     if (typeof valueA === "number" && typeof valueB === "number") {
       return valueA - valueB;
     }
+
+    if(valueA instanceof Date && valueB instanceof Date){
+      return valueA.getTime() - valueB.getTime()
+    }
     return 0;
   });
-};
+}

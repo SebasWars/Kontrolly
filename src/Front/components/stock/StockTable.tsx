@@ -1,8 +1,13 @@
-import { useStockSort } from "../../Hooks/StockHooks/UseStockSort";
+import { useSort } from "../../Hooks/UseSort";
+import type { Items } from "../../Types/StockTypes";
 import StockItem from "./StockItem";
 
-function StockTable() {
-  const { sortedItems, handleSorted } = useStockSort();
+interface PropsTypes{
+  currenWarehouse : Items[]
+}
+
+function StockTable({currenWarehouse}: PropsTypes) {
+  const { sortedItems, handleSorted } = useSort(currenWarehouse);
   return (
     <div className="table_container">
       <table>

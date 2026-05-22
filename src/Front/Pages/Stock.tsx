@@ -51,7 +51,7 @@ function Stock() {
           />
         </div>
       </div>
-      <StockTable />
+      <StockTable currenWarehouse={warehouseItems}/>
 
       {modalMode && (
         <CreateOrEdit
