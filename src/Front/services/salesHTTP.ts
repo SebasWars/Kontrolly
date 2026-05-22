@@ -11,7 +11,22 @@ export async function getItems(id: string) {
   return data;
 }
 
-export async function createSell(cart: SaleItems[], warehouseID: string, type: 'sold'| 'price') {
+export async function getItemsByQuery(warehouseId: string, query: string) {
+  const response = await fetch(`${apiUrl}/ventas/${warehouseId}/${query}`)
+
+  if (!response.ok) {
+    throw new Error("No items founds");
+  }
+  const data = await response.json();
+  console.log(data)
+  return data;
+}
+
+export async function createSell(
+  cart: SaleItems[],
+  warehouseID: string,
+  type: "sold" | "price",
+) {
   const items = cart.map(({ id, quantity }) => ({ id, quantity }));
 
   const response = await fetch(`${apiUrl}/ventas/${warehouseID}`, {
@@ -19,11 +34,11 @@ export async function createSell(cart: SaleItems[], warehouseID: string, type: '
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ items, type: type}),
+    body: JSON.stringify({ items, type: type }),
   });
 
   if (!response.ok) {
     throw new Error("It was not posible to complete the sell.");
   }
-  return await response.json()
+  return await response.json();
 }

@@ -19,11 +19,35 @@ export class SalesModel {
     return itemsData;
   }
 
-  static async createSell({ id, items, type}) {
+ static async getItemsByQuery({ query, warehouseId }) {
+  const warehouse = Stocks.find((W) => W.id === warehouseId);
+  if (!warehouse) return null;
+
+  const normalize = (text) =>
+    (text ?? "").trim().toLowerCase();
+
+  const normalizeQuery = normalize(query);
+
+  const items = warehouse.items
+    .filter((item) =>
+      normalize(item.name).includes(normalizeQuery)
+    )
+    .map((item) => ({
+      id: item.id,
+      name: item.name,
+      image_url: item.image_url,
+      quantity: item.quantity,
+      sales_price: item.sales_price,
+    }));
+
+  return items;
+}
+
+  static async createSell({ id, items, type }) {
     const warehouse = Stocks.find((W) => W.id === id);
     const sale = {
       id: crypto.randomUUID(),
-      state: type, //-> TO CHANGE
+      state: type,
       warehouseID: id,
       itemsList: [],
       total: 0,
