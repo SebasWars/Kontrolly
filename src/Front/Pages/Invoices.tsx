@@ -25,10 +25,6 @@ function Invoices() {
       <div className="invoices_table_container">
         <div className="table_title">
           <h3>Resumen de facturas</h3>
-          <div className="table_filters">
-            <button className="sort">ordenar</button>
-            <input type="text" placeholder="Bucar..." />
-          </div>
         </div>
         <InvoicesTable />
       </div>

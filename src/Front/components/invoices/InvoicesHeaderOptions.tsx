@@ -1,13 +1,23 @@
+import { useState } from "react";
 import { useFetchInvoices } from "../../Hooks/InvoicesHooks/useFetchInvoices";
+
+type Active = 'all' | 'sold' | 'price';
 
 export function InvoicesHeaderOptions() {
   const { getInvoicesType } = useFetchInvoices()
+  const [active,setActive] = useState<Active>('all')
+  const show = (value:Active) =>  active === value ? 'active' : ''
+  const setFilter = (val:Active) => {
+    getInvoicesType(val)
+    setActive(val)
+    console.log(active)
+  }
   return (
     <div className="filter_invoices_types_container">
       <div className="button_group">
-        <button onClick={() => getInvoicesType('all')} className="all_btn">Todas</button>
-        <button onClick={() => getInvoicesType('sold')} className="sells_btn">Vetas</button>
-        <button onClick={() => getInvoicesType('price')} className="price_btn">Cotizacion</button>
+        <button onClick={() => setFilter('all')} className={`${show('all')} all_btn`}>Todas</button>
+        <button onClick={() => setFilter('sold')} className={`${show('sold')} sells_btn`}>Vetas</button>
+        <button onClick={() => setFilter('price')} className={`${show('price')} price_btn`}>Cotizacion</button>
       </div>
 
       <button className="generate_report_btn">Generar reporte</button>
