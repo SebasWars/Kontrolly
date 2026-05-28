@@ -17,7 +17,7 @@ app.use(
 app.use("/uploads", express.static("uploads"));
 
 app.use('/inventario', warehousesRoute)
-app.use('/ventas', salesRoute)
+app.use('/tienda', salesRoute)
 app.use('/facturas', invoicesRoute)
 
 

@@ -3,7 +3,7 @@ import type { SaleItems } from "../Types/SalesTypes";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export async function getItems(id: string) {
-  const response = await fetch(`${apiUrl}/ventas/${id}`);
+  const response = await fetch(`${apiUrl}/tienda/${id}`);
   if (!response.ok) {
     throw new Error("No items found");
   }
@@ -12,7 +12,7 @@ export async function getItems(id: string) {
 }
 
 export async function getItemsByQuery(warehouseId: string, query: string) {
-  const response = await fetch(`${apiUrl}/ventas/${warehouseId}/${query}`)
+  const response = await fetch(`${apiUrl}/tienda/${warehouseId}/${query}`)
 
   if (!response.ok) {
     throw new Error("No items founds");
@@ -29,7 +29,7 @@ export async function createSell(
 ) {
   const items = cart.map(({ id, quantity }) => ({ id, quantity }));
 
-  const response = await fetch(`${apiUrl}/ventas/${warehouseID}`, {
+  const response = await fetch(`${apiUrl}/tienda/${warehouseID}`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
