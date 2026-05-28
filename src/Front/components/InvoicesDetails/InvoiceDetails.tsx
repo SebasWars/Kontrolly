@@ -5,7 +5,7 @@ export function InvoiceDetails() {
         <label htmlFor="">Informacion del cliente</label>
         <div className="client_selector">
           <select name="" id="">
-            <option value="">-- Selecciona un alamcen --</option>
+            <option value="">-- Selecciona un cliente --</option>
             <option value="">Coffe first</option>
             <option value="">Nintendo Es</option>
             <option value="">Dulce hermosa</option>
