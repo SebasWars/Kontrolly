@@ -1,10 +1,11 @@
 import { useStockActions } from "../../Hooks/StockHooks/useStockActions";
 import useWarehouse from "../../Hooks/UseWarehouse";
+import Selector from "../UI/WarehouseSelector";
 import DropDown from "./Selectors/DropDown";
-import Selector from "../stock/Selectors/Selector";
+
 
 interface PropsTypes {
-  openEdit: (state: 'edit') => void;
+  openEdit: (state: "edit") => void;
 }
 
 export function StockSelectorMenus({ openEdit }: PropsTypes) {
@@ -16,7 +17,7 @@ export function StockSelectorMenus({ openEdit }: PropsTypes) {
         warehouse={selectedWarehouseId || ""}
         handleSelector={handleSelector}
       />
-      {selectedWarehouseId && <DropDown openEdit={openEdit}/>}
+      {selectedWarehouseId && <DropDown openEdit={openEdit} />}
     </section>
   );
 }
