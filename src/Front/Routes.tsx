@@ -6,6 +6,7 @@ import { Layout } from "./Layout";
 import Principal from "./Pages/Principal";
 import CreateNewItem from "./Pages/CreateNewItem";
 import ModifyItem from "./Pages/ModifyItem";
+import {  ModifyInvoice } from "./Pages/ModifyInvoice";
 
 export const routes = createBrowserRouter([
   {
@@ -25,20 +26,30 @@ export const routes = createBrowserRouter([
           },
           {
             path: ":warehouseID/items",
-            element: <CreateNewItem/>
-          },{
-            path: ':warehouseID/items/:itemID',
+            element: <CreateNewItem />,
+          },
+          {
+            path: ":warehouseID/items/:itemID",
             element: <ModifyItem />,
-          }
+          },
         ],
       },
       {
-        path: "ventas",
+        path: "tienda",
         element: <Sells />,
       },
       {
         path: "facturas",
-        element: <Invoices />,
+        children: [
+          {
+            index: true,
+            element: <Invoices />,
+          },
+          {
+            path: ":invoideID",
+            element: <ModifyInvoice/>
+          },
+        ],
       },
       {
         path: "*",

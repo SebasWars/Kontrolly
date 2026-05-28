@@ -16,7 +16,7 @@ export function InvoicesHeaderOptions() {
     <div className="filter_invoices_types_container">
       <div className="button_group">
         <button onClick={() => setFilter('all')} className={`${show('all')} all_btn`}>Todas</button>
-        <button onClick={() => setFilter('sold')} className={`${show('sold')} sells_btn`}>Vetas</button>
+        <button onClick={() => setFilter('sold')} className={`${show('sold')} sells_btn`}>Ventas</button>
         <button onClick={() => setFilter('price')} className={`${show('price')} price_btn`}>Cotizacion</button>
       </div>
 

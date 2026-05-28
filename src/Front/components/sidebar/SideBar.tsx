@@ -4,7 +4,7 @@ import {
   faCartShopping,
   faBoxesStacked,
   faFileInvoice,
-  faChartLine,
+  faUsersLine,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/sidebar.css";
 
@@ -17,10 +17,10 @@ function SideBar() {
       </header>
       <section className="menu_options">
         <SideBarButton to='/' icon={faStore} value="Principal" />
-        <SideBarButton to='ventas' icon={faCartShopping} value="Pedidos" />
+        <SideBarButton to='tienda' icon={faCartShopping} value="Tienda" />
         <SideBarButton to='inventario' icon={faBoxesStacked} value="Inventario" />
         <SideBarButton to='facturas' icon={faFileInvoice} value="Facturas" />
-        <SideBarButton to='analiticas' icon={faChartLine} value="Analiticas" />
+        <SideBarButton to='analiticas' icon={faUsersLine} value="Clientes" />
       </section>
     </div>
   );

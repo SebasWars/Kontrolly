@@ -1,16 +1,17 @@
-import useWarehouse from "../../../Hooks/UseWarehouse";
+import useWarehouse from "../../Hooks/UseWarehouse";
 
 type PropsTypes = {
-  warehouse: string;
+  client: string;
   handleSelector: (value: string) => void;
 };
 
-function Selector({ warehouse, handleSelector }: PropsTypes) {
+function ClientsSelector({ client, handleSelector }: PropsTypes) {
+    /* MODIFY FOR CLIENTS LIST */
   const { warehouses } = useWarehouse();
   return (
     <>
       <select
-        value={warehouse}
+        value={client}
         onChange={(e) => handleSelector(e.target.value)}
       >
         <option value="">-- Selecciona un alamcen --</option>
@@ -27,4 +28,4 @@ function Selector({ warehouse, handleSelector }: PropsTypes) {
   );
 }
 
-export default Selector;
+export default ClientsSelector;

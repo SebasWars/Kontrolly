@@ -1,10 +1,12 @@
-import Selector from "../stock/Selectors/Selector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { useSalesActions } from "../../Hooks/SellsHooks/useSalesActions";
-import useSales from "../../Hooks/UseSales";
+
 import { useEffect, useState } from "react";
+import { useSalesActions } from "../../Hooks/SellsHooks/useSalesActions";
 import { useFetchSalesItems } from "../../Hooks/SellsHooks/useFetchSales";
+import useSales from "../../Hooks/UseSales";
+
+import Selector from "../UI/WarehouseSelector";
 
 export function SalesSearch() {
   const { selectWarehouseSalesId } = useSales();
