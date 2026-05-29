@@ -1,6 +1,6 @@
-import { InvoiceDetails } from "../components/InvoicesDetails/InvoiceDetails";
-import { PDFPreview } from "../components/InvoicesDetails/InvoicePreview";
-import { InvoiceTableItems } from "../components/InvoicesDetails/InvoiceTableItems";
+import { InvoiceDetails } from "../components/invoicesDetails/InvoiceDetails";
+import { PDFPreview } from "../components/invoicesDetails/InvoicePreview";
+import { InvoiceTableItems } from "../components/invoicesDetails/InvoiceTableItems";
 import '../styles/modifyInvoice.css'
 
 export function ModifyInvoice() {
