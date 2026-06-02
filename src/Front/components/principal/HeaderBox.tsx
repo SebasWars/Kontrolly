@@ -1,13 +1,34 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBagShopping,
+  faChartLine,
+  faEuroSign,
+  faMoneyBillTrendUp,
+} from "@fortawesome/free-solid-svg-icons";
+
 interface PropTypes {
   title: string;
   value: string;
+  type: Icons;
 }
 
-export function HeaderBox({ title, value }: PropTypes) {
+type Icons = "sales" | "orders" | "income" | "invesment";
+
+export function HeaderBox({ title, value, type }: PropTypes) {
+  const icons = {
+    sales: faEuroSign,
+    orders: faBagShopping,
+    income: faMoneyBillTrendUp,
+    invesment: faChartLine,
+  };
+  const Icon = icons[type];
   return (
     <div className="header_box">
-      <p>{title}</p>
-      <h3>{value}</h3>
+      <section>
+        <p>{title}</p>
+        <h3>{value}</h3>
+      </section>
+      <FontAwesomeIcon className="icon" icon={Icon} />
     </div>
   );
 }

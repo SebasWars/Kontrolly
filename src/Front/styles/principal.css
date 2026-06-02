@@ -6,6 +6,7 @@
 .principal_main_container {
   width: 100%;
   height: 100vh;
+  overflow: scroll;
   gap: 10px;
   display: flex;
   flex-direction: column;
@@ -14,41 +15,11 @@
   box-sizing: border-box;
 }
 
-/* -------------------------- HEADER PRINCIPAL STYLES ----------------  */
-
-.principal_main_container .principal_header_contaier {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(150px, 1fr));
-  gap: 10px;
-  height: 14%;
-  width: 100%;
-}
-
-.principal_header_contaier .header_box {
-  border: 1px solid var(--border-color);
-  background-color: var(--card-color);
-  border-radius: 0.3rem;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  p {
-    font-size: 1.2rem;
-    font-weight: 300;
-    margin-bottom: 0.3rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
-}
-
 /* -------------------------- MAIN PRINCIPAL STYLES ----------------  */
 
 main {
   width: 100%;
-  height: 86%;
+  height: 100%;
   display: flex;
   gap: 10px;
   box-sizing: border-box;
@@ -64,9 +35,61 @@ main .principal_rigth_side {
   gap: 10px;
 }
 
+.principal_main_container .principal_header_contaier {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(100px, 1fr));
+  gap: 10px;
+  height: 40%;
+}
+
+.principal_header_contaier .header_box {
+  border: 1px solid var(--border-color);
+  background-color: var(--card-color);
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.2s ease-in-out;
+
+  section {
+    margin-left: 0.5rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: 300;
+  }
+
+  h3 {
+    font-size: 1.7rem;
+    font-weight: 500;
+  }
+
+  .icon {
+    font-size: 3rem;
+    color: #a3a2a26f;
+    margin-right: 1rem;
+  }
+}
+
+.header_box:hover {
+  border: 1px solid var(--border-color);
+  background-color: rgb(44, 44, 88);
+  color: white;
+  scale: 1.04;
+
+  .icon {
+    font-size: 3rem;
+    color: #f1f1f1a5;
+    margin-right: 1rem;
+  }
+}
+
 main .principal_rigth_side .chart_container {
   width: 100%;
-  height: 70%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-color);
@@ -77,32 +100,122 @@ main .principal_rigth_side .chart_container {
 
   .chart_header {
     height: 10%;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .chart {
     align-self: center;
     width: 100%;
-    height: 80%;
     border: 1px solid var(--border-color);
     background-color: rgb(252, 250, 250);
     border-radius: 0.3rem;
   }
 }
 
-main .principal_rigth_side .top_items_container {
-  width: 100%;
-  height: 28%;
-  border: 1px solid var(--border-color);
-  background-color: var(--card-color);
+
+.chart_header .button_group {
+  width: 240px;
   border-radius: 0.3rem;
+  border: 1px solid var(--border-color);
 }
+
+.chart_header .button_group button {
+  width: 80px;
+  padding: 0.3rem 0.5rem;
+  
+  outline: none;
+  cursor: pointer;
+}
+
+.chart_header .button_group .year {
+  border: transparent;
+  border-radius: 0.2rem 0 0 0.2rem;
+}
+
+.chart_header .button_group .week {
+  border-radius: 0 0.2rem 0.2rem 0;
+  border: none;
+}
+
+.month {
+  border-left: 2px solid var(--border-color);
+  border-right: 2px solid var(--border-color);
+  border-top: 0;
+  border-bottom: 0;
+}
+
 
 /* -------------------------- HEADER LEFT PRINCIPAL STYLES ----------------  */
 
 main .principal_left_side {
   width: 30%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--border-color);
   background-color: var(--card-color);
   border-radius: 0.3rem;
+  padding: 0.3rem;
 }
+
+.principal_left_side .last_sales_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  button {
+    border: 1px solid var(--border-color);
+    outline: none;
+    padding: 0.2rem 0.6rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+  }
+
+  button:hover {
+    background-color: rgb(44, 44, 117);
+    color: var(--card-color);
+  }
+}
+
+.principal_left_side .last_sales_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0.4rem 0.4rem 0.4rem;
+  height: 100%;
+  overflow-x: scroll;
+}
+
+.last_sales_container .sale_container_box {
+  width: 95%;
+  padding: 0.5rem 0.9rem;
+  box-sizing: border-box;
+  border-radius: 0.3rem;
+  margin-top: 0.1rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 3px 3px 2px 1px #a0a0a06f;
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .sale_details {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+/* -------------------------- TOP ITEMS PRINCIPAL STYLES ----------------  */

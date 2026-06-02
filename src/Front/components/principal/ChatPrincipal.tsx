@@ -16,6 +16,12 @@ export default function TickPlacementBars() {
     <div className="chart_container">
       <div className="chart_header">
         <h3>Resumen de ventas</h3>
+
+        <div className="button_group">
+          <button className="year">Año</button>
+          <button className="month">Mes</button>
+          <button className="week">Semana</button>
+        </div>
       </div>
 
       <BarChart
