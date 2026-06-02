@@ -10,7 +10,6 @@ export function InvoicesHeaderOptions() {
   const setFilter = (val:Active) => {
     getInvoicesType(val)
     setActive(val)
-    console.log(active)
   }
   return (
     <div className="filter_invoices_types_container">
