@@ -13,7 +13,7 @@ function SideBar() {
   return (
     <div className="side_bar">
       <header>
-        <h2>Titulo</h2>
+        <h2>Kontrolly</h2>
       </header>
       <section className="menu_options">
         <SideBarButton to='/' icon={faStore} value="Principal" />
