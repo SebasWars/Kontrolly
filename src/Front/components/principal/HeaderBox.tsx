@@ -5,14 +5,13 @@ import {
   faEuroSign,
   faMoneyBillTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
+import type { TypeAllow } from "../../Types/FinancesResumeTypes";
 
 interface PropTypes {
   title: string;
-  value: string;
-  type: Icons;
+  value: number;
+  type: TypeAllow;
 }
-
-type Icons = "sales" | "orders" | "income" | "invesment";
 
 export function HeaderBox({ title, value, type }: PropTypes) {
   const icons = {

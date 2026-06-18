@@ -1,4 +1,9 @@
 import { BarChart } from "@mui/x-charts/BarChart";
+import type {
+  SalesRegisterMonth,
+  SalesRegisterYear,
+  Type,
+} from "../../Types/FinancesResumeTypes";
 
 const chartSetting = {
   yAxis: [
@@ -7,27 +12,40 @@ const chartSetting = {
       max: 5000,
     },
   ],
-  series: [{ dataKey: "ventas", valueFormatter, color: "#242645" }],
+  series: [{ dataKey: "total", valueFormatter, color: "#242645" }],
   margin: { left: 10 },
 };
 
-export default function TickPlacementBars() {
+interface PropsType {
+  salesRegister: SalesRegisterYear[] | SalesRegisterMonth[];
+  salesFilterType: Type;
+  salesFilterHandler: (value: Type) => void;
+}
+
+export default function TickPlacementBars({
+  salesRegister,
+  salesFilterType,
+  salesFilterHandler,
+}: PropsType) {
   return (
     <div className="chart_container">
       <div className="chart_header">
         <h3>Resumen de ventas</h3>
 
         <div className="button_group">
-          <button className="year">Año</button>
-          <button className="month">Mes</button>
-          <button className="week">Semana</button>
+          <button onClick={() => salesFilterHandler("month")} className={`year ${salesFilterType === 'month' ? 'active' : ''}`}>
+            Año
+          </button>
+          <button onClick={() => salesFilterHandler("day")}  className={`month ${salesFilterType === 'day' ? 'active' : ''}`}>
+            Mes
+          </button>
         </div>
       </div>
 
       <BarChart
         className="chart"
-        dataset={dataset}
-        xAxis={[{ dataKey: "month", position: "bottom" }]}
+        dataset={salesRegister}
+        xAxis={[{ dataKey: salesFilterType, position: "bottom" }]}
         {...chartSetting}
       />
     </div>

@@ -81,6 +81,7 @@ export class SalesModel {
         id: warehouseItem.id,
         description: warehouseItem.description,
         sales_price: warehouseItem.sales_price,
+        purchase_price : warehouseItem.purchase_price,
         quantity: item.quantity,
       });
 

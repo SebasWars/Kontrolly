@@ -5,14 +5,24 @@ import { PrincipalHeader } from "../components/principal/PrincipalHeader";
 
 import "../styles/principal.css";
 import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
+import { UseFinances } from "../Hooks/PrincipalHooks/useFinances";
+import { UseSalesRegister } from "../Hooks/PrincipalHooks/UseSalesRegister";
 
 function Principal() {
+  const { finances } = UseFinances();
+  const { salesRegister, salesFilterHandler, salesFilterType } =
+    UseSalesRegister();
+
   return (
     <div className="principal_main_container">
       <main>
         <div className="principal_rigth_side">
-          <PrincipalHeader />
-          <TickPlacementBars />
+          <PrincipalHeader finances={finances.finances} />
+          <TickPlacementBars
+            salesRegister={salesRegister}
+            salesFilterType={salesFilterType}
+            salesFilterHandler={salesFilterHandler}
+          />
         </div>
         <div className="principal_left_side">
           <div className="last_sales_header">
@@ -21,7 +31,7 @@ function Principal() {
               <FontAwesomeIcon icon={faArrowDownShortWide} />
             </button>
           </div>
-          <LastSales />
+          <LastSales lastOrdes={finances.lastOrdes} />
         </div>
       </main>
     </div>
