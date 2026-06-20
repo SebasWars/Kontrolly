@@ -18,6 +18,13 @@ export async function getInvoiesValues() {
   return data;
 }
 
+
+export async function getInvoice(id: string){
+  const response = await fetch(`${apiUrl}/facturas/${id}`);
+  const data = response.json();
+  return data
+}
+
 export async function removeInvoice(id:string){
   const response = await fetch(`${apiUrl}/facturas/${id}`,{
     method: 'DELETE'
