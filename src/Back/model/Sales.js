@@ -49,6 +49,7 @@ export class SalesModel {
       id: crypto.randomUUID(),
       state: type,
       warehouseID: id,
+      warehouseName: warehouse.warehouse,
       itemsList: [],
       total: 0,
       createdAt: new Date().toISOString(),
