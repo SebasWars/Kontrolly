@@ -45,14 +45,11 @@ export class homeModel {
   }
 
   static getLasSales() {
-    const warehouseMaped = Object.fromEntries(
-      Stocks.map((stock) => [stock.id, stock.warehouse]),
-    );
     const lastSales = SalesRegister.filter((sale) => sale.state === "sold")
       .slice(0, 10)
       .map((S) => {
         return {
-          warehouse: warehouseMaped[S.warehouseID],
+          warehouse: S.warehouseName,
           date: S.createdAt,
           total: S.total,
         };
