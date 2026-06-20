@@ -81,6 +81,12 @@ export class InvoicesModel {
     return totalPriceInvoices;
   }
 
+  static async getinvoiceByID(id){
+    const invoice = SalesRegister.find((I) => I.id === id)
+    if(!invoice) return false;
+    return invoice
+  }
+
   static async deleteInvoice({id}){
     const invoiceIndex = SalesRegister.findIndex((i) => i.id === id);
     if(invoiceIndex === -1) return false;

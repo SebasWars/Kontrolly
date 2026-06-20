@@ -22,6 +22,16 @@ export class InvoicesController {
     }
   }
 
+  static async getinvoiceByID(req,res){
+    try {
+      const {id} = req.params
+      const invoice = await InvoicesModel.getinvoiceByID(id);
+      return res.status(200).json(invoice);
+    } catch (error) {
+      return res.status(404).json({messgae: 'Invoice not found'});
+    }
+  }
+
   static async deleteInvoice(req, res) {
     try {
       const { id } = req.params;
