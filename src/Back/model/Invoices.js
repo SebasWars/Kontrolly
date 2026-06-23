@@ -81,32 +81,48 @@ export class InvoicesModel {
     return totalPriceInvoices;
   }
 
-  static async getinvoiceByID(id){
-    const invoice = SalesRegister.find((I) => I.id === id)
-    if(!invoice) return false;
-    return invoice
+  static async getinvoiceByID(id) {
+    const invoice = SalesRegister.find((inv) => inv.id === id);
+    if (!invoice) return false;
+
+    const warehouse = Stocks.find((stock) => stock.id === invoice.warehouseID);
+
+    const itemsLits = invoice.itemsList.map((item) => {
+    const warehouseItem = warehouse.items.find(
+      (wItem) => wItem.id === item.id
+    );
+
+    return {
+      ...item,
+      availableStock: warehouseItem?.quantity ?? 0,
+    };
+    });
+
+    return {...invoice, itemsList: itemsLits};
   }
 
-  static async deleteInvoice({id}){
+  
+
+  static async deleteInvoice({ id }) {
     const invoiceIndex = SalesRegister.findIndex((i) => i.id === id);
-    if(invoiceIndex === -1) return false;
+    if (invoiceIndex === -1) return false;
 
-    const currentInvoice = SalesRegister[invoiceIndex]
+    const currentInvoice = SalesRegister[invoiceIndex];
 
-    if(currentInvoice.state === 'price'){
+    if (currentInvoice.state === "price") {
       const warehouse = Stocks.find((W) => W.id === currentInvoice.warehouseID);
-      if(!warehouse) return false;
+      if (!warehouse) return false;
 
-      for(let invoiceItem of currentInvoice.itemsList){
-        const {id, quantity} = invoiceItem;
-        const stockItem = warehouse.items.find((item) => item.id === id)
-        if(stockItem){
-          stockItem.quantity += quantity
+      for (let invoiceItem of currentInvoice.itemsList) {
+        const { id, quantity } = invoiceItem;
+        const stockItem = warehouse.items.find((item) => item.id === id);
+        if (stockItem) {
+          stockItem.quantity += quantity;
         }
       }
     }
 
     SalesRegister.splice(invoiceIndex, 1);
-    return true
+    return true;
   }
 }
