@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import type {
   Invoice,
   InvoicesValues,
 } from "../../context/RecuderTypes/InvoiceReduce";
 import {
+  getInvoice,
   getInvoicesByType,
   getInvoiesValues,
 } from "../../services/invoicesHTTP";
@@ -20,6 +22,15 @@ export function useFetchInvoices() {
     }
   }
 
+  async function getInvoiceById(id: string) {
+    try {
+      const invoice = getInvoice(id);
+      return invoice
+    } catch (error) {
+      throw new Error("Error loading invoice details");
+    }
+  }
+
   async function getInvoicesValuesObj() {
     try {
       const invoicesValues: InvoicesValues = await getInvoiesValues();
@@ -29,6 +40,10 @@ export function useFetchInvoices() {
     }
   }
 
+  useEffect(() => {
+    getInvoicesType("all");
+    getInvoicesValuesObj();
+  }, []);
 
-  return { getInvoicesValuesObj, getInvoicesType };
+  return { getInvoicesValuesObj, getInvoicesType, getInvoiceById };
 }
