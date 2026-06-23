@@ -7,14 +7,14 @@ import { useFetchInvoices } from "../../Hooks/InvoicesHooks/useFetchInvoices";
 import { useNavigate } from "react-router-dom";
 
 interface PropsType {
-  invoiceId: string
-  state: 'sold' | 'price'
+  invoiceId: string;
+  state: "sold" | "price";
 }
 
-export default function DropDown({invoiceId, state}: PropsType) {
-  const { getInvoicesType, getInvoicesValuesObj} = useFetchInvoices()
+export default function DropDown({ invoiceId, state }: PropsType) {
+  const { getInvoicesType, getInvoicesValuesObj } = useFetchInvoices();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,19 +25,17 @@ export default function DropDown({invoiceId, state}: PropsType) {
   };
 
   const removeWarehouse = async () => {
-    await removeInvoice(invoiceId)
-    if(state !== 'price' && state !== 'sold'){
-       getInvoicesType('all')
+    await removeInvoice(invoiceId);
+    if (state !== "price" && state !== "sold") {
+      getInvoicesType("all");
     }
     getInvoicesType(state);
-    getInvoicesValuesObj()
+    getInvoicesValuesObj();
   };
 
   const updateWarehouse = () => {
-    navigate(`${invoiceId}`)
-    console.log("actualizar");
+    navigate(`${invoiceId}`);
   };
-
 
   return (
     <DropDownSelector

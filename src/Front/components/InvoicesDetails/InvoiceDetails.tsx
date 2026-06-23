@@ -1,4 +1,10 @@
-export function InvoiceDetails() {
+interface PropTypes{
+  invoiceID: string
+  invoiceDate: string
+}
+
+export function InvoiceDetails({invoiceID, invoiceDate}: PropTypes) {
+  const formDate = invoiceDate.slice(0,10)
   return (
     <header className="invoice_details_header">
       <section className="client_section">
@@ -17,12 +23,12 @@ export function InvoiceDetails() {
       <section className="invoice_details">
         <label htmlFor="invoice-id">
           <p>Factura ID</p>
-          <input id="invoice-id" readOnly type="text" value={1234} />
+          <input id="invoice-id" readOnly type="text" value={invoiceID} />
         </label>
 
         <label htmlFor="invoice-date">
           <p>Fecha de facturacion</p>
-          <input id="invoice-date" readOnly type="text" value={"1 marzo 2026"} />
+          <input id="invoice-date" readOnly type="text" value={formDate} />
         </label>
       </section>
     </header>
