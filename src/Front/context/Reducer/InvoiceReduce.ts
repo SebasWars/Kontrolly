@@ -10,6 +10,15 @@ export const initialStateInvoices: InvoicesState = {
     priceLastUpdate: undefined,
     combinedLastUpdate: undefined,
   },
+  invoiceDetails: {
+    createdAt: "",
+    id: "",
+    itemsList: [],
+    state: "",
+    total: 0,
+    warehouseID: "",
+    warehouseName: "",
+  },
 };
 
 export const invoicesReducer = (state: InvoicesState, action: Actions) => {
@@ -17,8 +26,53 @@ export const invoicesReducer = (state: InvoicesState, action: Actions) => {
   switch (type) {
     case "SET_INVOICES":
       return { ...state, invoices: action.payload };
-    case 'SET_INVOICES_VALUES':
-      return {...state, invoicesValues: action.payload}
+    case "SET_INVOICES_VALUES":
+      return { ...state, invoicesValues: action.payload };
+    case "SET_INVOICE_DETAILS":
+      return { ...state, invoiceDetails: action.payload };
+    case "ADD_ONE":
+      return {
+        ...state,
+        invoiceDetails: {
+          ...state.invoiceDetails,
+          itemsList: state.invoiceDetails.itemsList.map((item) => {
+            if (item.id !== action.payload) return item;
+            if (item.availableStock <= 0) return item;
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+              availableStock: item.availableStock - 1,
+            };
+          }),
+        },
+      };
+    case "REMOVE_ONE":
+      return {
+        ...state,
+        invoiceDetails: {
+          ...state.invoiceDetails,
+          itemsList: state.invoiceDetails.itemsList.map((item) => {
+            if (item.id !== action.payload) return item;
+            if (item.quantity <= 0) return item;
+
+            return {
+              ...item,
+              quantity: item.quantity - 1,
+              availableStock: item.availableStock + 1,
+            };
+          }),
+        },
+      };
+    case "REMOVE_ITEM":
+      return {
+        ...state,
+        invoiceDetails: {
+          ...state.invoiceDetails,
+          itemsList: state.invoiceDetails.itemsList.filter(
+            (item) => item.id !== action.payload,
+          ),
+        },
+      };
     default:
       return state;
   }
