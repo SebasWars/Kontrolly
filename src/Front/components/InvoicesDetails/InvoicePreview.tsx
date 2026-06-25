@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useInvoices from "../../Hooks/UseInvoices";
 import { useFetchInvoices } from "../../Hooks/InvoicesHooks/useFetchInvoices";
+import { PDF } from "../../Pages/PDFPreview";
 
 export function PDFPreview() {
   const { invoiceDetails } = useInvoices();
@@ -20,7 +21,9 @@ export function PDFPreview() {
       >
         Volver
       </button>
-      <div className="pdf"></div>
+      <div className="pdf">
+        <PDF/>
+      </div>
       <div className="invoice_pdf_action_buttons">
         {invoiceDetails.state === "price" ? <button>Vender</button> : ""}
         <button onClick={sendUpdate}>Guardar</button>
