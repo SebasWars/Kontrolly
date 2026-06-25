@@ -35,7 +35,6 @@ export const InvoicesProvider = ({ children }: PropType) => {
 
   const addOne = (id: string) => {
     dispatch({ type: "ADD_ONE", payload: id });
-    console.log('add')
   };
 
   const removeOne = (id: string) => {

@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import type {
   Invoice,
+  InvoiceDetails,
   InvoicesValues,
 } from "../../context/RecuderTypes/InvoiceReduce";
 import {
   getInvoice,
   getInvoicesByType,
   getInvoiesValues,
+  updateInvoice,
 } from "../../services/invoicesHTTP";
 import useInvoices from "../UseInvoices";
 
 export function useFetchInvoices() {
-  const { setInvoices, setInvoicesValues } = useInvoices();
+  const { setInvoices, setInvoicesValues, invoices } = useInvoices();
 
   async function getInvoicesType(type: "all" | "sold" | "price") {
     try {
@@ -24,8 +26,8 @@ export function useFetchInvoices() {
 
   async function getInvoiceById(id: string) {
     try {
-      const invoice = getInvoice(id);
-      return invoice
+      const invoice = await getInvoice(id);
+      return invoice;
     } catch (error) {
       throw new Error("Error loading invoice details");
     }
@@ -40,10 +42,26 @@ export function useFetchInvoices() {
     }
   }
 
+  async function updateInvoiceF(id: string, invoice: InvoiceDetails) {
+    try {
+      await updateInvoice(id, invoice);
+      await getInvoicesType("all");
+      await getInvoicesValuesObj();
+      console.log(invoices);
+    } catch (error) {
+      throw new Error("Something went wrong, try again.");
+    }
+  }
+
   useEffect(() => {
     getInvoicesType("all");
     getInvoicesValuesObj();
   }, []);
 
-  return { getInvoicesValuesObj, getInvoicesType, getInvoiceById };
+  return {
+    getInvoicesValuesObj,
+    getInvoicesType,
+    getInvoiceById,
+    updateInvoiceF,
+  };
 }

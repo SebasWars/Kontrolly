@@ -1,18 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { calculateIVA } from "../../Utils/SalesUtils";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import useInvoices from "../../Hooks/UseInvoices";
 
 interface PropType {
   name: string;
   id: string;
   quantity: number;
   sales_price: number;
-  addOne: (id: string) => void
-  removeOne: (id: string) => void
-  removeItem: (id: string) => void
 }
 
-export function InvoiceTableRows({ name,id, quantity, sales_price, addOne, removeOne, removeItem }: PropType) {
+export function InvoiceTableRows({ name,id, quantity, sales_price }: PropType) {
+  const {addOne,removeOne ,removeItem} = useInvoices()
   const calcualteTotal = (price: number, iva: number) => {
     return (price + iva) * quantity;
   };
