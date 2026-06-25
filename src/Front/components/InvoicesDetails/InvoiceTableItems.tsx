@@ -1,14 +1,11 @@
-import type { InvoiceItems } from "../../Types/ModifyInvoiceTypes";
+import type { InvoiceItems } from "../../context/RecuderTypes/InvoiceReduce";
 import { InvoiceTableRows } from "./InvoiceTableRows";
 
 interface PropType {
   invoiceItems: InvoiceItems[];
-  addOne: (id: string) => void
-  removeOne: (id: string) => void
-  removeItem: (id: string) => void
 }
 
-export function InvoiceTableItems({ invoiceItems, addOne, removeOne, removeItem }: PropType) {
+export function InvoiceTableItems({ invoiceItems }: PropType) {
   return (
     <div className="invoices_table_main_container">
       <h3>Lista de productos</h3>
@@ -35,9 +32,6 @@ export function InvoiceTableItems({ invoiceItems, addOne, removeOne, removeItem 
                   id={id}
                   quantity={quantity}
                   sales_price={sales_price}
-                  addOne={addOne}
-                  removeOne={removeOne}
-                  removeItem={removeItem}
                 />
               );
             })}
