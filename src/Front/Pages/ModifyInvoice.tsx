@@ -7,7 +7,7 @@ import useInvoices from "../Hooks/UseInvoices";
 import { useInvoice } from "../Hooks/InvoicesHooks/useInvoice";
 
 export function ModifyInvoice() {
-  const { invoiceDetails, addOne, removeOne, removeItem } = useInvoices();
+  const { invoiceDetails } = useInvoices();
   useInvoice();
 
   return (
@@ -17,12 +17,7 @@ export function ModifyInvoice() {
           invoiceID={invoiceDetails.id}
           invoiceDate={invoiceDetails.createdAt}
         />
-        <InvoiceTableItems
-          invoiceItems={invoiceDetails.itemsList}
-          addOne={addOne}
-          removeOne={removeOne}
-          removeItem={removeItem}
-        />
+        <InvoiceTableItems invoiceItems={invoiceDetails.itemsList} />
       </div>
       <div className="invoice_preview_container">
         <PDFPreview />
