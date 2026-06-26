@@ -38,14 +38,15 @@ export async function updateInvoice(id: string, invoice: InvoiceDetails) {
   return data;
 }
 
-
-export async function updateInvoiceState(id: string, state: string) {
-  const response = await fetch(`${apiUrl}/facturas/${id}`, {
+export async function updateInvoiceState(id: string, newState: string) {
+  const response = await fetch(`${apiUrl}/facturas/state/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",
     },
-    body: state,
+    body: JSON.stringify({
+      state: newState,
+    }),
   });
   const data = response.json();
   return data;

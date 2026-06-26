@@ -142,6 +142,14 @@ export class InvoicesModel {
     return true;
   }
 
+  static async updateInvoiceState(id, newState) {
+    const invoice = SalesRegister.findIndex((inv) => inv.id === id);
+    if (invoice === -1) return false;
+
+    SalesRegister[invoice].state = newState.state;
+    return true;
+  }
+
   static async deleteInvoice({ id }) {
     const invoiceIndex = SalesRegister.findIndex((i) => i.id === id);
     if (invoiceIndex === -1) return false;

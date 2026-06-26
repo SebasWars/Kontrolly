@@ -9,11 +9,12 @@ import {
   getInvoicesByType,
   getInvoiesValues,
   updateInvoice,
+  updateInvoiceState,
 } from "../../services/invoicesHTTP";
 import useInvoices from "../UseInvoices";
 
 export function useFetchInvoices() {
-  const { setInvoices, setInvoicesValues, invoices } = useInvoices();
+  const { setInvoices, setInvoicesValues } = useInvoices();
 
   async function getInvoicesType(type: "all" | "sold" | "price") {
     try {
@@ -45,17 +46,22 @@ export function useFetchInvoices() {
   async function updateInvoiceF(id: string, invoice: InvoiceDetails) {
     try {
       await updateInvoice(id, invoice);
-      await getInvoicesType("all");
       await getInvoicesValuesObj();
-      console.log(invoices);
     } catch (error) {
       throw new Error("Something went wrong, try again.");
     }
   }
 
+  async function updateInvState(id: string, state: "sold" | "price") {
+    try {
+      await updateInvoiceState(id, state);
+      await getInvoicesValuesObj();
+    } catch (error) {
+      throw new Error("It was not possible to update the invoice state");
+    }
+  }
 
   useEffect(() => {
-    getInvoicesType("all");
     getInvoicesValuesObj();
   }, []);
 
@@ -64,5 +70,6 @@ export function useFetchInvoices() {
     getInvoicesType,
     getInvoiceById,
     updateInvoiceF,
+    updateInvState,
   };
 }
