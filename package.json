@@ -17,6 +17,7 @@
     "@fortawesome/react-fontawesome": "^3.3.0",
     "@mui/material": "^9.0.0",
     "@mui/x-charts": "^9.3.0",
+    "@react-pdf/renderer": "^4.5.1",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "multer": "^2.1.1",

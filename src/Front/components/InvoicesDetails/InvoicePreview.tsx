@@ -2,20 +2,18 @@ import { useNavigate } from "react-router-dom";
 import useInvoices from "../../Hooks/UseInvoices";
 import { useFetchInvoices } from "../../Hooks/InvoicesHooks/useFetchInvoices";
 import { PDF } from "../../Pages/PDFPreview";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { InvoiceDocument } from "../../PDF";
 
 export function PDFPreview() {
   const { invoiceDetails } = useInvoices();
-  const { updateInvoiceF,generatePDF } = useFetchInvoices();
+  const { updateInvoiceF } = useFetchInvoices();
   const navigate = useNavigate();
 
   const sendUpdate = () => {
     navigate("/facturas");
     updateInvoiceF(invoiceDetails.id, invoiceDetails);
   };
-
-  const getPDF = () => {
-    generatePDF(invoiceDetails.id, invoiceDetails)
-  }
 
   return (
     <div className="pdf_preview_container">
@@ -26,12 +24,19 @@ export function PDFPreview() {
         Volver
       </button>
       <div className="pdf">
-        <PDF/>
+        <PDF />
       </div>
       <div className="invoice_pdf_action_buttons">
         {invoiceDetails.state === "price" ? <button>Vender</button> : ""}
         <button onClick={sendUpdate}>Guardar</button>
-        <button onClick={getPDF}>PDF</button>
+        <PDFDownloadLink
+          className="pdf_button"
+          onClick={() => updateInvoiceF(invoiceDetails.id, invoiceDetails)}
+          document={<InvoiceDocument invoiceDetails={invoiceDetails} />}
+          fileName={`factura-${invoiceDetails.warehouseName}-${invoiceDetails.id}.pdf`}
+        >
+          <span>Descargar PDF</span>
+        </PDFDownloadLink>
       </div>
     </div>
   );

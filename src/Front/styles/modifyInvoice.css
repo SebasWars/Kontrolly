@@ -161,7 +161,6 @@
     white-space: nowrap;
   }
 
-
   /* TO CHECK CAMBIAR TABLE HOVER PORQUE AFECTA A TODAS */
 
   tbody tr:hover {
@@ -174,7 +173,7 @@
       transition: background 0.2s ease;
     }
     .remove_one_invoice,
-    .add_one_invoice{
+    .add_one_invoice {
       color: black;
     }
   }
@@ -186,7 +185,7 @@
   th:nth-child(2),
   td:nth-child(2) {
     text-align: center;
-    span{
+    span {
       margin: 0 6px;
     }
     button {
@@ -263,6 +262,19 @@
     border: 1px solid var(--border-color);
     border-radius: 0.3rem;
     outline: none;
+    cursor: pointer;
+  }
+
+  .pdf_button {
+    width: 100px;
+    padding: 0.2rem 0.3rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.3rem;
+    outline: none;
+    text-decoration: none;
+    font-size: 0.9rem;
+    background-color: var(--back-color);
+    color: black;
     cursor: pointer;
   }
 }
