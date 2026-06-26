@@ -32,6 +32,18 @@ export class InvoicesController {
     }
   }
 
+  static async getPDF(req, res) {
+    try {
+      const { id } = req.params;
+      const invoice = req.body;
+      const PDFDATA = await InvoicesModel.getPDF(id, invoice);
+      console.log(PDFDATA);
+      return res.status(200).json(PDFDATA);
+    } catch (error) {
+      return res.status(406).json({ message: "It was not possible to generate the PDF." });
+    }
+  }
+
   static async updateInvoice(req, res) {
     try {
       const invoice = req.body;
