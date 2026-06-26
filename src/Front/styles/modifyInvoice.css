@@ -116,17 +116,22 @@
   }
 }
 /* VER SI NECESITO EL TOTAL Y EL SUB TOTAL AQUI */
+.table_scroll {
+  height: calc(100% - 10%);
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
 .invoices_table_main_container table {
   width: 100%;
-  height: calc(100% - 40px);
+  overflow-y: auto;
   table-layout: fixed;
   background-color: #fff;
-  border: 1px solid var(--border-color);
   font-size: 14px;
   box-sizing: border-box;
   border-radius: 5px 5px 0 0;
 
-  border-collapse: separate;
   border-spacing: 0;
   overflow: hidden;
 
@@ -149,7 +154,6 @@
 
   td {
     text-align: left;
-    padding: 6px 10px;
     border: 1px solid transparent;
 
     overflow: hidden;
@@ -157,21 +161,56 @@
     white-space: nowrap;
   }
 
+  /* TO CHECK CAMBIAR TABLE HOVER PORQUE AFECTA A TODAS */
+
   tbody tr:hover {
     background-color: #787892;
     color: white;
     transition: background 0.2s ease;
+
+    button {
+      color: white;
+      transition: background 0.2s ease;
+    }
+    .remove_one_invoice,
+    .add_one_invoice {
+      color: black;
+    }
   }
 
   th:nth-child(1),
   td:nth-child(1) {
-    width: 25%;
+    width: 20%;
+  }
+  th:nth-child(2),
+  td:nth-child(2) {
+    text-align: center;
+    span {
+      margin: 0 6px;
+    }
+    button {
+      border: 1px solid var(--border-color);
+      border-radius: 0.1rem;
+      width: 20px;
+      outline: none;
+      background-color: var(--back-color);
+      cursor: pointer;
+    }
   }
 
   th:nth-child(6),
   td:nth-child(6) {
-    width: 2%;
+    width: 4%;
+    padding: 5px;
     text-align: center;
+    cursor: pointer;
+
+    button {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      cursor: pointer;
+    }
   }
 }
 
@@ -223,6 +262,19 @@
     border: 1px solid var(--border-color);
     border-radius: 0.3rem;
     outline: none;
+    cursor: pointer;
+  }
+
+  .pdf_button {
+    width: 100px;
+    padding: 0.2rem 0.3rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.3rem;
+    outline: none;
+    text-decoration: none;
+    font-size: 0.9rem;
+    background-color: var(--back-color);
+    color: black;
     cursor: pointer;
   }
 }

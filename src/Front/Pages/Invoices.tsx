@@ -1,19 +1,10 @@
-import { useEffect } from "react";
 import { InvoicesHeaderOptions } from "../components/invoices/InvoicesHeaderOptions";
 import { InvoicesResumeInformation } from "../components/invoices/InvoicesResumeInfo/InvoicesResumeInformation";
 import { InvoicesTable } from "../components/invoices/InvoicesTable";
-import { useFetchInvoices } from "../Hooks/InvoicesHooks/useFetchInvoices";
 
 import "../styles/invoices.css";
 
 function Invoices() {
-  const {getInvoicesType, getInvoicesValuesObj } = useFetchInvoices();
-
-  useEffect(() => {
-    getInvoicesType('all')
-    getInvoicesValuesObj()
-  }, []);
-
   return (
     <div className="invoices_main_container">
       <h1>Facturas</h1>

@@ -5,4 +5,7 @@ export const invoicesRoute = Router();
 
 invoicesRoute.get('/values', InvoicesController.getInvoicesValues)
 invoicesRoute.get('/type/:type', InvoicesController.getInvoicesByType)
+invoicesRoute.get('/:id', InvoicesController.getinvoiceByID)
+invoicesRoute.put('/:id', InvoicesController.updateInvoice)
+invoicesRoute.put('/state/:id', InvoicesController.updateInvoiceState)
 invoicesRoute.delete('/:id', InvoicesController.deleteInvoice)

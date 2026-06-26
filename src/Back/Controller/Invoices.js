@@ -22,11 +22,46 @@ export class InvoicesController {
     }
   }
 
+  static async getinvoiceByID(req, res) {
+    try {
+      const { id } = req.params;
+      const invoice = await InvoicesModel.getinvoiceByID(id);
+      return res.status(200).json(invoice);
+    } catch (error) {
+      return res.status(404).json({ messgae: "Invoice not found" });
+    }
+  }
+
+  static async updateInvoice(req, res) {
+    try {
+      const invoice = req.body;
+      const { id } = req.params;
+      const invoiceUpdated = await InvoicesModel.updateInvoice(id, invoice);
+      return res
+        .status(200)
+        .json({ message: "Invoice was update succesfully" });
+    } catch (error) {
+      return res.status(406).json({ message: "Invoice could not be updated." });
+    }
+  }
+
+  static async updateInvoiceState(req,res){
+    try {
+      const {id} = req.params;
+      const newState = req.body
+      const invoice = await InvoicesModel.updateInvoiceState(id, newState)
+      console.log(invoice)
+      return res.status(200).json(invoice);
+    } catch (error) {
+      return res.status(404).json({message: 'It was not possible update invoice state'})
+    }
+  }
+
   static async deleteInvoice(req, res) {
     try {
       const { id } = req.params;
       const invoice = await InvoicesModel.deleteInvoice({ id });
-      return res.status(202).json({message: 'Invoice removed'})
+      return res.status(202).json({ message: "Invoice removed" });
     } catch (error) {
       return res.status(404).json({ message: "Invoice not found" });
     }

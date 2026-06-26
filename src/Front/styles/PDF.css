@@ -1,0 +1,112 @@
+.PDF_CONTAINER {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.PDF_CONTAINER_HEADER {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .INVOICE h1 {
+    font-size: 1rem;
+  }
+  .INVOICE p {
+    font-size: 0.4rem;
+  }
+  img {
+    width: 15%;
+    object-fit: contain;
+  }
+}
+
+.personal_data {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 1rem 0;
+
+  .data {
+    width: 50%;
+  }
+
+  .data h2 {
+    font-size: 0.7rem;
+  }
+
+  .data p {
+    font-size: 0.5rem;
+  }
+
+  .company_data {
+    text-align: end;
+  }
+}
+
+.pdf_preview_table {
+  border: 1px solid transparent;
+}
+
+.pdf_preview_table thead {
+  tr {
+    background-color: white;
+
+    th {
+      padding: 0.1rem 0.2rem;
+      font-size: 0.5rem;
+    }
+  }
+}
+
+.pdf_preview_table tbody {
+  tr {
+    background-color: white;
+
+    td {
+      padding: 0.1rem 0.2rem;
+      font-size: 0.5rem;
+    }
+  }
+  tr:hover {
+    background-color: white;
+    color: black;
+  }
+}
+
+.summary_row td:first-child,
+.total_row td:first-child {
+  border: none;
+}
+
+.summary_row td:nth-child(2),
+.summary_row td:nth-child(3),
+.total_row td:nth-child(2),
+.total_row td:nth-child(3) {
+  background-color: rgb(220, 233, 250);
+  font-weight: 600;
+}
+
+.summary_row td:nth-child(3),
+.total_row td:nth-child(3) {
+  width: 20%;
+}
+
+.notes {
+  margin-top: 1rem;
+  p {
+    font-size: 0.5rem;
+    position: relative;
+  }
+}
+.notes p::before {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: black;
+  color: black;
+}

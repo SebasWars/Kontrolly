@@ -46,7 +46,7 @@ export const routes = createBrowserRouter([
             element: <Invoices />,
           },
           {
-            path: ":invoideID",
+            path: ":invoiceID",
             element: <ModifyInvoice/>
           },
         ],

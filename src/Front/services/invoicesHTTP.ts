@@ -1,3 +1,5 @@
+import type { InvoiceDetails } from "../context/RecuderTypes/InvoiceReduce";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export async function getInvoicesByType(type: "all" | "sold" | "price") {
@@ -18,12 +20,44 @@ export async function getInvoiesValues() {
   return data;
 }
 
-export async function removeInvoice(id:string){
-  const response = await fetch(`${apiUrl}/facturas/${id}`,{
-    method: 'DELETE'
+export async function getInvoice(id: string) {
+  const response = await fetch(`${apiUrl}/facturas/${id}`);
+  const data = response.json();
+  return data;
+}
+
+export async function updateInvoice(id: string, invoice: InvoiceDetails) {
+  const response = await fetch(`${apiUrl}/facturas/${id}`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(invoice),
   });
-  if(!response.ok){
-    throw new Error('No invoice found available to delete');
+  const data = response.json();
+  return data;
+}
+
+export async function updateInvoiceState(id: string, newState: string) {
+  const response = await fetch(`${apiUrl}/facturas/state/${id}`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      state: newState,
+    }),
+  });
+  const data = response.json();
+  return data;
+}
+
+export async function removeInvoice(id: string) {
+  const response = await fetch(`${apiUrl}/facturas/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("No invoice found available to delete");
   }
-  return await response.json()
+  return await response.json();
 }

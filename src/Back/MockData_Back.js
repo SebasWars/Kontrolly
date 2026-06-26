@@ -17,7 +17,7 @@ export const Stocks = [
         id: crypto.randomUUID(),
         name: "Lavadora LG 9kg",
         image_url:
-          "https://expertclima.es/7162-large_default/lavadora-lg-f4j7vy2wd-9-kg-1400-rpm-wifi.jpg",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRstd2B-QbjZV-jt2gSnWJ0wKl5JmOwdgnjiVN6RqptWw&s=10",
         description: "Carga frontal",
         quantity: 8,
         purchase_price: 300,
