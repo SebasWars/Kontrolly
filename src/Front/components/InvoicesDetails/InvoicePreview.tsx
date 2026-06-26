@@ -5,13 +5,17 @@ import { PDF } from "../../Pages/PDFPreview";
 
 export function PDFPreview() {
   const { invoiceDetails } = useInvoices();
-  const { updateInvoiceF } = useFetchInvoices();
+  const { updateInvoiceF,generatePDF } = useFetchInvoices();
   const navigate = useNavigate();
 
   const sendUpdate = () => {
     navigate("/facturas");
     updateInvoiceF(invoiceDetails.id, invoiceDetails);
   };
+
+  const getPDF = () => {
+    generatePDF(invoiceDetails.id, invoiceDetails)
+  }
 
   return (
     <div className="pdf_preview_container">
@@ -27,7 +31,7 @@ export function PDFPreview() {
       <div className="invoice_pdf_action_buttons">
         {invoiceDetails.state === "price" ? <button>Vender</button> : ""}
         <button onClick={sendUpdate}>Guardar</button>
-        <button>PDF</button>
+        <button onClick={getPDF}>PDF</button>
       </div>
     </div>
   );
