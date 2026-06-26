@@ -38,21 +38,9 @@ export async function updateInvoice(id: string, invoice: InvoiceDetails) {
   return data;
 }
 
-export async function getPDF(id: string, invoice: InvoiceDetails) {
-    const response = await fetch(`${apiUrl}/facturas/pdf/${id}`, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(invoice),
-  });
-  const data = await response.json();
-  console.log(data)
-  return data;
-}
 
-export async function updateInvoiceState(id:string, state:string){
-    const response = await fetch(`${apiUrl}/facturas/${id}`, {
+export async function updateInvoiceState(id: string, state: string) {
+  const response = await fetch(`${apiUrl}/facturas/${id}`, {
     method: "PUT",
     headers: {
       "content-type": "application/json",

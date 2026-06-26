@@ -8,7 +8,6 @@ import {
   getInvoice,
   getInvoicesByType,
   getInvoiesValues,
-  getPDF,
   updateInvoice,
 } from "../../services/invoicesHTTP";
 import useInvoices from "../UseInvoices";
@@ -54,13 +53,6 @@ export function useFetchInvoices() {
     }
   }
 
-  async function generatePDF(id: string, invoice: InvoiceDetails) {
-    try {
-      await getPDF(id, invoice)
-    } catch (error) {
-      throw new Error("It was no possible to generate the PDF.");
-    }
-  }
 
   useEffect(() => {
     getInvoicesType("all");
@@ -72,6 +64,5 @@ export function useFetchInvoices() {
     getInvoicesType,
     getInvoiceById,
     updateInvoiceF,
-    generatePDF,
   };
 }

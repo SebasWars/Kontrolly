@@ -101,24 +101,6 @@ export class InvoicesModel {
     return { ...invoice, itemsList: itemsLits };
   }
 
-  static async getPDF(id, invoice) {
-    await this.updateInvoice(id, invoice);
-    const updatedInvoice = SalesRegister.find((inv) => inv.id === id);
-
-    if (!updatedInvoice) {
-      throw new Error("Factura no encontrada");
-    }
-
-    const iva = updatedInvoice.total * 0.21;
-    const totalPlusIVA = updatedInvoice.total + iva;
-
-    return {
-      ...updatedInvoice,
-      iva,
-      totalPlusIVA,
-    };
-  }
-
   static async updateInvoice(id, invoice) {
     const invoiceIndex = SalesRegister.findIndex(
       (invoice) => invoice.id === id,
