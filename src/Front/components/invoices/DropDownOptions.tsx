@@ -26,10 +26,7 @@ export default function DropDown({ invoiceId, state }: PropsType) {
 
   const removeWarehouse = async () => {
     await removeInvoice(invoiceId);
-    if (state !== "price" && state !== "sold") {
-      getInvoicesType("all");
-    }
-    getInvoicesType(state);
+    await getInvoicesType(state);
     getInvoicesValuesObj();
   };
 
