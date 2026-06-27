@@ -16,6 +16,11 @@ export function PDF() {
   const calculateIVA = (val: number) => {
     return (val * 21) / 100;
   };
+  const subTotal = calculateTotal(invoiceDetails.itemsList);
+  const IVA = calculateIVA(calculateTotal(invoiceDetails.itemsList));
+  const total =
+    calculateTotal(invoiceDetails.itemsList) +
+    calculateIVA(calculateTotal(invoiceDetails.itemsList));
 
   return (
     <div className="PDF_CONTAINER">
@@ -63,29 +68,24 @@ export function PDF() {
               </tr>
             );
           })}
-          <tr className="summary_row">
-            <td colSpan={2}></td>
-            <td>sub total</td>
-            <td>{calculateTotal(invoiceDetails.itemsList)}</td>
-          </tr>
-          <tr className="summary_row">
-            <td colSpan={2}></td>
-            <td>IVA 21%</td>
-            <td>{calculateIVA(calculateTotal(invoiceDetails.itemsList))}</td>
-          </tr>
-          <tr className="total_row">
-            <td colSpan={2}></td>
-            <td>TOTAL</td>
-            <td>
-              {calculateTotal(invoiceDetails.itemsList) +
-                calculateIVA(calculateTotal(invoiceDetails.itemsList))}
-            </td>
-          </tr>
         </tbody>
       </table>
 
-      <div className="notes">
-        <p>Notas:</p>
+      <div className="total_content_container">
+        <section>
+          <div className="sub_total">
+            <p>Subtotal</p>
+            <p>{subTotal}</p>
+          </div>
+          <div className="IVA">
+            <p>IVA(12%)</p>
+            <p>{IVA}</p>
+          </div>
+        </section>
+        <div className="TOTAL">
+          <p>Total:</p> 
+          <p> {total}</p>
+        </div>
       </div>
     </div>
   );

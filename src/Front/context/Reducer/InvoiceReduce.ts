@@ -37,7 +37,7 @@ export const invoicesReducer = (state: InvoicesState, action: Actions) => {
           ...state.invoiceDetails,
           itemsList: state.invoiceDetails.itemsList.map((item) => {
             if (item.id !== action.payload) return item;
-            if (item.availableStock <= 0) return item;
+            if (item.availableStock <= 1) return item;
             return {
               ...item,
               quantity: item.quantity + 1,
@@ -53,7 +53,7 @@ export const invoicesReducer = (state: InvoicesState, action: Actions) => {
           ...state.invoiceDetails,
           itemsList: state.invoiceDetails.itemsList.map((item) => {
             if (item.id !== action.payload) return item;
-            if (item.quantity <= 0) return item;
+            if (item.quantity <= 1) return item;
 
             return {
               ...item,
