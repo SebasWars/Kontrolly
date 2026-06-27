@@ -11,7 +11,6 @@ export async function getFinanceResume() {
 export async function getLastSales(){
     const response = await fetch(`${apiUrl}/last-sales`);
     const data = await response.json();
-    console.log(data)
     return data
 }
 
