@@ -58,9 +58,9 @@ export function PDF() {
         </thead>
         <tbody>
           {invoiceDetails.itemsList.map((item) => {
-            const { name, quantity, sales_price } = item;
+            const { name, quantity, sales_price, id } = item;
             return (
-              <tr>
+              <tr key={id}>
                 <td>{name}</td>
                 <td>{quantity}</td>
                 <td>{sales_price}</td>

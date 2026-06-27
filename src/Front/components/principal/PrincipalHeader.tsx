@@ -8,9 +8,9 @@ interface PropType {
 export function PrincipalHeader({ finances }: PropType) {
   return (
     <div className="principal_header_contaier">
-      {finances.map((data) => {
+      {finances.map((data, index) => {
         const {title, type, value} = data
-        return <HeaderBox title={title} value={value} type={type} />;
+        return <HeaderBox key={index} title={title} value={value} type={type} />;
       })}
     </div>
   );
