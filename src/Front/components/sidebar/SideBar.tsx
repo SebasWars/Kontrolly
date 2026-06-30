@@ -20,7 +20,7 @@ function SideBar() {
         <SideBarButton to='tienda' icon={faCartShopping} value="Tienda" />
         <SideBarButton to='inventario' icon={faBoxesStacked} value="Inventario" />
         <SideBarButton to='facturas' icon={faFileInvoice} value="Facturas" />
-        <SideBarButton to='analiticas' icon={faUsersLine} value="Clientes" />
+        <SideBarButton to='clientes' icon={faUsersLine} value="Clientes" />
       </section>
     </div>
   );
