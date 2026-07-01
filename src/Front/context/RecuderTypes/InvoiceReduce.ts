@@ -41,6 +41,7 @@ export interface InvoiceDetails {
   total: number;
   warehouseID: string;
   warehouseName: string;
+  clientID: string
 }
 
 export interface InvoiceItems {

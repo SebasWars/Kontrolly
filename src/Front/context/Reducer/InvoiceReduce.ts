@@ -18,6 +18,7 @@ export const initialStateInvoices: InvoicesState = {
     total: 0,
     warehouseID: "",
     warehouseName: "",
+    clientID: "",
   },
 };
 
