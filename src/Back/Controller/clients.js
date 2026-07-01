@@ -1,6 +1,17 @@
 import { clientsModel } from "../model/client.js";
 
 export class clientsController {
+  static async getClientsResume(req, res) {
+    try {
+      const clientsResume = await clientsModel.getClientsResume();
+      return res.status(200).json(clientsResume);
+    } catch (error) {
+      return res.status(404).json({
+        message: "It was not possible to get clients resume information",
+      });
+    }
+  }
+
   static async getClients(req, res) {
     try {
       const allClients = await clientsModel.getClients();
@@ -11,6 +22,7 @@ export class clientsController {
         .json({ message: "It was not possible to get clients information." });
     }
   }
+
   static async getClientByID(req, res) {
     try {
       const { id } = req.params;

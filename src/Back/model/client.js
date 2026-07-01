@@ -1,6 +1,17 @@
 import { clientsList } from "../MockData_Back.js";
 
 export class clientsModel {
+  static getClientsResume() {
+    const clients = clientsList.map((client) => {
+      return {
+        id: client.id,
+        companyName: client.companyName,
+      };
+    });
+
+    return clients;
+  }
+
   static getClients() {
     const clients = clientsList;
     return clients;
@@ -27,6 +38,6 @@ export class clientsModel {
 
     clients.push(newClient);
 
-    return newClient
+    return newClient;
   }
 }
