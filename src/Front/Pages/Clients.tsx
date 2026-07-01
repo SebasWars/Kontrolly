@@ -2,16 +2,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/clienst.css";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { AddNewClient } from "../components/ClientsC/AddNewClient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DropDown from "../components/ClientsC/DropDonwClientOpt";
+import { useFetchClients } from "../Hooks/ClientsHooks/useFetchClients";
+import { useClients } from "../Hooks/UseClients";
 
 export function Clients() {
   const [clientForm, setClientForm] = useState(false);
   const toggleForm = (val: boolean) => {
     setClientForm(val);
   };
-
   const isActive = clientForm ? "active" : "";
+  const { clientsList } = useFetchClients();
+  const {clientList} = useClients()
+
+  useEffect(() => {
+    clientsList();
+  }, []);
 
   return (
     <div className={`clientes_main_container ${isActive}`}>
@@ -32,6 +39,7 @@ export function Clients() {
           <table>
             <thead>
               <tr>
+                <th>Compañia</th>
                 <th>Cliente</th>
                 <th>Correo Electronico</th>
                 <th>Nº Movil</th>
@@ -40,14 +48,17 @@ export function Clients() {
               </tr>
             </thead>
             <tbody>
-              {clients.map((client, index) => {
+              {clientList.map((client, index) => {
                 return (
                   <tr key={index}>
+                    <td>{client.name}</td>
                     <td>{client.name}</td>
                     <td>{client.emailAddress}</td>
                     <td>{client.phoneNumber}</td>
                     <td>{client.address}</td>
-                    <td><DropDown/></td>
+                    <td>
+                      <DropDown />
+                    </td>
                   </tr>
                 );
               })}
@@ -60,103 +71,10 @@ export function Clients() {
   );
 }
 
-interface Clients {
+export interface Client {
+  companyName: string;
   name: string;
   emailAddress: string;
   phoneNumber: string;
   address: string;
 }
-
-export const clients: Clients[] = [
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-    {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-    {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-    {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-    {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  {
-    name: "Dulce hermosa",
-    emailAddress: "dulcecitachiqita@gmail.com",
-    phoneNumber: "673848272",
-    address: "Carrer dulce 4",
-  },
-  
-];

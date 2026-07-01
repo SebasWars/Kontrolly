@@ -1,10 +1,21 @@
-interface PropTypes{
-  invoiceID: string
-  invoiceDate: string
+import { useEffect } from "react";
+import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
+import { useClients } from "../../Hooks/UseClients";
+
+interface PropTypes {
+  invoiceID: string;
+  invoiceDate: string;
 }
 
-export function InvoiceDetails({invoiceID, invoiceDate}: PropTypes) {
-  const formDate = invoiceDate.slice(0,10)
+export function InvoiceDetails({ invoiceID, invoiceDate }: PropTypes) {
+  const formDate = invoiceDate.slice(0, 10);
+  const { clientsResume } = useClients();
+  const {clientsResumes} = useFetchClients()
+
+  useEffect(() => {
+    clientsResumes()
+  },[])
+
   return (
     <header className="invoice_details_header">
       <section className="client_section">
@@ -12,9 +23,14 @@ export function InvoiceDetails({invoiceID, invoiceDate}: PropTypes) {
         <div className="client_selector">
           <select name="" id="">
             <option value="">-- Selecciona un cliente --</option>
-            <option value="">Coffe first</option>
-            <option value="">Nintendo Es</option>
-            <option value="">Dulce hermosa</option>
+            {clientsResume.map((client) => {
+              const { id, companyName } = client;
+              return (
+                <option key={id} value={companyName}>
+                  {companyName}
+                </option>
+              );
+            })}
           </select>
           <button>Nuevo cliente</button>
         </div>
