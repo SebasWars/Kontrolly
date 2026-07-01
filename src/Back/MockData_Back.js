@@ -169,3 +169,30 @@ export const Stocks = [
 ];
 
 export const SalesRegister = [];
+
+export const clientsList = [
+  {
+    id: "id-1",
+    companyName: 'DulceHermodasTS',
+    name: "Dulce hermosa",
+    emailAddress: "dulcecitachiqita@gmail.com",
+    phoneNumber: "673848272",
+    address: "Carrer dulce 4",
+  },
+  {
+    id: "id-2",
+    companyName: 'DulceHermodasTS',
+    name: "Dulce hermosa",
+    emailAddress: "dulcecitachiqita@gmail.com",
+    phoneNumber: "673848272",
+    address: "Carrer dulce 4",
+  },
+  {
+    id: "id-3",
+    companyName: 'DulceHermodasTS',
+    name: "Dulce hermosa",
+    emailAddress: "dulcecitachiqita@gmail.com",
+    phoneNumber: "673848272",
+    address: "Carrer dulce 4",
+  },
+];
