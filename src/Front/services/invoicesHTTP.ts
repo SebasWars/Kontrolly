@@ -22,7 +22,7 @@ export async function getInvoiesValues() {
 
 export async function getInvoice(id: string) {
   const response = await fetch(`${apiUrl}/facturas/${id}`);
-  const data = response.json();
+  const data = await response.json();
   return data;
 }
 
@@ -34,7 +34,7 @@ export async function updateInvoice(id: string, invoice: InvoiceDetails) {
     },
     body: JSON.stringify(invoice),
   });
-  const data = response.json();
+  const data = await response.json();
   return data;
 }
 
@@ -48,7 +48,7 @@ export async function updateInvoiceState(id: string, newState: string) {
       state: newState,
     }),
   });
-  const data = response.json();
+  const data = await response.json();
   return data;
 }
 
