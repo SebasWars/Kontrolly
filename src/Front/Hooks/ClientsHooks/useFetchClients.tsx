@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type {
   Client,
   NewClient,
@@ -11,7 +12,8 @@ import {
 import { useClients } from "../UseClients";
 
 export function useFetchClients() {
-  const { setClientList, setClientsResume, setClient } = useClients();
+  const { setClientList, setClientsResume, setClient, clientList } =
+    useClients();
 
   async function clientsResumes() {
     try {
@@ -43,11 +45,15 @@ export function useFetchClients() {
   async function createNewClient(newClient: NewClient) {
     try {
       await createClient(newClient);
-      clientsList()
     } catch (error) {
       throw new Error("It was not possible create a new client");
     }
   }
+
+  useEffect(() => {
+    clientsList();
+    clientsResumes();
+  }, [clientList]);
 
   return { clientsList, clientsResumes, clientById, createNewClient };
 }

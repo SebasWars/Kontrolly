@@ -2,19 +2,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/clienst.css";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { AddNewClient } from "../components/ClientsC/AddNewClient";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import DropDown from "../components/ClientsC/DropDonwClientOpt";
 import { useFetchClients } from "../Hooks/ClientsHooks/useFetchClients";
 import { useClients } from "../Hooks/UseClients";
+import { useCreateClient } from "../Hooks/ClientsHooks/CreateNewClient";
 
 export function Clients() {
-  const [clientForm, setClientForm] = useState(false);
-  const toggleForm = (val: boolean) => {
-    setClientForm(val);
-  };
+  const { clientForm, toggleForm } = useCreateClient();
   const isActive = clientForm ? "active" : "";
   const { clientsList } = useFetchClients();
-  const {clientList} = useClients()
+  const { clientList } = useClients();
 
   useEffect(() => {
     clientsList();
@@ -51,7 +49,7 @@ export function Clients() {
               {clientList.map((client, index) => {
                 return (
                   <tr key={index}>
-                    <td>{client.name}</td>
+                    <td>{client.companyName}</td>
                     <td>{client.name}</td>
                     <td>{client.emailAddress}</td>
                     <td>{client.phoneNumber}</td>
