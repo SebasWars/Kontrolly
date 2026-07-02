@@ -1,5 +1,5 @@
 import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
-import { CreateClient } from "../../Hooks/ClientsHooks/CreateNewClient";
+import { useCreateClient } from "../../Hooks/ClientsHooks/CreateNewClient";
 
 type PropTypes = {
   toggleForm: (val: boolean) => void;
@@ -7,7 +7,7 @@ type PropTypes = {
 
 export function AddNewClient({ toggleForm }: PropTypes) {
   const { createNewClient } = useFetchClients();
-  const { newClient, formHandler, validateForm } = CreateClient();
+  const { newClient, formHandler, validateForm } = useCreateClient();
 
   const createClient = () => {
     if (!validateForm()) return;

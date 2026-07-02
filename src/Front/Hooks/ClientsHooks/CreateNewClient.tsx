@@ -1,7 +1,11 @@
 import { useState } from "react";
 import type { NewClient } from "../../context/RecuderTypes/ClientsReduce";
 
-export function CreateClient() {
+export function useCreateClient() {
+  const [clientForm, setClientForm] = useState(false);
+  const toggleForm = (val: boolean) => {
+    setClientForm(val);
+  };
   const [newClient, setNewClient] = useState<NewClient>({
     companyName: "",
     name: "",
@@ -45,5 +49,5 @@ export function CreateClient() {
     return true;
   };
 
-  return { newClient, formHandler, validateForm };
+  return { clientForm, toggleForm, newClient, formHandler, validateForm };
 }
