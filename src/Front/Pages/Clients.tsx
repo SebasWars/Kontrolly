@@ -70,11 +70,3 @@ export function Clients() {
     </div>
   );
 }
-
-export interface Client {
-  companyName: string;
-  name: string;
-  emailAddress: string;
-  phoneNumber: string;
-  address: string;
-}

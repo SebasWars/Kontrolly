@@ -1,5 +1,9 @@
-import type { Client } from "../../context/RecuderTypes/ClientsReduce";
+import type {
+  Client,
+  NewClient,
+} from "../../context/RecuderTypes/ClientsReduce";
 import {
+  createClient,
   getClientByID,
   getClients,
   getClientsResume,
@@ -36,5 +40,14 @@ export function useFetchClients() {
     }
   }
 
-  return { clientsList, clientsResumes, clientById };
+  async function createNewClient(newClient: NewClient) {
+    try {
+      await createClient(newClient);
+      clientsList()
+    } catch (error) {
+      throw new Error("It was not possible create a new client");
+    }
+  }
+
+  return { clientsList, clientsResumes, clientById, createNewClient };
 }
