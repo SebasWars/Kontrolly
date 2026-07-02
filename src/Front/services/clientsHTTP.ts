@@ -1,4 +1,4 @@
-import type { Client } from "../Pages/Clients";
+import type { NewClient } from "../context/RecuderTypes/ClientsReduce";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -21,7 +21,7 @@ export const getClientByID = async (cliendId: string) => {
   return data;
 };
 
-export const createClient = async (clientForm: Client) => {
+export const createClient = async (clientForm: NewClient) => {
   const response = await fetch(`${apiUrl}/clientes/cliente`, {
     method: "POST",
     headers: {
@@ -30,5 +30,6 @@ export const createClient = async (clientForm: Client) => {
     body: JSON.stringify(clientForm),
   });
   const data = await response.json();
+  console.log(data)
   return data
 };
