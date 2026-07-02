@@ -32,6 +32,7 @@ export interface NewClient {
   emailAddress: string;
   phoneNumber: string;
   address: string;
+  notes: string
 }
 
 export type Actions = SetClientResume | SetClientsList | SetClient
