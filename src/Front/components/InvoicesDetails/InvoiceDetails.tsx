@@ -3,11 +3,12 @@ import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
 import { useClients } from "../../Hooks/UseClients";
 
 interface PropTypes {
+  toogleForm: (val:boolean) => void;
   invoiceID: string;
   invoiceDate: string;
 }
 
-export function InvoiceDetails({ invoiceID, invoiceDate }: PropTypes) {
+export function InvoiceDetails({ toogleForm, invoiceID, invoiceDate }: PropTypes) {
   const formDate = invoiceDate.slice(0, 10);
   const { clientsResume } = useClients();
   const {clientsResumes} = useFetchClients()
@@ -32,7 +33,7 @@ export function InvoiceDetails({ invoiceID, invoiceDate }: PropTypes) {
               );
             })}
           </select>
-          <button>Nuevo cliente</button>
+          <button onClick={() => toogleForm(true)}>Nuevo cliente</button>
         </div>
       </section>
 
