@@ -11,7 +11,6 @@ export const getClientsResume = async () => {
 export const getClients = async () => {
   const response = await fetch(`${apiUrl}/clientes`);
   const data = await response.json();
-  console.log(data);
   return data;
 };
 
@@ -30,6 +29,18 @@ export const createClient = async (clientForm: NewClient) => {
     body: JSON.stringify(clientForm),
   });
   const data = await response.json();
-  console.log(data)
-  return data
+  console.log(data);
+  return data;
+};
+
+export const removeClient = async (id: string) => {
+  const response = await fetch(`${apiUrl}/clientes/cliente/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("It was not possible to remove client");
+  }
+
+  return await response.json()
 };
