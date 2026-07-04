@@ -1,10 +1,11 @@
 import type { InvoiceItems } from "../context/RecuderTypes/InvoiceReduce";
+import { useClients } from "../Hooks/UseClients";
 import useInvoices from "../Hooks/UseInvoices";
 import "../styles/PDF.css";
 
 export function PDF() {
   const { invoiceDetails } = useInvoices();
-
+  const { client } = useClients();
   const calculateTotal = (arr: InvoiceItems[]) => {
     const price = arr.reduce(
       (acc, item) => acc + item.quantity * item.sales_price,
@@ -16,6 +17,7 @@ export function PDF() {
   const calculateIVA = (val: number) => {
     return (val * 21) / 100;
   };
+
   const subTotal = calculateTotal(invoiceDetails.itemsList);
   const IVA = calculateIVA(calculateTotal(invoiceDetails.itemsList));
   const total =
@@ -33,10 +35,10 @@ export function PDF() {
       <div className="personal_data">
         <div className="data clien_data">
           <h2>Datos del cliente</h2>
-          <p>nombre</p>
-          <p>email</p>
-          <p>telefono</p>
-          <p>direccion</p>
+          <p>{client.name || "Nombre"}</p>
+          <p>{client.emailAddress || "Correo electronico"}</p>
+          <p>{client.phoneNumber || "Telefono Movil"}</p>
+          <p>{client.address || "Dirrección"}</p>
         </div>
         <div className="data company_data">
           <h2>Datos de la compañia</h2>
@@ -83,7 +85,7 @@ export function PDF() {
           </div>
         </section>
         <div className="TOTAL">
-          <p>Total:</p> 
+          <p>Total:</p>
           <p> {total}</p>
         </div>
       </div>

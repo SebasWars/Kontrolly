@@ -3,6 +3,7 @@ import type {
   InvoiceDetails,
   InvoiceItems,
 } from "./context/RecuderTypes/InvoiceReduce";
+import type { Client } from "./context/RecuderTypes/ClientsReduce";
 
 const styles = StyleSheet.create({
   page: {
@@ -120,9 +121,10 @@ const styles = StyleSheet.create({
 });
 type Props = {
   invoiceDetails: InvoiceDetails;
+  client: Client
 };
 
-export function InvoiceDocument({ invoiceDetails }: Props) {
+export function InvoiceDocument({ invoiceDetails, client }: Props) {
   const calculateTotal = (arr: InvoiceItems[]) =>
     arr.reduce((acc, item) => acc + item.quantity * item.sales_price, 0);
 
@@ -147,10 +149,10 @@ export function InvoiceDocument({ invoiceDetails }: Props) {
         <View style={styles.grid2}>
           <View style={styles.box}>
             <Text style={styles.boxTitle}>CLIENTE</Text>
-            <Text style={styles.text}>Nombre</Text>
-            <Text style={styles.text}>Email</Text>
-            <Text style={styles.text}>Teléfono</Text>
-            <Text style={styles.text}>Dirección</Text>
+            <Text style={styles.text}>{client.name || 'Nombre'}</Text>
+            <Text style={styles.text}>{client.emailAddress || 'Correo Electronico'}</Text>
+            <Text style={styles.text}>{client.phoneNumber || 'Telefono Movil'}</Text>
+            <Text style={styles.text}>{client.address || 'Dirrección'}</Text>
           </View>
 
           <View style={styles.box}>

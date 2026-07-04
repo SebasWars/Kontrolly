@@ -12,10 +12,13 @@ export function Clients() {
   const { clientForm, toggleForm } = useCreateClient();
   const isActive = clientForm ? "active" : "";
   const { clientsList } = useFetchClients();
-  const { clientList } = useClients();
+  const { clientList, setClientList } = useClients();
 
   useEffect(() => {
     clientsList();
+    return () => {
+      setClientList([]);
+    };
   }, []);
 
   return (
@@ -55,7 +58,7 @@ export function Clients() {
                     <td>{client.phoneNumber}</td>
                     <td>{client.address}</td>
                     <td>
-                      <DropDown />
+                      <DropDown cliendID={client.id} />
                     </td>
                   </tr>
                 );

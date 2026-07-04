@@ -1,33 +1,44 @@
 import { useEffect } from "react";
 import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
 import { useClients } from "../../Hooks/UseClients";
+import type { InvoiceDetails } from "../../context/RecuderTypes/InvoiceReduce";
 
 interface PropTypes {
-  toogleForm: (val:boolean) => void;
+  invoiceDetails: InvoiceDetails;
+  toogleForm: (val: boolean) => void;
   invoiceID: string;
   invoiceDate: string;
+  currentClietnHandler: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export function InvoiceDetails({ toogleForm, invoiceID, invoiceDate }: PropTypes) {
+export function InvoiceDetails({
+  toogleForm,
+  invoiceID,
+  invoiceDate,
+  currentClietnHandler,
+}: PropTypes) {
   const formDate = invoiceDate.slice(0, 10);
-  const { clientsResume } = useClients();
-  const {clientsResumes} = useFetchClients()
+  const { clientsResume, clearClient } = useClients();
+  const { clientsResumes } = useFetchClients();
 
   useEffect(() => {
-    clientsResumes()
-  },[])
+    clientsResumes();
+    return () => {
+      clearClient();
+    };
+  }, []);
 
   return (
     <header className="invoice_details_header">
       <section className="client_section">
         <label htmlFor="">Informacion del cliente</label>
         <div className="client_selector">
-          <select name="" id="">
+          <select onChange={currentClietnHandler} name="" id="">
             <option value="">-- Selecciona un cliente --</option>
             {clientsResume.map((client) => {
               const { id, companyName } = client;
               return (
-                <option key={id} value={companyName}>
+                <option key={id} value={id}>
                   {companyName}
                 </option>
               );
