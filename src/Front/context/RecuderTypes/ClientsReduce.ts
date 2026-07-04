@@ -12,6 +12,7 @@ export interface ClientsContextType {
   setClientsResume: (clients: ClientResume[]) => void;
   setClientList: (clienstList: Client[]) => void;
   setClient: (client: Client) => void;
+  clearClient: () => void;
 }
 
 export interface ClientResume {
@@ -35,7 +36,7 @@ export interface NewClient {
   notes: string
 }
 
-export type Actions = SetClientResume | SetClientsList | SetClient
+export type Actions = SetClientResume | SetClientsList | SetClient | ClearClient
 
 type SetClientResume = {
   type: "SET_CLIENT_RESUME";
@@ -50,4 +51,8 @@ type SetClientsList = {
 type SetClient = {
   type: 'SET_CLIENT',
   payload: Client
+}
+
+type ClearClient = {
+  type: 'CLEAR_CLIENT'
 }

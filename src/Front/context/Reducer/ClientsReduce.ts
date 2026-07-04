@@ -25,6 +25,8 @@ export const clientsReducer = (state: ClientsInitialState, action: Actions) => {
       return { ...state, clientList: action.payload };
     case 'SET_CLIENT':
       return {...state, client: action.payload}
+    case 'CLEAR_CLIENT':
+      return {...state, client: clientsInitialState.client}
     default:
       return state;
   }

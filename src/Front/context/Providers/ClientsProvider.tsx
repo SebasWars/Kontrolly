@@ -22,6 +22,10 @@ export const ClientsProvider = ({ children }: PropType) => {
     dispatch({type:'SET_CLIENT', payload: client})
   }
 
+  const clearClient = () => {
+    dispatch({type: 'CLEAR_CLIENT'})
+  }
+
   return (
     <ClientsContext.Provider
       value={{
@@ -31,7 +35,8 @@ export const ClientsProvider = ({ children }: PropType) => {
 
         setClientsResume,
         setClientList,
-        setClient
+        setClient,
+        clearClient
       }}
     >
       {children}
