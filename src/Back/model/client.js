@@ -40,4 +40,12 @@ export class clientsModel {
 
     return newClient;
   }
+
+  static delteClient(id){
+    const clientIndex = clientsList.findIndex((client) => client.id === id);
+    if(clientIndex === -1) return false;
+
+    clientsList.splice(clientIndex, 1);
+    return true
+  }
 }

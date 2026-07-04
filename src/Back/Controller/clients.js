@@ -46,5 +46,13 @@ export class clientsController {
         .json({ message: "Something went wrong createing a client." });
     }
   }
-  /* static async delteClient(req, res) {} */
+  static async delteClient(req, res) {
+    try {
+      const {id} = req.params;
+      const removeClient = await clientsModel.delteClient(id);
+      return res.status(202).json({message: 'Client was removed succesfully!'});
+    } catch (error) {
+      return res.status(404).json({message: 'It was not possisble to remove client'})
+    }
+  }
 }

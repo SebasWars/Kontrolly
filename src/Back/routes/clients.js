@@ -8,4 +8,4 @@ clientsRoute.get('/resumen', clientsController.getClientsResume)
 clientsRoute.get('/cliente/:id', clientsController.getClientByID)
 
 clientsRoute.post('/cliente', clientsController.createClient)
-/* clientsRoute.delete('/client/:id', clientsController.delteClient) */
+clientsRoute.delete('/cliente/:id', clientsController.delteClient)
