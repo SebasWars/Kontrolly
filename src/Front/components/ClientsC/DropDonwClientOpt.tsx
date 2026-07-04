@@ -2,10 +2,16 @@ import * as React from "react";
 import { DropDownSelector } from "../UI/DropDownComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
 
-export default function DropDown() {
+type PropTypes = {
+  cliendID: string;
+};
+
+export default function DropDown({ cliendID }: PropTypes) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { deleteClient } = useFetchClients();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -14,8 +20,9 @@ export default function DropDown() {
     setAnchorEl(null);
   };
 
-  const removeWarehouse = async () => {
-    console.log("remove");
+  const removeWarehouse = () => {
+    deleteClient(cliendID);
+    setAnchorEl(null);
   };
 
   const updateWarehouse = () => {

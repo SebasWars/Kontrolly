@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import type {
   Client,
   NewClient,
@@ -8,11 +7,12 @@ import {
   getClientByID,
   getClients,
   getClientsResume,
+  removeClient,
 } from "../../services/clientsHTTP";
 import { useClients } from "../UseClients";
 
 export function useFetchClients() {
-  const { setClientList, setClientsResume, setClient, clientList } =
+  const { setClientList, setClientsResume, setClient } =
     useClients();
 
   async function clientsResumes() {
@@ -45,15 +45,28 @@ export function useFetchClients() {
   async function createNewClient(newClient: NewClient) {
     try {
       await createClient(newClient);
+      await clientsList();
+      await clientsResumes();
     } catch (error) {
       throw new Error("It was not possible create a new client");
     }
   }
 
-  useEffect(() => {
-    clientsList();
-    clientsResumes();
-  }, [clientList]);
+  async function deleteClient(id: string) {
+    try {
+      await removeClient(id);
+      await clientsList();
+      await clientsResumes();
+    } catch (error) {
+      throw new Error("It was not possible remove client");
+    }
+  }
 
-  return { clientsList, clientsResumes, clientById, createNewClient };
+  return {
+    clientsList,
+    clientsResumes,
+    clientById,
+    createNewClient,
+    deleteClient,
+  };
 }
