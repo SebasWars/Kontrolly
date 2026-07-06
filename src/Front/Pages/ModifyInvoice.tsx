@@ -8,29 +8,29 @@ import { useInvoice } from "../Hooks/InvoicesHooks/useInvoice";
 import { useCreateClient } from "../Hooks/ClientsHooks/CreateNewClient";
 import { AddNewClient } from "../components/ClientsC/AddNewClient";
 import { useFetchClients } from "../Hooks/ClientsHooks/useFetchClients";
-import { useClients } from "../Hooks/UseClients";
 import { useEffect } from "react";
+import { useClients } from "../Hooks/UseClients";
 
 export function ModifyInvoice() {
-  const { invoiceDetails } = useInvoices();
+  const { invoiceDetails, setClientID } = useInvoices();
   const { clientForm, toggleForm } = useCreateClient();
   const { clientById } = useFetchClients();
-  const { client, clearClient } = useClients();
+  const { clearClient } = useClients();
   const isActive = clientForm ? "active" : "";
 
   const currentClietnHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    if (!value) {
-      clearClient();
-      return;
-    }
     clientById(value);
+    setClientID(value);
   };
 
-  useEffect(() => {
-    console.log(client);
-  }, [client]);
   useInvoice();
+
+  useEffect(() => {
+    clearClient();
+    if (!invoiceDetails.clientID) return;
+    clientById(invoiceDetails.clientID);
+  }, [invoiceDetails.clientID]);
 
   return (
     <div className={`modify_invoice_main_container ${isActive}`}>

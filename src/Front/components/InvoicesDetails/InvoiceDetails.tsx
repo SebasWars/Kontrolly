@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
 import { useClients } from "../../Hooks/UseClients";
 import type { InvoiceDetails } from "../../context/RecuderTypes/InvoiceReduce";
+import useInvoices from "../../Hooks/UseInvoices";
 
 interface PropTypes {
   invoiceDetails: InvoiceDetails;
@@ -19,6 +20,7 @@ export function InvoiceDetails({
 }: PropTypes) {
   const formDate = invoiceDate.slice(0, 10);
   const { clientsResume, clearClient } = useClients();
+  const { invoiceDetails } = useInvoices();
   const { clientsResumes } = useFetchClients();
 
   useEffect(() => {
@@ -33,16 +35,17 @@ export function InvoiceDetails({
       <section className="client_section">
         <label htmlFor="">Informacion del cliente</label>
         <div className="client_selector">
-          <select onChange={currentClietnHandler} name="" id="">
+          <select
+            value={invoiceDetails.clientID || ""}
+            onChange={currentClietnHandler}
+          >
             <option value="">-- Selecciona un cliente --</option>
-            {clientsResume.map((client) => {
-              const { id, companyName } = client;
-              return (
-                <option key={id} value={id}>
-                  {companyName}
-                </option>
-              );
-            })}
+
+            {clientsResume.map((client) => (
+              <option key={client.id} value={client.id}>
+                {client.companyName}
+              </option>
+            ))}
           </select>
           <button onClick={() => toogleForm(true)}>Nuevo cliente</button>
         </div>
