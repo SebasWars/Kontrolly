@@ -6,6 +6,7 @@ export interface InvoicesContextType {
   setInvoices: (invoices: Invoice[]) => void;
   setInvoicesValues: (invoicesValues: InvoicesValues) => void;
   setInvoiceDetails: (invoiceDetails: InvoiceDetails) => void;
+  setClientID: (id:string) => void;
   addOne: (id: string) => void;
   removeOne: (id: string) => void;
   removeItem: (id: string) => void;
@@ -60,7 +61,8 @@ export type Actions =
   | SetInvoiceDetails
   | AddOne
   | RemoveOne
-  | RemoveItem;
+  | RemoveItem
+  | SetClientID;
 
 interface SetInvoices {
   type: "SET_INVOICES";
@@ -89,4 +91,9 @@ interface RemoveOne {
 interface RemoveItem {
   type: "REMOVE_ITEM";
   payload: string;
+}
+
+interface SetClientID {
+  type: 'SET_CLIENT_ID',
+  payload: string
 }

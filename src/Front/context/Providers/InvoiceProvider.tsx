@@ -33,6 +33,10 @@ export const InvoicesProvider = ({ children }: PropType) => {
     dispatch({ type: "SET_INVOICE_DETAILS", payload: invoiceDetails });
   };
 
+  const setClientID = (id: string) => {
+    dispatch({type: 'SET_CLIENT_ID', payload: id});
+  }
+
   const addOne = (id: string) => {
     dispatch({ type: "ADD_ONE", payload: id });
   };
@@ -55,6 +59,7 @@ export const InvoicesProvider = ({ children }: PropType) => {
         setInvoices,
         setInvoicesValues,
         setInvoiceDetails,
+        setClientID,
         addOne,
         removeOne,
         removeItem,
