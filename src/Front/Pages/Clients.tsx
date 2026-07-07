@@ -2,24 +2,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/clienst.css";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { AddNewClient } from "../components/ClientsC/AddNewClient";
-import { useEffect } from "react";
-import DropDown from "../components/ClientsC/DropDonwClientOpt";
-import { useFetchClients } from "../Hooks/ClientsHooks/useFetchClients";
-import { useClients } from "../Hooks/UseClients";
+import { useState } from "react";
 import { useCreateClient } from "../Hooks/ClientsHooks/CreateNewClient";
+import type { Client } from "../context/RecuderTypes/ClientsReduce";
+import { TableClients } from "../components/ClientsC/ClientsTable";
 
 export function Clients() {
   const { clientForm, toggleForm } = useCreateClient();
   const isActive = clientForm ? "active" : "";
-  const { clientsList } = useFetchClients();
-  const { clientList, setClientList } = useClients();
-
-  useEffect(() => {
-    clientsList();
-    return () => {
-      setClientList([]);
-    };
-  }, []);
+  const [editClient, setEditClient] = useState<Client | null>(null);
+  const handleEditClient = (client: Client | null) => {
+    setEditClient(client);
+  };
 
   return (
     <div className={`clientes_main_container ${isActive}`}>
@@ -37,37 +31,19 @@ export function Clients() {
           </div>
         </div>
         <div className="clients_table">
-          <table>
-            <thead>
-              <tr>
-                <th>Compañia</th>
-                <th>Cliente</th>
-                <th>Correo Electronico</th>
-                <th>Nº Movil</th>
-                <th>Dirrección</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clientList.map((client, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{client.companyName}</td>
-                    <td>{client.name}</td>
-                    <td>{client.emailAddress}</td>
-                    <td>{client.phoneNumber}</td>
-                    <td>{client.address}</td>
-                    <td>
-                      <DropDown cliendID={client.id} />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <TableClients
+            handleEditClient={handleEditClient}
+            toggleForm={toggleForm}
+          />
         </div>
       </div>
-      {clientForm && <AddNewClient toggleForm={toggleForm} />}
+      {clientForm && (
+        <AddNewClient
+          toggleForm={toggleForm}
+          editClient={editClient}
+          handleEditClient={handleEditClient}
+        />
+      )}
     </div>
   );
 }

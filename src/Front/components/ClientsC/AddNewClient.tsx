@@ -1,28 +1,58 @@
 import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
 import { useCreateClient } from "../../Hooks/ClientsHooks/CreateNewClient";
+import type { Client } from "../../context/RecuderTypes/ClientsReduce";
+import { useEffect } from "react";
 
 type PropTypes = {
   toggleForm: (val: boolean) => void;
+  editClient: Client | null;
+  handleEditClient: (client: Client | null) => void;
 };
 
-export function AddNewClient({ toggleForm }: PropTypes) {
-  const { createNewClient } = useFetchClients();
-  const { newClient, formHandler, validateForm } = useCreateClient();
+export function AddNewClient({
+  toggleForm,
+  editClient,
+  handleEditClient,
+}: PropTypes) {
+  const { createNewClient, modifyClient } = useFetchClients();
+  const { newClient, formHandler, validateForm, setNewClient } =
+    useCreateClient();
 
-  const createClient = () => {
+  const createORupdate = () => {
     if (!validateForm()) return;
-    createNewClient(newClient);
+    if (editClient) {
+      modifyClient(newClient, editClient.id);
+    } else {
+      createNewClient(newClient);
+    }
     toggleForm(false);
   };
+
+  const closeForm = () => {
+    toggleForm(false);
+    handleEditClient(null);
+  };
+
+  useEffect(() => {
+    if (editClient) {
+      setNewClient(editClient);
+    } else {
+      setNewClient({
+        companyName: "",
+        name: "",
+        address: "",
+        emailAddress: "",
+        phoneNumber: "",
+        notes: "",
+      });
+    }
+  }, []);
 
   return (
     <div className="add_new_client_container">
       <header className="add_client_header">
         <h2>Añadir nuevo cliente</h2>
-        <button
-          onClick={() => toggleForm(false)}
-          className="close_client_form_btn"
-        >
+        <button onClick={closeForm} className="close_client_form_btn">
           x
         </button>
       </header>
@@ -97,8 +127,8 @@ export function AddNewClient({ toggleForm }: PropTypes) {
       </div>
 
       <div className="new_client_action_buttons">
-        <button onClick={() => toggleForm(false)}>Cancelar</button>
-        <button onClick={createClient}>Guardar</button>
+        <button onClick={closeForm}>Cancelar</button>
+        <button onClick={createORupdate}>Guardar</button>
       </div>
     </div>
   );

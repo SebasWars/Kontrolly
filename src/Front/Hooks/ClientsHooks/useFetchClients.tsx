@@ -8,12 +8,12 @@ import {
   getClients,
   getClientsResume,
   removeClient,
+  updateClient,
 } from "../../services/clientsHTTP";
 import { useClients } from "../UseClients";
 
 export function useFetchClients() {
-  const { setClientList, setClientsResume, setClient } =
-    useClients();
+  const { setClientList, setClientsResume, setClient } = useClients();
 
   async function clientsResumes() {
     try {
@@ -52,6 +52,15 @@ export function useFetchClients() {
     }
   }
 
+  async function modifyClient(client: NewClient, clientID: string) {
+    try {
+      await updateClient(client, clientID);
+      await clientsList();
+    } catch (error) {
+      throw new Error("It was not possible to update the client");
+    }
+  }
+
   async function deleteClient(id: string) {
     try {
       await removeClient(id);
@@ -67,6 +76,7 @@ export function useFetchClients() {
     clientsResumes,
     clientById,
     createNewClient,
+    modifyClient,
     deleteClient,
   };
 }

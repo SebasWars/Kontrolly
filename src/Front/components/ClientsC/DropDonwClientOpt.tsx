@@ -3,12 +3,15 @@ import { DropDownSelector } from "../UI/DropDownComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
+import type { Client } from "../../context/RecuderTypes/ClientsReduce";
 
 type PropTypes = {
-  cliendID: string;
+  client: Client;
+  handleEditClient: (client: Client | null) => void;
+  toggleForm: (val: boolean) => void;
 };
 
-export default function DropDown({ cliendID }: PropTypes) {
+export default function DropDown({ client, handleEditClient, toggleForm}: PropTypes) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { deleteClient } = useFetchClients();
@@ -21,12 +24,14 @@ export default function DropDown({ cliendID }: PropTypes) {
   };
 
   const removeWarehouse = () => {
-    deleteClient(cliendID);
+    deleteClient(client.id);
     setAnchorEl(null);
   };
 
   const updateWarehouse = () => {
-    console.log("update");
+    handleEditClient(client)
+    toggleForm(true)
+    setAnchorEl(null);
   };
 
   return (

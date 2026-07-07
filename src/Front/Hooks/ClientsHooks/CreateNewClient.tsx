@@ -49,5 +49,5 @@ export function useCreateClient() {
     return true;
   };
 
-  return { clientForm, toggleForm, newClient, formHandler, validateForm };
+  return { clientForm, toggleForm, newClient, formHandler, validateForm ,setNewClient};
 }
