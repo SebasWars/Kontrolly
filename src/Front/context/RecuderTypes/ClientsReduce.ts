@@ -25,6 +25,7 @@ export interface Client extends ClientResume {
   emailAddress: string;
   phoneNumber: string;
   address: string;
+  notes: string
 }
 
 export interface NewClient {
