@@ -46,13 +46,29 @@ export class clientsController {
         .json({ message: "Something went wrong createing a client." });
     }
   }
+
+  static async updateClient(req, res) {
+    try {
+      const {id} = req.params
+      const body = req.body;
+      console.log(body)
+      const updatedClient = await clientsModel.updateClient(id, body);
+      return res.status(200).json(updatedClient);
+    } catch (error) {
+      return res.status(400).json({message: 'Client was not able to be updated'})
+    }
+  }
   static async delteClient(req, res) {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const removeClient = await clientsModel.delteClient(id);
-      return res.status(202).json({message: 'Client was removed succesfully!'});
+      return res
+        .status(202)
+        .json({ message: "Client was removed succesfully!" });
     } catch (error) {
-      return res.status(404).json({message: 'It was not possisble to remove client'})
+      return res
+        .status(404)
+        .json({ message: "It was not possisble to remove client" });
     }
   }
 }

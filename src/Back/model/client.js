@@ -25,7 +25,7 @@ export class clientsModel {
 
   static createClient(body) {
     const clients = clientsList;
-    const { companyName, name, emailAddress, phoneNumber, address } = body;
+    const { companyName, name, emailAddress, phoneNumber, address, notes } = body;
 
     const newClient = {
       id: crypto.randomUUID(),
@@ -34,6 +34,7 @@ export class clientsModel {
       emailAddress,
       phoneNumber,
       address,
+      notes,
     };
 
     clients.push(newClient);
@@ -41,11 +42,18 @@ export class clientsModel {
     return newClient;
   }
 
-  static delteClient(id){
+  static updateClient(id, body) {
+    const clietnID = clientsList.findIndex((client) => client.id === id);
+    if (clientsList.length === -1) return false;
+    clientsList[clietnID] = body;
+    return true;
+  }
+
+  static delteClient(id) {
     const clientIndex = clientsList.findIndex((client) => client.id === id);
-    if(clientIndex === -1) return false;
+    if (clientIndex === -1) return false;
 
     clientsList.splice(clientIndex, 1);
-    return true
+    return true;
   }
 }
