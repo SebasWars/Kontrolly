@@ -29,9 +29,20 @@ export const createClient = async (clientForm: NewClient) => {
     body: JSON.stringify(clientForm),
   });
   const data = await response.json();
-  console.log(data);
   return data;
 };
+
+export const updateClient = async (client: NewClient, clientID: string) => {
+  const response = await fetch(`${apiUrl}/clientes/cliente/${clientID}`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(client),
+  });
+  const data = await response.json();
+  return data;
+}
 
 export const removeClient = async (id: string) => {
   const response = await fetch(`${apiUrl}/clientes/cliente/${id}`, {
