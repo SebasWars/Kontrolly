@@ -6,6 +6,7 @@ import {
   createClient,
   getClientByID,
   getClients,
+  getClientsByQuery,
   getClientsResume,
   removeClient,
   updateClient,
@@ -24,9 +25,11 @@ export function useFetchClients() {
     }
   }
 
-  async function clientsList() {
+  async function clientsList(query?: string) {
     try {
-      const clientList: Client[] = await getClients();
+      const clientList: Client[] = query
+        ? await getClientsByQuery(query)
+        : await getClients();
       setClientList(clientList);
     } catch (error) {
       throw new Error("Error getting clients information");
