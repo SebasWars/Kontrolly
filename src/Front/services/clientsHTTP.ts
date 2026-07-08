@@ -14,6 +14,12 @@ export const getClients = async () => {
   return data;
 };
 
+export const getClientsByQuery = async (query:string) => {
+  const response = await fetch(`${apiUrl}/clientes/${query}`);
+  const data = await response.json();
+  return data;
+};
+
 export const getClientByID = async (cliendId: string) => {
   const response = await fetch(`${apiUrl}/clientes/cliente/${cliendId}`);
   const data = await response.json();

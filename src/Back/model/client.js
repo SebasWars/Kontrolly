@@ -1,8 +1,8 @@
 import { clientsList } from "../MockData_Back.js";
 
 export class clientsModel {
-  static getClientsResume() {
-    const clients = clientsList.map((client) => {
+  static async getClientsResume() {
+    const clients = await clientsList.map((client) => {
       return {
         id: client.id,
         companyName: client.companyName,
@@ -12,20 +12,32 @@ export class clientsModel {
     return clients;
   }
 
-  static getClients() {
-    const clients = clientsList;
+  static async getClients() {
+    const clients = await clientsList;
     return clients;
   }
 
-  static getClientByID(id) {
-    const client = clientsList.find((client) => client.id === id);
+  static async getClientsByQuery(query) {
+    const normalize = (text) => (text ?? "").trim().toLowerCase();
+    const queryNormalized = normalize(query);
+
+    const clientsFiltered = clientsList.filter((client) =>
+      normalize(client.companyName).includes(queryNormalized),
+    );
+
+    return clientsFiltered;
+  }
+
+  static async getClientByID(id) {
+    const client = await clientsList.find((client) => client.id === id);
     if (!client) return false;
     return client;
   }
 
-  static createClient(body) {
-    const clients = clientsList;
-    const { companyName, name, emailAddress, phoneNumber, address, notes } = body;
+  static async createClient(body) {
+    const clients = await clientsList;
+    const { companyName, name, emailAddress, phoneNumber, address, notes } =
+      body;
 
     const newClient = {
       id: crypto.randomUUID(),
@@ -42,15 +54,17 @@ export class clientsModel {
     return newClient;
   }
 
-  static updateClient(id, body) {
-    const clietnID = clientsList.findIndex((client) => client.id === id);
+  static async updateClient(id, body) {
+    const clietnID = await clientsList.findIndex((client) => client.id === id);
     if (clientsList.length === -1) return false;
     clientsList[clietnID] = body;
     return true;
   }
 
-  static delteClient(id) {
-    const clientIndex = clientsList.findIndex((client) => client.id === id);
+  static async delteClient(id) {
+    const clientIndex = await clientsList.findIndex(
+      (client) => client.id === id,
+    );
     if (clientIndex === -1) return false;
 
     clientsList.splice(clientIndex, 1);

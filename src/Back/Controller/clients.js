@@ -23,6 +23,18 @@ export class clientsController {
     }
   }
 
+  static async getClientsByQuery(req, res) {
+    try {
+      const { query } = req.params;
+      const clientsFiltered = await clientsModel.getClientsByQuery(query);
+      return res.status(200).json(clientsFiltered);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "It was not possoble to apply filter by query" });
+    }
+  }
+
   static async getClientByID(req, res) {
     try {
       const { id } = req.params;
@@ -49,15 +61,17 @@ export class clientsController {
 
   static async updateClient(req, res) {
     try {
-      const {id} = req.params
+      const { id } = req.params;
       const body = req.body;
-      console.log(body)
       const updatedClient = await clientsModel.updateClient(id, body);
       return res.status(200).json(updatedClient);
     } catch (error) {
-      return res.status(400).json({message: 'Client was not able to be updated'})
+      return res
+        .status(400)
+        .json({ message: "Client was not able to be updated" });
     }
   }
+
   static async delteClient(req, res) {
     try {
       const { id } = req.params;
