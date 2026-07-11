@@ -7,7 +7,6 @@ export interface User {
 export interface AuthorizationContextType {
   user: User | null;
   token: string | null;
-  isAuthenticated: boolean;
   loading: boolean;
 
   login: (token: string, user: User) => void;
