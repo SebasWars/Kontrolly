@@ -1,9 +1,12 @@
 import type { SaleItems } from "../Types/SalesTypes";
+import { getHeaders } from "./api";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export async function getItems(id: string) {
-  const response = await fetch(`${apiUrl}/tienda/${id}`);
+  const response = await fetch(`${apiUrl}/tienda/${id}`,{
+    headers: getHeaders()
+  });
   if (!response.ok) {
     throw new Error("No items found");
   }
@@ -12,13 +15,14 @@ export async function getItems(id: string) {
 }
 
 export async function getItemsByQuery(warehouseId: string, query: string) {
-  const response = await fetch(`${apiUrl}/tienda/${warehouseId}/${query}`)
+  const response = await fetch(`${apiUrl}/tienda/${warehouseId}/${query}`,{
+    headers: getHeaders()
+  })
 
   if (!response.ok) {
     throw new Error("No items founds");
   }
   const data = await response.json();
-  console.log(data)
   return data;
 }
 
@@ -32,6 +36,7 @@ export async function createSell(
   const response = await fetch(`${apiUrl}/tienda/${warehouseID}`, {
     method: "POST",
     headers: {
+      ...getHeaders(),
       "Content-type": "application/json",
     },
     body: JSON.stringify({ items, type: type }),
