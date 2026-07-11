@@ -22,7 +22,7 @@ export const verifyJWT = (req, res, next) => {
     });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (error, decode) => {
+  jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
     if (error) {
       return res.status(401).json({
         message: "Something went wrong with user validation",
