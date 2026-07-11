@@ -201,6 +201,7 @@ export const users = [
   {
     id: crypto.randomUUID(),
     name: "Carlos",
+    companyName: 'Carlos S.A',
     email: "carlos@gmail.com",
     passwordHash: '$2b$10$kt5sum3YIreyUH51qamanu4GHgy8DmPkvjBPqAbJprtsC2Znhtp3W',
     isActive: false,

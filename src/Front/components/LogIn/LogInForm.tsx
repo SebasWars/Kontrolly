@@ -1,9 +1,6 @@
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import type { LogIn } from "../../Types/LogInTypes";
-import { logInHTTP } from "../../services/LoginHTTP";
-import { useAuthorization } from "../../Hooks/UseAuthorization";
+import { useLogIn } from "../../Hooks/LogIn/UseLogIn";
 
 interface PropTypes {
   showPassword: boolean;
@@ -16,28 +13,7 @@ export function LogInForm({
   passwordVisibility,
   changeForm,
 }: PropTypes) {
-  const { login } = useAuthorization();
-  const [logIn, setLogIn] = useState<LogIn>({
-    email: "",
-    password: "",
-  });
-
-  const logInHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setLogIn((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const sendLogIn = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const data = await logInHTTP(logIn);
-      if (!data.token || !data.user) return;
-      login(data.token, data.user);
-    } catch (error) {
-      throw new Error("Token was not generated");
-    }
-  };
-
+  const { logIn, logInHandler, sendLogIn } = useLogIn();
 
   return (
     <div className="login_form">
