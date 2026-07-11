@@ -10,10 +10,10 @@ export function LastSales({ lastOrdes }: PropType) {
   }
   return (
     <div className="last_sales_container">
-      {lastOrdes.map((order) => {
+      {lastOrdes.map((order, index) => {
         const {total,date, warehouse} = order;
         return (
-          <div className="sale_container_box">
+          <div key={index} className="sale_container_box">
             <h2>{warehouse}</h2>
             <div className="sale_details">
               <p>{shortDate(date)}</p>

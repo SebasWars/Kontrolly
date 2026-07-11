@@ -35,8 +35,6 @@ export function InvoicesHeaderOptions() {
           Cotizacion
         </button>
       </div>
-
-      <button className="generate_report_btn">Generar reporte</button>
     </div>
   );
 }

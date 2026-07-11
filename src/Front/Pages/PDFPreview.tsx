@@ -1,10 +1,11 @@
 import type { InvoiceItems } from "../context/RecuderTypes/InvoiceReduce";
+import { useClients } from "../Hooks/UseClients";
 import useInvoices from "../Hooks/UseInvoices";
 import "../styles/PDF.css";
 
 export function PDF() {
   const { invoiceDetails } = useInvoices();
-
+  const { client } = useClients();
   const calculateTotal = (arr: InvoiceItems[]) => {
     const price = arr.reduce(
       (acc, item) => acc + item.quantity * item.sales_price,
@@ -17,6 +18,12 @@ export function PDF() {
     return (val * 21) / 100;
   };
 
+  const subTotal = calculateTotal(invoiceDetails.itemsList);
+  const IVA = calculateIVA(calculateTotal(invoiceDetails.itemsList));
+  const total =
+    calculateTotal(invoiceDetails.itemsList) +
+    calculateIVA(calculateTotal(invoiceDetails.itemsList));
+
   return (
     <div className="PDF_CONTAINER">
       <header className="PDF_CONTAINER_HEADER">
@@ -28,10 +35,10 @@ export function PDF() {
       <div className="personal_data">
         <div className="data clien_data">
           <h2>Datos del cliente</h2>
-          <p>nombre</p>
-          <p>email</p>
-          <p>telefono</p>
-          <p>direccion</p>
+          <p>{client.name || "Nombre"}</p>
+          <p>{client.emailAddress || "Correo electronico"}</p>
+          <p>{client.phoneNumber || "Telefono Movil"}</p>
+          <p>{client.address || "Dirrección"}</p>
         </div>
         <div className="data company_data">
           <h2>Datos de la compañia</h2>
@@ -53,9 +60,9 @@ export function PDF() {
         </thead>
         <tbody>
           {invoiceDetails.itemsList.map((item) => {
-            const { name, quantity, sales_price } = item;
+            const { name, quantity, sales_price, id } = item;
             return (
-              <tr>
+              <tr key={id}>
                 <td>{name}</td>
                 <td>{quantity}</td>
                 <td>{sales_price}</td>
@@ -63,29 +70,24 @@ export function PDF() {
               </tr>
             );
           })}
-          <tr className="summary_row">
-            <td colSpan={2}></td>
-            <td>sub total</td>
-            <td>{calculateTotal(invoiceDetails.itemsList)}</td>
-          </tr>
-          <tr className="summary_row">
-            <td colSpan={2}></td>
-            <td>IVA 21%</td>
-            <td>{calculateIVA(calculateTotal(invoiceDetails.itemsList))}</td>
-          </tr>
-          <tr className="total_row">
-            <td colSpan={2}></td>
-            <td>TOTAL</td>
-            <td>
-              {calculateTotal(invoiceDetails.itemsList) +
-                calculateIVA(calculateTotal(invoiceDetails.itemsList))}
-            </td>
-          </tr>
         </tbody>
       </table>
 
-      <div className="notes">
-        <p>Notas:</p>
+      <div className="total_content_container">
+        <section>
+          <div className="sub_total">
+            <p>Subtotal</p>
+            <p>{subTotal}</p>
+          </div>
+          <div className="IVA">
+            <p>IVA(12%)</p>
+            <p>{IVA}</p>
+          </div>
+        </section>
+        <div className="TOTAL">
+          <p>Total:</p>
+          <p> {total}</p>
+        </div>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@
   height: 100%;
   padding: 1rem;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .PDF_CONTAINER_HEADER {
@@ -25,11 +27,14 @@
 .personal_data {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   width: 100%;
   margin: 1rem 0;
 
   .data {
     width: 50%;
+    border: 1px solid rgb(223, 223, 223);
+    padding: 0.5rem;
   }
 
   .data h2 {
@@ -38,10 +43,6 @@
 
   .data p {
     font-size: 0.5rem;
-  }
-
-  .company_data {
-    text-align: end;
   }
 }
 
@@ -54,6 +55,8 @@
     background-color: white;
 
     th {
+      border: transparent;
+      border-bottom: 1px solid black;
       padding: 0.1rem 0.2rem;
       font-size: 0.5rem;
     }
@@ -67,6 +70,8 @@
     td {
       padding: 0.1rem 0.2rem;
       font-size: 0.5rem;
+      border: transparent;
+      border-bottom: 1px solid rgb(190, 190, 190);
     }
   }
   tr:hover {
@@ -93,20 +98,31 @@
   width: 20%;
 }
 
-.notes {
+.total_content_container {
+  background-color: aliceblue;
+  border: 1px solid rgb(194, 194, 194);
+  width: 200px;
+  padding: 0.5rem;
   margin-top: 1rem;
-  p {
+  align-self: flex-end;
+
+  section .sub_total,
+  section .IVA {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 0.5rem;
-    position: relative;
   }
-}
-.notes p::before {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  height: 1px;
-  width: 100%;
-  background-color: black;
-  color: black;
+
+  section {
+    border-bottom: 1px solid black;
+    padding-bottom: 0.3rem;
+  }
+
+  .TOTAL {
+    display: flex;
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding-top: 0.2rem;
+  }
 }

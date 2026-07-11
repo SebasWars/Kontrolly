@@ -1,0 +1,135 @@
+import { useFetchClients } from "../../Hooks/ClientsHooks/useFetchClients";
+import { useCreateClient } from "../../Hooks/ClientsHooks/CreateNewClient";
+import type { Client } from "../../context/RecuderTypes/ClientsReduce";
+import { useEffect } from "react";
+
+type PropTypes = {
+  toggleForm: (val: boolean) => void;
+  editClient: Client | null;
+  handleEditClient: (client: Client | null) => void;
+};
+
+export function AddNewClient({
+  toggleForm,
+  editClient,
+  handleEditClient,
+}: PropTypes) {
+  const { createNewClient, modifyClient } = useFetchClients();
+  const { newClient, formHandler, validateForm, setNewClient } =
+    useCreateClient();
+
+  const createORupdate = () => {
+    if (!validateForm()) return;
+    if (editClient) {
+      modifyClient(newClient, editClient.id);
+    } else {
+      createNewClient(newClient);
+    }
+    toggleForm(false);
+  };
+
+  const closeForm = () => {
+    toggleForm(false);
+    handleEditClient(null);
+  };
+
+  useEffect(() => {
+    if (editClient) {
+      setNewClient(editClient);
+    } else {
+      setNewClient({
+        companyName: "",
+        name: "",
+        address: "",
+        emailAddress: "",
+        phoneNumber: "",
+        notes: "",
+      });
+    }
+  }, []);
+
+  return (
+    <div className="add_new_client_container">
+      <header className="add_client_header">
+        <h2>Añadir nuevo cliente</h2>
+        <button onClick={closeForm} className="close_client_form_btn">
+          x
+        </button>
+      </header>
+
+      <div className="add_client_form">
+        <form action="">
+          <label className="company_name" htmlFor="companyName">
+            Empresa
+            <input
+              value={newClient.companyName}
+              onChange={formHandler}
+              type="text"
+              name="companyName"
+              id="companyName"
+            />
+          </label>
+          <div className="form_section">
+            <label htmlFor="name">
+              Contacto directo
+              <input
+                value={newClient.name}
+                onChange={formHandler}
+                type="text"
+                name="name"
+                id="name"
+              />
+            </label>
+            <label htmlFor="address">
+              Dirección
+              <input
+                value={newClient.address}
+                onChange={formHandler}
+                type="text"
+                name="address"
+                id="address"
+              />
+            </label>
+          </div>
+          <div className="form_section">
+            <label htmlFor="phoneNumber">
+              Numero de contacto
+              <input
+                value={newClient.phoneNumber}
+                onChange={formHandler}
+                type="text"
+                name="phoneNumber"
+                id="phoneNumber"
+              />
+            </label>
+            <label htmlFor="emailAddress">
+              Correo electronico
+              <input
+                value={newClient.emailAddress}
+                onChange={formHandler}
+                type="email"
+                name="emailAddress"
+                id="emailAddress"
+              />
+            </label>
+          </div>
+
+          <label htmlFor="notes">
+            Notas
+            <textarea
+              value={newClient.notes}
+              onChange={formHandler}
+              name="notes"
+              id="notes"
+            ></textarea>
+          </label>
+        </form>
+      </div>
+
+      <div className="new_client_action_buttons">
+        <button onClick={closeForm}>Cancelar</button>
+        <button onClick={createORupdate}>Guardar</button>
+      </div>
+    </div>
+  );
+}

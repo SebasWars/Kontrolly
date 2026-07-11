@@ -18,6 +18,7 @@ export const initialStateInvoices: InvoicesState = {
     total: 0,
     warehouseID: "",
     warehouseName: "",
+    clientID: "",
   },
 };
 
@@ -30,6 +31,11 @@ export const invoicesReducer = (state: InvoicesState, action: Actions) => {
       return { ...state, invoicesValues: action.payload };
     case "SET_INVOICE_DETAILS":
       return { ...state, invoiceDetails: action.payload };
+    case "SET_CLIENT_ID":
+      return {
+        ...state,
+        invoiceDetails: { ...state.invoiceDetails, clientID: action.payload },
+      };
     case "ADD_ONE":
       return {
         ...state,
@@ -37,7 +43,7 @@ export const invoicesReducer = (state: InvoicesState, action: Actions) => {
           ...state.invoiceDetails,
           itemsList: state.invoiceDetails.itemsList.map((item) => {
             if (item.id !== action.payload) return item;
-            if (item.availableStock <= 0) return item;
+            if (item.availableStock <= 1) return item;
             return {
               ...item,
               quantity: item.quantity + 1,
@@ -53,7 +59,7 @@ export const invoicesReducer = (state: InvoicesState, action: Actions) => {
           ...state.invoiceDetails,
           itemsList: state.invoiceDetails.itemsList.map((item) => {
             if (item.id !== action.payload) return item;
-            if (item.quantity <= 0) return item;
+            if (item.quantity <= 1) return item;
 
             return {
               ...item,

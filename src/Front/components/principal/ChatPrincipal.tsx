@@ -52,59 +52,6 @@ export default function TickPlacementBars({
   );
 }
 
-/* MOCK */
-
-export const dataset = [
-  {
-    ventas: 2500,
-    month: "Jan",
-  },
-  {
-    ventas: 4500,
-    month: "Feb",
-  },
-  {
-    ventas: 3500,
-    month: "Mar",
-  },
-  {
-    ventas: 6000,
-    month: "Apr",
-  },
-  {
-    ventas: 0,
-    month: "May",
-  },
-  {
-    ventas: 0,
-    month: "June",
-  },
-  {
-    ventas: 0,
-    month: "July",
-  },
-  {
-    ventas: 0,
-    month: "Aug",
-  },
-  {
-    ventas: 0,
-    month: "Sept",
-  },
-  {
-    ventas: 0,
-    month: "Oct",
-  },
-  {
-    ventas: 0,
-    month: "Nov",
-  },
-  {
-    ventas: 0,
-    month: "Dec",
-  },
-];
-
 export function valueFormatter(value: number | null) {
   return `€${value}`;
 }

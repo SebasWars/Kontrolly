@@ -19,29 +19,26 @@ export class SalesModel {
     return itemsData;
   }
 
- static async getItemsByQuery({ query, warehouseId }) {
-  const warehouse = Stocks.find((W) => W.id === warehouseId);
-  if (!warehouse) return null;
+  static async getItemsByQuery({ query, warehouseId }) {
+    const warehouse = Stocks.find((W) => W.id === warehouseId);
+    if (!warehouse) return null;
 
-  const normalize = (text) =>
-    (text ?? "").trim().toLowerCase();
+    const normalize = (text) => (text ?? "").trim().toLowerCase();
 
-  const normalizeQuery = normalize(query);
+    const normalizeQuery = normalize(query);
 
-  const items = warehouse.items
-    .filter((item) =>
-      normalize(item.name).includes(normalizeQuery)
-    )
-    .map((item) => ({
-      id: item.id,
-      name: item.name,
-      image_url: item.image_url,
-      quantity: item.quantity,
-      sales_price: item.sales_price,
-    }));
+    const items = warehouse.items
+      .filter((item) => normalize(item.name).includes(normalizeQuery))
+      .map((item) => ({
+        id: item.id,
+        name: item.name,
+        image_url: item.image_url,
+        quantity: item.quantity,
+        sales_price: item.sales_price,
+      }));
 
-  return items;
-}
+    return items;
+  }
 
   static async createSell({ id, items, type }) {
     const warehouse = Stocks.find((W) => W.id === id);
@@ -52,6 +49,7 @@ export class SalesModel {
       warehouseName: warehouse.warehouse,
       itemsList: [],
       total: 0,
+      clientID: '',
       createdAt: new Date().toISOString(),
     };
 
@@ -82,7 +80,7 @@ export class SalesModel {
         id: warehouseItem.id,
         description: warehouseItem.description,
         sales_price: warehouseItem.sales_price,
-        purchase_price : warehouseItem.purchase_price,
+        purchase_price: warehouseItem.purchase_price,
         quantity: item.quantity,
       });
 

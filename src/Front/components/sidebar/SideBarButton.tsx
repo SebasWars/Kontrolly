@@ -6,14 +6,16 @@ type PropsType = {
   icon: IconProp;
   value: string;
   to: string;
+  action?: () => void;
 };
 
-function SideBarButton({ icon, value, to }: PropsType) {
+function SideBarButton({ icon, value, to, action}: PropsType) {
   return (
     <NavLink
       to={to}
       end={to === '/'}
       className={({ isActive }) => `menu_option ${isActive ? "active" : ""}`}
+      onClick={action}
     >
       <span>
         <FontAwesomeIcon icon={icon} />

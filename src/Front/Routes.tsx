@@ -7,6 +7,7 @@ import Principal from "./Pages/Principal";
 import CreateNewItem from "./Pages/CreateNewItem";
 import ModifyItem from "./Pages/ModifyItem";
 import {  ModifyInvoice } from "./Pages/ModifyInvoice";
+import { Clients } from "./Pages/Clients";
 
 export const routes = createBrowserRouter([
   {
@@ -50,6 +51,15 @@ export const routes = createBrowserRouter([
             element: <ModifyInvoice/>
           },
         ],
+      },
+      {
+        path:'clientes',
+        children: [
+          {
+            index: true,
+            element: <Clients/>
+          }
+        ]
       },
       {
         path: "*",

@@ -10,7 +10,7 @@ export function PopUp() {
 
     const timer = setTimeout(() => {
       hidePopup()
-    }, 1500);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [popup.open]);
