@@ -18,8 +18,7 @@
 }
 
 .side_bar header {
-  margin-bottom: 1rem;
-
+  height: 15%;
   h2 {
     font-size: 2rem;
     padding: 1rem 0;
@@ -32,6 +31,8 @@
 .menu_options {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 85%;
   color: white;
   padding: 0 1rem;
 
