@@ -47,7 +47,6 @@ export const AuthorizationProvider = ({ children }: PropType) => {
         user: authorization.user,
         token: authorization.token,
         loading: authorization.loading,
-        isAuthenticated: authorization.token !== null,
         login,
         logout,
       }}
