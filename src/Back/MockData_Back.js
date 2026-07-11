@@ -173,7 +173,7 @@ export const SalesRegister = [];
 export const clientsList = [
   {
     id: "id-1",
-    companyName: 'DulceHermodasTS',
+    companyName: "DulceHermodasTS",
     name: "Dulce hermosa",
     emailAddress: "dulcecitachiqita@gmail.com",
     phoneNumber: "673848272",
@@ -181,7 +181,7 @@ export const clientsList = [
   },
   {
     id: "id-2",
-    companyName: 'DulceHermodasTS',
+    companyName: "DulceHermodasTS",
     name: "Dulce hermosa",
     emailAddress: "dulcecitachiqita@gmail.com",
     phoneNumber: "673848272",
@@ -189,10 +189,23 @@ export const clientsList = [
   },
   {
     id: "id-3",
-    companyName: 'DulceHermodasTS',
+    companyName: "DulceHermodasTS",
     name: "Dulce hermosa",
     emailAddress: "dulcecitachiqita@gmail.com",
     phoneNumber: "673848272",
     address: "Carrer dulce 4",
   },
 ];
+
+export const users = [
+  {
+    id: crypto.randomUUID(),
+    name: "Carlos",
+    email: "carlos@gmail.com",
+    passwordHash: '$2b$10$kt5sum3YIreyUH51qamanu4GHgy8DmPkvjBPqAbJprtsC2Znhtp3W',
+    isActive: false,
+  },
+];
+
+//Otros valores que deberia tener un usuario en este caso, pero no para crear una cuenta serian: '1234567'
+// Nombre de la compañia, telefono Movil, dirreccion, 
