@@ -5,7 +5,7 @@ export const createToken = (user) => {
     {
       id: user.id,
       email: user.email,
-      isActive: user.isActive,
+      companyName: user.companyName,
     },
     process.env.JWT_SECRET,
     {

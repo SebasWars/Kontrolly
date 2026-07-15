@@ -26,7 +26,9 @@ export async function getInvoiesValues() {
 }
 
 export async function getInvoice(id: string) {
-  const response = await fetch(`${apiUrl}/facturas/${id}`);
+  const response = await fetch(`${apiUrl}/facturas/${id}`,{
+    headers: getHeaders()
+  });
   const data = await response.json();
   return data;
 }

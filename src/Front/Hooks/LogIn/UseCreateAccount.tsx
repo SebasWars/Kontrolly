@@ -23,6 +23,9 @@ export const useCreateAccount = () => {
       if (newAccount.password !== newAccount.passwordConfirm) {
         alert("La contraseña no coincide con la confirmación.");
       }
+      if (newAccount.email.trim() === "") {
+        alert("El campo correo electronico esta vacio, tiene que completarlo.");
+      }
       const data = await createAccount(newAccount);
       login(data.token, data.user);
     } catch (error) {

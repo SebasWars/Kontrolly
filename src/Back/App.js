@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
+import { createClient } from "@libsql/client";
 import { warehousesRoute } from "./routes/stock.js";
 import { salesRoute } from "./routes/sales.js";
 import { invoicesRoute } from "./routes/invoices.js";
@@ -14,6 +15,11 @@ export const PORT = process.env.PORT ?? 3000;
 const app = express();
 dotenv.config();
 
+export const db = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
 app.use(express.json());
 app.use(
   cors({
@@ -21,7 +27,6 @@ app.use(
   }),
 );
 app.use("/uploads", express.static("uploads"));
-
 app.use("/auth", authRoute);
 
 app.use("/", verifyJWT, homeRoute);

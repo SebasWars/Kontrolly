@@ -1,175 +1,211 @@
+import { randomUUID } from "crypto";
+import { db } from "../App.js";
 import { SalesRegister, Stocks } from "../MockData_Back.js";
 
 export class InvoicesModel {
   static async getInvoicesByType(type) {
-    const getWarehouse = (id) => {
-      const warehouse = Stocks.find((W) => W.id === id);
-      return warehouse?.warehouse;
-    };
+    if (type === "all") {
+      const result = await db.execute({
+        sql: `
+        SELECT
+          s.id,
+          w.warehouse AS warehouseID,
+          s.state,
+          s.total,
+          s.created_at AS date
+        FROM Sales s
+        JOIN Warehouse w
+        ON w.id = s.warehouse_id
+      `,
+      });
 
-    if (type === "sold" || type === "price") {
-      const invoices = SalesRegister.filter(
-        (invoice) => invoice.state === type,
-      ).map((invoice) => ({
-        id: invoice.id,
-        warehouseID: getWarehouse(invoice.warehouseID),
-        state: invoice.state,
-        total: invoice.total,
-        date: invoice.createdAt,
-      }));
-      return invoices;
+      return result.rows;
     }
 
-    const invoices = SalesRegister.map((invoice) => {
-      return {
-        id: invoice.id,
-        warehouseID: getWarehouse(invoice.warehouseID),
-        state: invoice.state,
-        total: invoice.total,
-        date: invoice.createdAt,
-      };
+    const invoices = await db.execute({
+      sql: "SELECT s.id, w.warehouse AS warehouseID, s.state, s.total, s.created_at AS date FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE state = ?",
+      args: [type],
     });
-    return invoices;
+
+    return invoices.rows;
   }
 
   static async getInvoicesValues() {
-    const totalPriceInvoices = SalesRegister.reduce(
-      (acc, item) => {
-        const currenDate = new Date(item.createdAt);
-        acc.totalCombined += item.total;
+    const totalPrices = await db.execute({
+      sql: "SELECT SUM(total) as totalCombined, SUM(CASE WHEN state = ? THEN total ELSE 0 END) AS totalSold, SUM(CASE WHEN state = ? THEN total ELSE 0 END) AS totalPrice, MAX(created_at) AS combinedLastUpdate, MAX(CASE WHEN state = ? THEN created_at END) AS soldLastUpdate, MAX(CASE WHEN state = ? THEN created_at END) AS priceLastUpdate FROM Sales",
+      args: ["sold", "price", "sold", "price"],
+    });
 
-        if (item.state === "sold") {
-          acc.totalSold += item.total;
-
-          if (
-            !acc.soldLastUpdate ||
-            currenDate > new Date(acc.soldLastUpdate)
-          ) {
-            acc.soldLastUpdate = item.createdAt;
-          }
-        }
-
-        if (item.state === "price") {
-          acc.totalPrice += item.total;
-
-          if (
-            !acc.priceLastUpdate ||
-            currenDate > new Date(acc.priceLastUpdate)
-          ) {
-            acc.priceLastUpdate = item.createdAt;
-          }
-        }
-
-        if (
-          !acc.combinedLastUpdate ||
-          currenDate > new Date(acc.combinedLastUpdate)
-        ) {
-          acc.combinedLastUpdate = item.createdAt;
-        }
-
-        return acc;
-      },
-      {
-        totalCombined: 0,
-        totalSold: 0,
-        totalPrice: 0,
-        combinedLastUpdate: null,
-        soldLastUpdate: null,
-        priceLastUpdate: null,
-      },
-    );
-    return totalPriceInvoices;
+    return totalPrices.rows[0];
   }
 
   static async getinvoiceByID(id) {
-    const invoice = SalesRegister.find((inv) => inv.id === id);
-    if (!invoice) return false;
-
-    const warehouse = Stocks.find((stock) => stock.id === invoice.warehouseID);
-
-    const itemsLits = invoice.itemsList.map((item) => {
-      const warehouseItem = warehouse.items.find(
-        (wItem) => wItem.id === item.id,
-      );
-
-      return {
-        ...item,
-        availableStock: warehouseItem?.quantity ?? 0,
-      };
+    const invoiceResult = await db.execute({
+      sql: `SELECT
+            s.id AS saleId, s.state, s.client_id, s.total, s.created_at, s.warehouse_id,
+            w.warehouse AS warehouseName,
+            si.item_id, si.quantity, si.unit_price, si.purchase_price,
+            i.name AS itemName, i.description, i.quantity AS availableStock
+          FROM Sales s
+          JOIN Warehouse w ON w.id = s.warehouse_id
+          JOIN Sales_items si ON si.sale_id = s.id
+          JOIN Items i ON i.id = si.item_id
+          WHERE s.id = ?`,
+      args: [id],
     });
 
-    return { ...invoice, itemsList: itemsLits };
+    const rows = invoiceResult.rows;
+    if (rows.length === 0) return false;
+
+    const invoice = {
+      id: rows[0].saleId,
+      state: rows[0].state,
+      warehouseID: rows[0].warehouse_id,
+      warehouseName: rows[0].warehouseName,
+      clientID: rows[0].client_id,
+      total: rows[0].total,
+      createdAt: rows[0].created_at,
+      itemsList: rows.map((row) => ({
+        id: row.item_id,
+        quantity: row.quantity,
+        sales_price: row.unit_price,
+        purchase_price: row.purchase_price,
+        availableStock: row.availableStock,
+        name: row.itemName,
+        description: row.description,
+      })),
+    };
+
+    return invoice;
   }
 
   static async updateInvoice(id, invoice) {
-    const invoiceIndex = SalesRegister.findIndex(
-      (invoice) => invoice.id === id,
-    );
+    const tx = await db.transaction("write");
+    try {
+      const oldInvoice = await tx.execute({
+        sql: "SELECT item_id, quantity FROM Sales_items WHERE sale_id = ?",
+        args: [id],
+      });
 
-    if (invoiceIndex === -1) throw new Error("Invoice not found");
-
-    const oldInvoice = SalesRegister[invoiceIndex];
-    const warehouse = Stocks.find((W) => W.id === oldInvoice.warehouseID);
-
-    if (!warehouse) return false;
-
-    const warehouseStock = warehouse.items;
-    let newTotal = 0;
-
-    for (let item of oldInvoice.itemsList) {
-      const i = warehouseStock.find((x) => x.id === item.id);
-      if (i) {
-        i.quantity += item.quantity;
+      if (oldInvoice.rows.length === 0) {
+        throw new Error("Invoice not found");
       }
+
+      for (const oldItem of oldInvoice.rows) {
+        await tx.execute({
+          sql: "UPDATE Items SET quantity = quantity + ? WHERE id = ?",
+          args: [oldItem.quantity, oldItem.item_id],
+        });
+      }
+
+      await tx.execute({
+        sql: "DELETE FROM Sales_items WHERE sale_id = ?",
+        args: [id],
+      });
+
+      let newTotal = 0;
+
+      for (const item of invoice.itemsList) {
+        const itemsResult = await tx.execute({
+          sql: "SELECT id, quantity, sales_price, purchase_price FROM Items WHERE id = ?",
+          args: [item.id],
+        });
+
+        const stockItems = itemsResult.rows[0];
+        if (!stockItems) {
+          throw new Error(`Items ${item.id} not found`);
+        }
+
+        if (stockItems.quantity < item.quantity) {
+          throw new Error(`Not enogh stock for item: ${item.id}`);
+        }
+
+        newTotal += item.quantity * stockItems.sales_price;
+
+        await tx.execute({
+          sql: "INSERT INTO Sales_items (id, sale_id, item_id, quantity,unit_price, purchase_price) VALUES (?, ?, ?, ?, ?, ? )",
+          args: [
+            randomUUID(),
+            id,
+            item.id,
+            item.quantity,
+            stockItems.sales_price,
+            stockItems.purchase_price,
+          ],
+        });
+
+        await tx.execute({
+          sql: "UPDATE Items SET quantity = quantity - ? WHERE id = ?",
+          args: [item.quantity, item.id],
+        });
+      }
+
+      await tx.execute({
+        sql: "UPDATE Sales SET total = ?, state = ?, client_id = ? WHERE id = ?",
+        args: [newTotal, invoice.state, invoice.clientID || null, id],
+      });
+
+      await tx.commit();
+      return true;
+    } catch (error) {
+      await tx.rollback();
+      throw error;
     }
-
-    const newItems = invoice.itemsList.map(({ availableStock, ...item }) => {
-      const s = warehouseStock.find((i) => i.id === item.id);
-
-      if (s) {
-        s.quantity -= item.quantity;
-        newTotal += item.quantity * s.sales_price;
-      }
-      return item;
-    });
-
-    SalesRegister[invoiceIndex] = {
-      ...invoice,
-      itemsList: newItems,
-      total: newTotal,
-    };
-
-    return true;
   }
 
   static async updateInvoiceState(id, newState) {
-    const invoice = SalesRegister.findIndex((inv) => inv.id === id);
-    if (invoice === -1) return false;
+    const invoiceResult = await db.execute({
+      sql: "UPDATE Sales SET state = ? WHERE id = ?",
+      args: [newState.state, id],
+    });
 
-    SalesRegister[invoice].state = newState.state;
-    return true;
+    return invoiceResult.rowsAffected > 0;
   }
 
   static async deleteInvoice({ id }) {
-    const invoiceIndex = SalesRegister.findIndex((i) => i.id === id);
-    if (invoiceIndex === -1) return false;
+    const tx = await db.transaction("write");
 
-    const currentInvoice = SalesRegister[invoiceIndex];
+    try {
+      const invoiceResult = await tx.execute({
+        sql: "SELECT id, state FROM Sales WHERE id = ?",
+        args: [id],
+      });
 
-    if (currentInvoice.state === "price") {
-      const warehouse = Stocks.find((W) => W.id === currentInvoice.warehouseID);
-      if (!warehouse) return false;
+      const currentInvoice = invoiceResult.rows[0];
+      if (!currentInvoice) {
+        throw new Error("Invoice not found");
+      }
 
-      for (let invoiceItem of currentInvoice.itemsList) {
-        const { id, quantity } = invoiceItem;
-        const stockItem = warehouse.items.find((item) => item.id === id);
-        if (stockItem) {
-          stockItem.quantity += quantity;
+      if (currentInvoice.state === "price") {
+        const itemsResult = await tx.execute({
+          sql: "SELECT item_id, sale_id, quantity FROM Sales_items WHERE sale_id = ?",
+          args: [id],
+        });
+
+        const itemsList = itemsResult.rows;
+
+        for (const item of itemsList) {
+          await tx.execute({
+            sql: "UPDATE Items SET quantity = quantity + ? WHERE id = ?",
+            args: [item.quantity, item.item_id],
+          });
         }
       }
-    }
 
-    SalesRegister.splice(invoiceIndex, 1);
-    return true;
+      await tx.execute({
+        sql: "DELETE FROM Sales_items WHERE sale_id = ?",
+        args: [id],
+      });
+      await tx.execute({
+        sql: "DELETE FROM Sales WHERE id = ?",
+        args: [id],
+      });
+
+      await tx.commit();
+      return true;
+    } catch (error) {
+      await tx.rollback();
+      throw error;
+    }
   }
 }

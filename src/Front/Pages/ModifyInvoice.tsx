@@ -15,7 +15,7 @@ export function ModifyInvoice() {
   const { invoiceDetails, setClientID } = useInvoices();
   const { clientForm, toggleForm } = useCreateClient();
   const { clientById } = useFetchClients();
-  const { clearClient } = useClients();
+  const { clearClient, client } = useClients();
   const isActive = clientForm ? "active" : "";
 
   const currentClietnHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,6 +32,10 @@ export function ModifyInvoice() {
     clientById(invoiceDetails.clientID);
   }, [invoiceDetails.clientID]);
 
+  if (!invoiceDetails || !invoiceDetails.id) {
+    return <p>Cargando factura...</p>;
+  }
+
   return (
     <div className={`modify_invoice_main_container ${isActive}`}>
       <div className="invoice_details_main_container">
@@ -44,7 +48,9 @@ export function ModifyInvoice() {
         />
         <InvoiceTableItems invoiceItems={invoiceDetails.itemsList} />
       </div>
-      {clientForm && <AddNewClient toggleForm={toggleForm} />}
+      {clientForm && (
+        <AddNewClient toggleForm={toggleForm} editClient={client} />
+      )}
       <div className="invoice_preview_container">
         <PDFPreview />
       </div>
