@@ -1,51 +1,45 @@
 import { randomUUID } from "node:crypto";
-import { Stocks } from "../MockData_Back.js";
+import { db } from "../App.js";
 
 export class StockModel {
   static async getWarehouses() {
-    const warehouses = Stocks.map((W) => ({
-      warehouse: W.warehouse,
-      id: W.id,
-    }));
-    return warehouses;
+    const warehouses = await db.execute("SELECT id, warehouse FROM Warehouse");
+    return warehouses.rows;
   }
 
   static async getWarehouseByID(id) {
-    const warehouse = Stocks.find((W) => W.id === id);
-    return warehouse ? warehouse.items : null;
+    const warehouse = await db.execute({
+      sql: "SELECT * FROM Items WHERE warehouse_id = ?",
+      args: [id],
+    });
+    return warehouse.rows.length ? warehouse.rows : null;
   }
 
   static async createWarehouse({ warehouse, items }) {
-    const newWarehouse = {
-      id: randomUUID(),
-      warehouse,
-      items,
-    };
+    const id = randomUUID();
+    await db.execute({
+      sql: "INSERT INTO Warehouse (id,warehouse) VALUES (?, ?)",
+      args: [id, warehouse],
+    });
 
-    Stocks.push(newWarehouse);
-    return newWarehouse;
+    return { id, warehouse };
   }
 
   static async updateWarehosue({ id, warehouseName }) {
-    const currentWarehosue = Stocks.findIndex((W) => W.id === id);
+    const currentWarehosue = await db.execute({
+      sql: "UPDATE Warehouse SET Warehouse = ? WHERE id = ?",
+      args: [warehouseName, id],
+    });
 
-    if (currentWarehosue === -1) return false;
-
-    const updated = {
-      ...Stocks[currentWarehosue],
-      warehouse: warehouseName,
-    };
-
-    Stocks[currentWarehosue] = updated;
-    return updated;
+    return currentWarehosue.rowsAffected > 0;
   }
 
   static async deleteWarehouse({ id }) {
-    const index = Stocks.findIndex((W) => W.id === id);
-    if (index === -1) return false;
+    const warehouse = await db.execute({
+      sql: "DELETE FROM Warehouse WHERE id = ?",
+      args: [id],
+    });
 
-    Stocks.splice(index, 1);
-
-    return true;
+    return warehouse.rowsAffected > 0;
   }
 }

@@ -1,93 +1,106 @@
+import { randomUUID } from "crypto";
+import { db } from "../App.js";
 import { SalesRegister, Stocks } from "../MockData_Back.js";
 
 export class SalesModel {
   static async getItems({ id }) {
-    const warehouse = Stocks.find((W) => W.id === id);
+    const itemsData = await db.execute({
+      sql: "SELECT id, name, image_url, quantity, sales_price FROM Items WHERE warehouse_id = ?",
+      args: [id],
+    });
 
-    if (!warehouse) {
-      throw new Error("Warehouse not found");
-    }
-
-    const itemsData = warehouse.items.map((item) => ({
-      id: item.id,
-      name: item.name,
-      image_url: item.image_url,
-      quantity: item.quantity,
-      sales_price: item.sales_price,
-    }));
-
-    return itemsData;
+    return itemsData.rows;
   }
 
   static async getItemsByQuery({ query, warehouseId }) {
-    const warehouse = Stocks.find((W) => W.id === warehouseId);
-    if (!warehouse) return null;
-
     const normalize = (text) => (text ?? "").trim().toLowerCase();
-
     const normalizeQuery = normalize(query);
 
-    const items = warehouse.items
-      .filter((item) => normalize(item.name).includes(normalizeQuery))
-      .map((item) => ({
-        id: item.id,
-        name: item.name,
-        image_url: item.image_url,
-        quantity: item.quantity,
-        sales_price: item.sales_price,
-      }));
+    const items = await db.execute({
+      sql: "SELECT id, name, image_url, quantity, sales_price FROM Items WHERE warehouse_id = ? AND LOWER(name) LIKE ?",
+      args: [warehouseId, normalizeQuery],
+    });
 
-    return items;
+    return items.rows;
   }
 
   static async createSell({ id, items, type }) {
-    const warehouse = Stocks.find((W) => W.id === id);
-    const sale = {
-      id: crypto.randomUUID(),
-      state: type,
-      warehouseID: id,
-      warehouseName: warehouse.warehouse,
-      itemsList: [],
-      total: 0,
-      clientID: '',
-      createdAt: new Date().toISOString(),
-    };
+    const tx = await db.transaction("write");
 
-    if (!warehouse) {
-      throw new Error("Warehouse not found");
-    }
-
-    const getItem = (id) => warehouse.items.find((wItem) => wItem.id === id);
-
-    for (const item of items) {
-      const warehouseItem = getItem(item.id);
-
-      if (!warehouseItem) {
-        throw new Error(`Item ${item.id} not found`);
-      }
-
-      if (warehouseItem.quantity < item.quantity) {
-        throw new Error(`Not enough stock for item: ${item.id}`);
-      }
-    }
-
-    for (const item of items) {
-      const warehouseItem = getItem(item.id);
-      sale.total += item.quantity * warehouseItem.sales_price;
-
-      sale.itemsList.push({
-        name: warehouseItem.name,
-        id: warehouseItem.id,
-        description: warehouseItem.description,
-        sales_price: warehouseItem.sales_price,
-        purchase_price: warehouseItem.purchase_price,
-        quantity: item.quantity,
+    try {
+      const warehouseResult = await tx.execute({
+        sql: "SELECT id FROM Warehouse WHERE id = ?",
+        args: [id],
       });
 
-      warehouseItem.quantity -= item.quantity;
-    }
+      if (warehouseResult.rows.length === 0) {
+        throw new Error("Warehose not found");
+      }
 
-    SalesRegister.push(sale);
-    return sale;
+      let total = 0;
+      let saleItemsToInsert = [];
+
+      for (const item of items) {
+        const itemsResult = await tx.execute({
+          sql: "SELECT id, quantity, sales_price, purchase_price FROM Items WHERE id = ? AND warehouse_id = ?",
+          args: [item.id, id],
+        });
+        const warehouseItem = itemsResult.rows[0];
+
+        if (!warehouseItem) {
+          throw new Error(`Item ${item.id} not found`);
+        }
+
+        if (warehouseItem.quantity < item.quantity) {
+          throw new Error(`Not enough stock for item: ${item.id}`);
+        }
+
+        total += item.quantity * warehouseItem.sales_price;
+        saleItemsToInsert.push({
+          itemId: warehouseItem.id,
+          quantity: item.quantity,
+          unitPrice: warehouseItem.sales_price,
+          purchasePrice: warehouseItem.purchase_price
+        });
+      }
+
+      const saleId = randomUUID();
+      await tx.execute({
+        sql: "INSERT INTO Sales (id, state, warehouse_id, client_id, total, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+        args: [saleId, type, id, null, total, new Date().toISOString()],
+      });
+
+      for (const saleItem of saleItemsToInsert) {
+        await tx.execute({
+          sql: "INSERT INTO Sales_items (id, sale_id, item_id, quantity, unit_price, purchase_price) VALUES (?, ?, ?, ?, ?, ?)",
+          args: [
+            randomUUID(),
+            saleId,
+            saleItem.itemId,
+            saleItem.quantity,
+            saleItem.unitPrice,
+            saleItem.purchasePrice
+          ],
+        });
+
+        await tx.execute({
+          sql: "UPDATE Items SET quantity = quantity - ? WHERE id = ?",
+          args: [saleItem.quantity, saleItem.itemId],
+        });
+      }
+
+      await tx.commit();
+      return {
+        id: saleId,
+        state: type,
+        warehouseId: id,
+        total,
+        items: saleItemsToInsert,
+        createdAt: new Date().toISOString(),
+      };
+    } catch (error) {
+      await tx.rollback();
+      throw error;
+    }
   }
 }

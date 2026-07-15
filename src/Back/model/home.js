@@ -1,21 +1,20 @@
-import { SalesRegister, Stocks } from "../MockData_Back.js";
+import { db } from "../App.js";
 
 export class homeModel {
-  static getFinances() {
-    const salesRegister = SalesRegister;
-    const totalSales = salesRegister.reduce(
-      (acc, sale) => (sale.state === "sold" ? acc + sale.total : acc),
-      0,
-    );
+  static async getFinances() {
+    const salesResults = await db.execute({
+      sql: "SELECT SUM(total) AS totalSales, COUNT(*) AS totalOrders FROM Sales WHERE state = ?",
+      args: ["sold"],
+    });
 
-    const totalInvestment = salesRegister.reduce((acc, sale) => {
-      if (sale.state !== "sold") return acc;
-      const salesInvesment = sale.itemsList.reduce((acc, item) => {
-        return acc + item.purchase_price * item.quantity;
-      }, 0);
-      return acc + salesInvesment;
-    }, 0);
+    const invesmentResult = await db.execute({
+      sql: "SELECT SUM(si.purchase_price * si.quantity) AS totalInvesment FROM Sales s JOIN Sales_items si ON si.sale_id = s.id WHERE s.state = ?",
+      args: ["sold"],
+    });
 
+    const totalSales = salesResults.rows[0].totalSales ?? 0;
+    const totalOrders = salesResults.rows[0].totalOrders ?? 0;
+    const totalInvestment = invesmentResult.rows[0].totalInvesment ?? 0;
     const totalProfit = totalSales - totalInvestment;
 
     const finances = [
@@ -27,7 +26,7 @@ export class homeModel {
       {
         title: "Numerdo de Ordenes",
         type: "orders",
-        value: salesRegister.length,
+        value: totalOrders,
       },
       {
         title: "Ganancias Totales",
@@ -44,31 +43,27 @@ export class homeModel {
     return finances;
   }
 
-  static getLasSales() {
-    const lastSales = SalesRegister.filter((sale) => sale.state === "sold")
-      .slice(0, 10)
-      .map((S) => {
-        return {
-          warehouse: S.warehouseName,
-          date: S.createdAt,
-          total: S.total,
-        };
-      });
-    return lastSales;
+  static async getLasSales() {
+    const lastSales = await db.execute({
+      sql: "SELECT w.warehouse AS warehouse, s.created_at AS date, s.total AS total FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE state = ? ORDER BY s.created_at DESC LIMIT 10",
+      args: ["sold"],
+    });
+
+    return lastSales.rows;
   }
 
-  static getSalesByRequest(type) {
+  static async getSalesByRequest(type) {
     switch (type) {
       case "month":
-        return this.getSalesByYear(SalesRegister);
+        return this.getSalesByYear();
       case "day":
-        return this.getSalesByMonth(SalesRegister);
+        return this.getSalesByMonth();
       default:
         throw new Error("Invalid Type");
     }
   }
 
-  static getSalesByYear(sales) {
+  static async getSalesByYear() {
     const monthNames = [
       "Jan",
       "Feb",
@@ -89,24 +84,28 @@ export class homeModel {
       total: 0,
     }));
 
-    sales.forEach((sale) => {
-      const date = new Date(sale.createdAt);
-      const monthIndex = date.getMonth();
-
-      if (sale.state === "sold") {
-        months[monthIndex].total += sale.total;
-      }
+    const result = await db.execute({
+      sql: `SELECT CAST(strftime('%m', created_at) AS INTEGER) AS monthNumber,
+           SUM(total) AS total
+           FROM Sales
+           WHERE state = ?
+           GROUP BY monthNumber
+      `,
+      args: ["sold"],
     });
+
+    for (const row of result.rows) {
+      const monthIndex = row.monthNumber - 1;
+      months[monthIndex].total = row.total;
+    }
 
     return months;
   }
 
-  static getSalesByMonth(sales) {
+  static async getSalesByMonth() {
     const date = new Date();
-
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
-
     const daysInMonth = new Date(year, month, 0).getDate();
 
     const days = Array.from({ length: daysInMonth }, (_, i) => ({
@@ -114,16 +113,23 @@ export class homeModel {
       total: 0,
     }));
 
-    sales.forEach((sale) => {
-      if (sale.state === "sold") {
-        const date = new Date(sale.createdAt);
+    const monthStr = String(month).padStart(2, '0')
 
-        if (date.getFullYear() === year && date.getMonth() + 1 === month) {
-          const day = date.getDate();
-          days[day - 1].total += sale.total;
-        }
-      }
-    });
+    const result = await db.execute({
+      sql:`SELECT CAST(strftime('%d', created_at) AS INTEGER) AS dayNumber,
+           SUM(total) AS total
+           FROM Sales
+           WHERE state = ?
+           AND strftime('%Y', created_at) = ?
+           AND strftime('%m', created_at) = ?
+           GROUP BY dayNumber
+      `,
+      args:['sold', String(year), monthStr]
+    })
+
+    for(const row of result.rows){
+      days[row.dayNumber - 1].total = row.total
+    }
 
     return days;
   }
