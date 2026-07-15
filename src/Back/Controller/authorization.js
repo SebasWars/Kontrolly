@@ -35,6 +35,12 @@ export class authorizationController {
         });
       }
 
+      if (!newUser.success && newUser.error === "PASSWORD_LENGTH") {
+        return res
+          .status(400)
+          .json({ message: "Password length is not enough" });
+      }
+
       return res.status(201).json(newUser);
     } catch (error) {
       return res.status(500).json({
