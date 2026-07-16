@@ -2,13 +2,15 @@ import { StockModel } from "../model/stock.js";
 
 export class StockController {
   static async getWarehouses(req, res) {
-    const warehouses = await StockModel.getWarehouses();
+    const userID = req.user.id;
+    const warehouses = await StockModel.getWarehouses(userID);
     return res.json({ warehouses });
   }
 
   static async getWarehouseByID(req, res) {
     const { id } = req.params;
-    const warehouseItems = await StockModel.getWarehouseByID(id);
+    const userID = req.user.id;
+    const warehouseItems = await StockModel.getWarehouseByID(id, userID);
     if (!warehouseItems) {
       return res.status(404).json({ message: "Warehouse non-existent" });
     }
@@ -16,18 +18,15 @@ export class StockController {
   }
 
   static async createWarehouse(req, res) {
-    const { warehouse, items } = req.body;
-
+    const { warehouse } = req.body;
+    const userID = req.user.id
     if (!warehouse || typeof warehouse !== "string") {
       return res
         .status(400)
         .json({ message: "Warehouse is required and must be an string" });
     }
 
-    if (!Array.isArray(items)) {
-      return res.status(400).json({ message: "Items must be an array" });
-    }
-    const newWarehouse = await StockModel.createWarehouse({ warehouse, items });
+    const newWarehouse = await StockModel.createWarehouse({ warehouse, userID });
     return res.status(201).json({
       messge: "New warehouse created succesfylly",
       warehouse_created: newWarehouse,
@@ -36,11 +35,13 @@ export class StockController {
 
   static async modifyWarehouse(req, res) {
     const { id } = req.params;
-    const { warehouseName} = req.body;
+    const userID = req.user.id;
+    const { warehouseName } = req.body;
 
     const warehouseToUpdate = await StockModel.updateWarehosue({
       id,
       warehouseName,
+      userID,
     });
 
     if (!warehouseToUpdate) {
@@ -54,7 +55,8 @@ export class StockController {
 
   static async deleteWarehouse(req, res) {
     const { id } = req.params;
-    const deleted = await StockModel.deleteWarehouse({ id });
+    const userID = req.user.id;
+    const deleted = await StockModel.deleteWarehouse({ id, userID });
     if (!deleted) {
       return res.status(404).json({ message: "Warehouse non-existent" });
     }

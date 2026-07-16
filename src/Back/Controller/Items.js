@@ -3,12 +3,13 @@ import { ItemsModel } from "../model/Items.js";
 export class ItemsController {
   static async createItem(req, res) {
     const { id } = req.params;
-
+    const userID = req.user.id;
     const file = req.file;
     const { name, description, quantity, purchase_price, sales_price } =
       req.body;
 
     const newItem = await ItemsModel.createItem({
+      userID,
       id,
       name,
       description,
@@ -23,12 +24,13 @@ export class ItemsController {
 
   static async modifyItem(req, res) {
     const { warehouseID, itemID } = req.params;
-
+    const userID = req.user.id;
     const file = req.file;
     const { name, description, quantity, purchase_price, sales_price } =
       req.body;
 
     const itemUpdated = await ItemsModel.modifyItem({
+      userID,
       warehouseID,
       itemID,
       name,
@@ -44,7 +46,8 @@ export class ItemsController {
 
   static async deleteItem(req, res) {
     const { warehouseID, itemID } = req.params;
-    const itemRemoved = await ItemsModel.deleteItem({ warehouseID, itemID });
+    const userID = req.user.id
+    const itemRemoved = await ItemsModel.deleteItem({ warehouseID, itemID, userID});
     if (!itemRemoved) {
       return res.status(404).json({ message: "Item non-existent" });
     }

@@ -1,36 +1,27 @@
 import type { InvoiceDetails } from "../context/RecuderTypes/InvoiceReduce";
-import { getHeaders } from "./api";
+import { getHeaders, handleResponse } from "./api";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export async function getInvoicesByType(type: "all" | "sold" | "price") {
-  const response = await fetch(`${apiUrl}/facturas/type/${type}`,{
-    headers: getHeaders()
+  const response = await fetch(`${apiUrl}/facturas/type/${type}`, {
+    headers: getHeaders(),
   });
-  if (!response.ok) {
-    throw new Error("No invoices found");
-  }
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 }
 
 export async function getInvoiesValues() {
-  const response = await fetch(`${apiUrl}/facturas/values`,{
-    headers: getHeaders()
+  const response = await fetch(`${apiUrl}/facturas/values`, {
+    headers: getHeaders(),
   });
-  if (!response.ok) {
-    throw new Error("No invoices values found");
-  }
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 }
 
 export async function getInvoice(id: string) {
-  const response = await fetch(`${apiUrl}/facturas/${id}`,{
-    headers: getHeaders()
+  const response = await fetch(`${apiUrl}/facturas/${id}`, {
+    headers: getHeaders(),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 }
 
 export async function updateInvoice(id: string, invoice: InvoiceDetails) {
@@ -42,8 +33,7 @@ export async function updateInvoice(id: string, invoice: InvoiceDetails) {
     },
     body: JSON.stringify(invoice),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 }
 
 export async function updateInvoiceState(id: string, newState: string) {
@@ -57,17 +47,13 @@ export async function updateInvoiceState(id: string, newState: string) {
       state: newState,
     }),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 }
 
 export async function removeInvoice(id: string) {
   const response = await fetch(`${apiUrl}/facturas/${id}`, {
     method: "DELETE",
-    headers: getHeaders()
+    headers: getHeaders(),
   });
-  if (!response.ok) {
-    throw new Error("No invoice found available to delete");
-  }
-  return await response.json();
+  return handleResponse(response);
 }

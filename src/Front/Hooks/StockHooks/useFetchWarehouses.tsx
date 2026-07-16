@@ -30,8 +30,6 @@ export function useFetchDataByID() {
   }
   useEffect(() => {
     if(!selectedWarehouseId) return;
-
-    fetchWarehousesById(selectedWarehouseId)
   },[selectedWarehouseId])
 
   return {fetchWarehousesById}

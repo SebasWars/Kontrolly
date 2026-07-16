@@ -18,7 +18,7 @@ export const verifyJWT = (req, res, next) => {
 
   if (!token) {
     return res.status(401).json({
-      message: "Token was not probidden",
+      message: "Token was not provided",
     });
   }
 

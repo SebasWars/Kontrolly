@@ -3,14 +3,13 @@ export interface SalesContextType {
   itemsSales: SaleItems[];
   currentSale: SaleItems[];
 
-  addItemToCart: (item: SaleItems) => void
-  addOne: (id: string) => void
-  removeOne: (id: string) => void
-  clearCart: () => void
-  setWarehouseSales: (id: string) => void
-  setItemsSales: (item: SaleItems[]) => void
+  addItemToCart: (item: SaleItems) => void;
+  addOne: (id: string) => void;
+  removeOne: (id: string) => void;
+  clearCart: () => void;
+  setWarehouseSales: (id: string) => void;
+  setItemsSales: (item: SaleItems[]) => void;
 }
-
 
 export interface SalesState {
   selectWarehouseSalesId: string | null;
@@ -32,7 +31,8 @@ export type Actions =
   | AddItemToCart
   | AddOne
   | RemoveOne
-  | ClearCart;
+  | ClearCart
+  | CLEAR;
 
 interface SetWarehouseForSales {
   type: "SET_WAREHOUSE_SALES";
@@ -61,4 +61,8 @@ interface RemoveOne {
 
 interface ClearCart {
   type: "CLEAR_CART";
+}
+
+interface CLEAR {
+  type: "CLEAR";
 }

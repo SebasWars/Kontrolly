@@ -1,7 +1,8 @@
-import { createContext, useReducer, type ReactNode } from "react";
+import { createContext, useEffect, useReducer, type ReactNode } from "react";
 import type { Items, WarehousesMeta } from "../../Types/StockTypes";
 import { initialState, warehouseReducer } from "../Reducer/WarehouseReducer";
 import type { WarehouseContextType } from "../RecuderTypes/WarehouseReduce";
+import { useAuthorization } from "../../Hooks/UseAuthorization";
 
 interface PropProviderType {
   children: ReactNode;
@@ -13,23 +14,30 @@ export const WarehouseContext = createContext<WarehouseContextType | undefined>(
 
 export const WarehouseProvider = ({ children }: PropProviderType) => {
   const [state, dispatch] = useReducer(warehouseReducer, initialState);
+  const { token } = useAuthorization();
 
   const setWarehouses = (warehouses: WarehousesMeta[]) => {
     dispatch({ type: "SET_WAREHOUSES", payload: warehouses });
   };
 
-  const selectWarehouse = (id: string| null) => {
-    dispatch({type: 'SELECT_WAREHOUSE_STOCK', payload: id})
-  }
+  const selectWarehouse = (id: string | null) => {
+    dispatch({ type: "SELECT_WAREHOUSE_STOCK", payload: id });
+  };
 
   const setWarehouseItems = (items: Items[]) => {
-    dispatch({type: 'SET_WAREHOUSE_ITEMS', payload: items})
-  }
+    dispatch({ type: "SET_WAREHOUSE_ITEMS", payload: items });
+  };
 
   const clear = () => {
-    selectWarehouse(null)
-    setWarehouseItems([])
-  }
+    selectWarehouse(null);
+    setWarehouseItems([]);
+  };
+
+  useEffect(() => {
+    if (!token) {
+      clear()
+    }
+  }, [token]);
 
   return (
     <WarehouseContext.Provider
@@ -41,7 +49,7 @@ export const WarehouseProvider = ({ children }: PropProviderType) => {
         setWarehouses,
         selectWarehouse,
         setWarehouseItems,
-        clear
+        clear,
       }}
     >
       {children}

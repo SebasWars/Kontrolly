@@ -1,9 +1,8 @@
 import { randomUUID } from "crypto";
 import { db } from "../App.js";
-import { SalesRegister, Stocks } from "../MockData_Back.js";
 
 export class InvoicesModel {
-  static async getInvoicesByType(type) {
+  static async getInvoicesByType(type, userID) {
     if (type === "all") {
       const result = await db.execute({
         sql: `
@@ -16,30 +15,32 @@ export class InvoicesModel {
         FROM Sales s
         JOIN Warehouse w
         ON w.id = s.warehouse_id
+        WHERE w.user_id = ?
       `,
+        args: [userID],
       });
 
       return result.rows;
     }
 
     const invoices = await db.execute({
-      sql: "SELECT s.id, w.warehouse AS warehouseID, s.state, s.total, s.created_at AS date FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE state = ?",
-      args: [type],
+      sql: "SELECT s.id, w.warehouse AS warehouseID, s.state, s.total, s.created_at AS date FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE s.state = ? AND w.user_id = ?",
+      args: [type, userID],
     });
 
     return invoices.rows;
   }
 
-  static async getInvoicesValues() {
+  static async getInvoicesValues(userID) {
     const totalPrices = await db.execute({
-      sql: "SELECT SUM(total) as totalCombined, SUM(CASE WHEN state = ? THEN total ELSE 0 END) AS totalSold, SUM(CASE WHEN state = ? THEN total ELSE 0 END) AS totalPrice, MAX(created_at) AS combinedLastUpdate, MAX(CASE WHEN state = ? THEN created_at END) AS soldLastUpdate, MAX(CASE WHEN state = ? THEN created_at END) AS priceLastUpdate FROM Sales",
-      args: ["sold", "price", "sold", "price"],
+      sql: "SELECT SUM(s.total) as totalCombined, SUM(CASE WHEN s.state = ? THEN s.total ELSE 0 END) AS totalSold, SUM(CASE WHEN s.state = ? THEN s.total ELSE 0 END) AS totalPrice, MAX(s.created_at) AS combinedLastUpdate, MAX(CASE WHEN s.state = ? THEN s.created_at END) AS soldLastUpdate, MAX(CASE WHEN s.state = ? THEN s.created_at END) AS priceLastUpdate FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE w.user_id = ?",
+      args: ["sold", "price", "sold", "price", userID],
     });
 
     return totalPrices.rows[0];
   }
 
-  static async getinvoiceByID(id) {
+  static async getinvoiceByID(id, userID) {
     const invoiceResult = await db.execute({
       sql: `SELECT
             s.id AS saleId, s.state, s.client_id, s.total, s.created_at, s.warehouse_id,
@@ -50,8 +51,10 @@ export class InvoicesModel {
           JOIN Warehouse w ON w.id = s.warehouse_id
           JOIN Sales_items si ON si.sale_id = s.id
           JOIN Items i ON i.id = si.item_id
-          WHERE s.id = ?`,
-      args: [id],
+          WHERE s.id = ?
+          AND w.user_id = ?
+          `,
+      args: [id, userID],
     });
 
     const rows = invoiceResult.rows;
@@ -79,12 +82,12 @@ export class InvoicesModel {
     return invoice;
   }
 
-  static async updateInvoice(id, invoice) {
+  static async updateInvoice(id, invoice, userID) {
     const tx = await db.transaction("write");
     try {
       const oldInvoice = await tx.execute({
-        sql: "SELECT item_id, quantity FROM Sales_items WHERE sale_id = ?",
-        args: [id],
+        sql: "SELECT si.item_id, si.quantity FROM Sales_items si JOIN Items i ON i.id = si.item_id JOIN Warehouse w ON w.id = i.warehouse_id WHERE si.sale_id = ? AND w.user_id = ?",
+        args: [id, userID],
       });
 
       if (oldInvoice.rows.length === 0) {
@@ -93,22 +96,30 @@ export class InvoicesModel {
 
       for (const oldItem of oldInvoice.rows) {
         await tx.execute({
-          sql: "UPDATE Items SET quantity = quantity + ? WHERE id = ?",
-          args: [oldItem.quantity, oldItem.item_id],
+          sql: `
+          UPDATE Items
+          SET quantity = quantity + ?
+          WHERE id = ?
+          AND warehouse_id IN (
+            SELECT id
+            FROM Warehouse
+            WHERE user_id = ?)
+          `,
+          args: [oldItem.quantity, oldItem.item_id, userID],
         });
       }
 
       await tx.execute({
-        sql: "DELETE FROM Sales_items WHERE sale_id = ?",
-        args: [id],
+        sql: "DELETE FROM Sales_items WHERE sale_id = ? AND sale_id IN (SELECT s.id FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE user_id = ?)",
+        args: [id, userID],
       });
 
       let newTotal = 0;
 
       for (const item of invoice.itemsList) {
         const itemsResult = await tx.execute({
-          sql: "SELECT id, quantity, sales_price, purchase_price FROM Items WHERE id = ?",
-          args: [item.id],
+          sql: "SELECT i.id, i.quantity, i.sales_price, i.purchase_price FROM Items i JOIN Warehouse w ON w.id = i.warehouse_id WHERE i.id = ? AND w.user_id = ?",
+          args: [item.id, userID],
         });
 
         const stockItems = itemsResult.rows[0];
@@ -135,14 +146,14 @@ export class InvoicesModel {
         });
 
         await tx.execute({
-          sql: "UPDATE Items SET quantity = quantity - ? WHERE id = ?",
-          args: [item.quantity, item.id],
+          sql: "UPDATE Items SET quantity = quantity - ? WHERE id = ? AND warehouse_id IN (SELECT id FROM Warehouse WHERE user_id = ?)",
+          args: [item.quantity, item.id, userID],
         });
       }
 
       await tx.execute({
-        sql: "UPDATE Sales SET total = ?, state = ?, client_id = ? WHERE id = ?",
-        args: [newTotal, invoice.state, invoice.clientID || null, id],
+        sql: "UPDATE Sales SET total = ?, state = ?, client_id = ? WHERE id = ? AND warehouse_id IN (SELECT id FROM Warehouse WHERE user_id = ?)",
+        args: [newTotal, invoice.state, invoice.clientID || null, id, userID],
       });
 
       await tx.commit();
@@ -153,22 +164,22 @@ export class InvoicesModel {
     }
   }
 
-  static async updateInvoiceState(id, newState) {
+  static async updateInvoiceState(id, newState, userID) {
     const invoiceResult = await db.execute({
-      sql: "UPDATE Sales SET state = ? WHERE id = ?",
-      args: [newState.state, id],
+      sql: "UPDATE Sales SET state = ? WHERE id = ? AND warehouse_id IN (SELECT id FROM Warehouse WHERE user_id = ?)",
+      args: [newState.state, id, userID],
     });
 
     return invoiceResult.rowsAffected > 0;
   }
 
-  static async deleteInvoice({ id }) {
+  static async deleteInvoice({ id, userID }) {
     const tx = await db.transaction("write");
 
     try {
       const invoiceResult = await tx.execute({
-        sql: "SELECT id, state FROM Sales WHERE id = ?",
-        args: [id],
+        sql: "SELECT s.id, s.state FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE s.id = ? AND w.user_id = ?",
+        args: [id, userID],
       });
 
       const currentInvoice = invoiceResult.rows[0];
@@ -178,27 +189,28 @@ export class InvoicesModel {
 
       if (currentInvoice.state === "price") {
         const itemsResult = await tx.execute({
-          sql: "SELECT item_id, sale_id, quantity FROM Sales_items WHERE sale_id = ?",
-          args: [id],
+          sql: "SELECT si.item_id, si.sale_id, si.quantity FROM Sales_items si JOIN Items i ON i.id = si.item_id JOIN Warehouse w ON w.id = i.warehouse_id WHERE si.sale_id = ? AND w.user_id = ?",
+          args: [id, userID],
         });
 
         const itemsList = itemsResult.rows;
 
         for (const item of itemsList) {
           await tx.execute({
-            sql: "UPDATE Items SET quantity = quantity + ? WHERE id = ?",
-            args: [item.quantity, item.item_id],
+            sql: "UPDATE Items SET quantity = quantity + ? WHERE id = ? AND warehouse_id IN (SELECT id FROM Warehouse WHERE user_id = ?)",
+            args: [item.quantity, item.item_id, userID],
           });
         }
       }
 
       await tx.execute({
-        sql: "DELETE FROM Sales_items WHERE sale_id = ?",
-        args: [id],
+        sql: "DELETE FROM Sales_items WHERE sale_id = ? AND sale_id IN (SELECT s.id FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE user_id = ?)",
+        args: [id, userID],
       });
+
       await tx.execute({
-        sql: "DELETE FROM Sales WHERE id = ?",
-        args: [id],
+        sql: "DELETE FROM Sales WHERE id = ? AND warehouse_id IN (SELECT id FROM Warehouse WHERE user_id = ?)",
+        args: [id, userID],
       });
 
       await tx.commit();

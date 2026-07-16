@@ -1,36 +1,35 @@
 import { randomUUID } from "crypto";
 import { db } from "../App.js";
-import { SalesRegister, Stocks } from "../MockData_Back.js";
 
 export class SalesModel {
-  static async getItems({ id }) {
+  static async getItems({ id, userID }) {
     const itemsData = await db.execute({
-      sql: "SELECT id, name, image_url, quantity, sales_price FROM Items WHERE warehouse_id = ?",
-      args: [id],
+      sql: "SELECT i.id, i.name, i.image_url, i.quantity, i.sales_price FROM Items i JOIN Warehouse w ON w.id = i.warehouse_id WHERE i.warehouse_id = ? AND w.user_id = ?",
+      args: [id, userID],
     });
 
     return itemsData.rows;
   }
 
-  static async getItemsByQuery({ query, warehouseId }) {
+  static async getItemsByQuery({ query, warehouseId, userID }) {
     const normalize = (text) => (text ?? "").trim().toLowerCase();
     const normalizeQuery = normalize(query);
 
     const items = await db.execute({
-      sql: "SELECT id, name, image_url, quantity, sales_price FROM Items WHERE warehouse_id = ? AND LOWER(name) LIKE ?",
-      args: [warehouseId, normalizeQuery],
+      sql: "SELECT i.id, i.name, i.image_url, i.quantity, i.sales_price FROM Items i JOIN Warehouse w ON w.id = i.warehouse_id WHERE i.warehouse_id = ? AND LOWER(i.name) LIKE ? AND w.user_id = ?",
+      args: [warehouseId, `%${normalizeQuery}%`, userID],
     });
 
     return items.rows;
   }
 
-  static async createSell({ id, items, type }) {
+  static async createSell({ id, items, type, userID }) {
     const tx = await db.transaction("write");
 
     try {
       const warehouseResult = await tx.execute({
-        sql: "SELECT id FROM Warehouse WHERE id = ?",
-        args: [id],
+        sql: "SELECT id FROM Warehouse WHERE id = ? AND user_id = ?",
+        args: [id, userID],
       });
 
       if (warehouseResult.rows.length === 0) {
@@ -42,8 +41,8 @@ export class SalesModel {
 
       for (const item of items) {
         const itemsResult = await tx.execute({
-          sql: "SELECT id, quantity, sales_price, purchase_price FROM Items WHERE id = ? AND warehouse_id = ?",
-          args: [item.id, id],
+          sql: "SELECT i.id, i.quantity, i.sales_price, i.purchase_price FROM Items i JOIN Warehouse w ON w.id = i.warehouse_id WHERE i.id = ? AND i.warehouse_id = ? AND w.user_id = ?",
+          args: [item.id, id, userID],
         });
         const warehouseItem = itemsResult.rows[0];
 
@@ -60,7 +59,7 @@ export class SalesModel {
           itemId: warehouseItem.id,
           quantity: item.quantity,
           unitPrice: warehouseItem.sales_price,
-          purchasePrice: warehouseItem.purchase_price
+          purchasePrice: warehouseItem.purchase_price,
         });
       }
 
@@ -79,7 +78,7 @@ export class SalesModel {
             saleItem.itemId,
             saleItem.quantity,
             saleItem.unitPrice,
-            saleItem.purchasePrice
+            saleItem.purchasePrice,
           ],
         });
 
