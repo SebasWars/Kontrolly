@@ -7,15 +7,33 @@ type PropsType = {
   value: string;
   to: string;
   action?: () => void;
+  preventNavigation?: boolean;
 };
 
-function SideBarButton({ icon, value, to, action}: PropsType) {
+function SideBarButton({
+  icon,
+  value,
+  to,
+  action,
+  preventNavigation,
+}: PropsType) {
+  const handleClick = (e: React.MouseEvent) => {
+    if (preventNavigation) {
+      e.preventDefault();
+    }
+    action?.();
+  };
+
   return (
     <NavLink
       to={to}
-      end={to === '/'}
-      className={({ isActive }) => `menu_option ${isActive ? "active" : ""}`}
-      onClick={action}
+      end={to === "/"}
+      className={
+        preventNavigation
+          ? "menu_option"
+          : ({ isActive }) => `menu_option ${isActive ? "active" : ""}`
+      }
+      onClick={handleClick}
     >
       <span>
         <FontAwesomeIcon icon={icon} />
