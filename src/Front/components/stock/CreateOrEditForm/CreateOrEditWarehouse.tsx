@@ -25,8 +25,8 @@ export function CreateOrEdit({
 
   const initialData: CreateStockType =
     isEdit && currentWarehouse
-      ? { warehouse: currentWarehouse.warehouse, items: [] }
-      : { warehouse: "", items: [] };
+      ? { warehouse: currentWarehouse.warehouse }
+      : { warehouse: "" };
 
   const handleSubmit = async (data: CreateStockType) => {
     if (data.warehouse === "") return;
