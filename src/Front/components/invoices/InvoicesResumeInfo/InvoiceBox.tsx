@@ -9,7 +9,7 @@ export function InvoiceBox({ type, total, lastUpdate }: PropTypes) {
   return (
     <div className="invoice_mini_resume_container">
       <h3>{type}</h3>
-      <h2>{`€${total}`}</h2>
+      <h2>{`€${total || '0'}`}</h2>
       <p>{`Ultima catualizacion: ${shortDate ? shortDate : 'No hay registro aun'}`}</p>
     </div>
   );
