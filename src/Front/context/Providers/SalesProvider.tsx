@@ -1,7 +1,11 @@
-import { createContext, useReducer, type ReactNode } from "react";
+import { createContext, useEffect, useReducer, type ReactNode } from "react";
 
-import { type SaleItems, type SalesContextType } from "../RecuderTypes/SalesReduce";
+import {
+  type SaleItems,
+  type SalesContextType,
+} from "../RecuderTypes/SalesReduce";
 import { initalStateSales, salesReducer } from "../Reducer/SalesReducer";
+import { useAuthorization } from "../../Hooks/UseAuthorization";
 
 export interface PropProviderType {
   children: ReactNode;
@@ -11,8 +15,9 @@ export const SalesContext = createContext<SalesContextType | undefined>(
   undefined,
 );
 
-export function SalesProvider({children }: PropProviderType) {
+export function SalesProvider({ children }: PropProviderType) {
   const [state, dispatch] = useReducer(salesReducer, initalStateSales);
+  const { token } = useAuthorization();
 
   const addItemToCart = (item: SaleItems) => {
     dispatch({ type: "ADD_ITEM_TO_CART", payload: item });
@@ -26,6 +31,7 @@ export function SalesProvider({children }: PropProviderType) {
       payload: id,
     });
   };
+
   const clearCart = () => {
     dispatch({
       type: "CLEAR_CART",
@@ -33,12 +39,22 @@ export function SalesProvider({children }: PropProviderType) {
   };
 
   const setWarehouseSales = (id: string) => {
-    dispatch({type: 'SET_WAREHOUSE_SALES', payload: id})
-  }
+    dispatch({ type: "SET_WAREHOUSE_SALES", payload: id });
+  };
 
   const setItemsSales = (item: SaleItems[]) => {
-    dispatch({type: 'SET_ITEMS_SALES', payload: item})
-  }
+    dispatch({ type: "SET_ITEMS_SALES", payload: item });
+  };
+
+  const clear = () => {
+    dispatch({ type: "CLEAR" });
+  };
+
+  useEffect(() => {
+    if (!token) {
+      clear();
+    }
+  }, [token]);
 
   return (
     <SalesContext.Provider
@@ -52,7 +68,7 @@ export function SalesProvider({children }: PropProviderType) {
         removeOne,
         clearCart,
         setWarehouseSales,
-        setItemsSales
+        setItemsSales,
       }}
     >
       {children}

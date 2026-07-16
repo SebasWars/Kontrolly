@@ -1,14 +1,22 @@
-import { createContext, useReducer, type ReactNode } from "react";
-import type { Client, ClientResume, ClientsContextType } from "../RecuderTypes/ClientsReduce";
+import { createContext, useEffect, useReducer, type ReactNode } from "react";
+import type {
+  Client,
+  ClientResume,
+  ClientsContextType,
+} from "../RecuderTypes/ClientsReduce";
 import { clientsInitialState, clientsReducer } from "../Reducer/ClientsReduce";
+import { useAuthorization } from "../../Hooks/UseAuthorization";
 type PropType = {
   children: ReactNode;
 };
 
-export const ClientsContext = createContext<ClientsContextType | undefined>(undefined);
+export const ClientsContext = createContext<ClientsContextType | undefined>(
+  undefined,
+);
 
 export const ClientsProvider = ({ children }: PropType) => {
   const [state, dispatch] = useReducer(clientsReducer, clientsInitialState);
+  const { token } = useAuthorization();
 
   const setClientsResume = (clients: ClientResume[]) => {
     dispatch({ type: "SET_CLIENT_RESUME", payload: clients });
@@ -19,12 +27,22 @@ export const ClientsProvider = ({ children }: PropType) => {
   };
 
   const setClient = (client: Client) => {
-    dispatch({type:'SET_CLIENT', payload: client})
-  }
+    dispatch({ type: "SET_CLIENT", payload: client });
+  };
 
   const clearClient = () => {
-    dispatch({type: 'CLEAR_CLIENT'})
-  }
+    dispatch({ type: "CLEAR_CLIENT" });
+  };
+
+  const clear = () => {
+    dispatch({ type: "CLEAR" });
+  };
+
+  useEffect(() => {
+    if (!token) {
+      clear();
+    }
+  }, [token]);
 
   return (
     <ClientsContext.Provider
@@ -36,7 +54,7 @@ export const ClientsProvider = ({ children }: PropType) => {
         setClientsResume,
         setClientList,
         setClient,
-        clearClient
+        clearClient,
       }}
     >
       {children}

@@ -30,8 +30,7 @@ export function useFetchDataByID() {
   }
   useEffect(() => {
     if(!selectedWarehouseId) return;
-
-    fetchWarehousesById(selectedWarehouseId)
+/* TO CHECK */
   },[selectedWarehouseId])
 
   return {fetchWarehousesById}

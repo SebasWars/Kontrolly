@@ -1,4 +1,4 @@
-import { createContext, useReducer, type ReactNode } from "react";
+import { createContext, useEffect, useReducer, type ReactNode } from "react";
 import type {
   Invoice,
   InvoiceDetails,
@@ -9,6 +9,7 @@ import {
   initialStateInvoices,
   invoicesReducer,
 } from "../Reducer/InvoiceReduce";
+import { useAuthorization } from "../../Hooks/UseAuthorization";
 
 interface PropType {
   children: ReactNode;
@@ -20,6 +21,7 @@ export const InvoicesContext = createContext<InvoicesContextType | undefined>(
 
 export const InvoicesProvider = ({ children }: PropType) => {
   const [state, dispatch] = useReducer(invoicesReducer, initialStateInvoices);
+  const { token } = useAuthorization();
 
   const setInvoices = (invoices: Invoice[]) => {
     dispatch({ type: "SET_INVOICES", payload: invoices });
@@ -34,8 +36,8 @@ export const InvoicesProvider = ({ children }: PropType) => {
   };
 
   const setClientID = (id: string) => {
-    dispatch({type: 'SET_CLIENT_ID', payload: id});
-  }
+    dispatch({ type: "SET_CLIENT_ID", payload: id });
+  };
 
   const addOne = (id: string) => {
     dispatch({ type: "ADD_ONE", payload: id });
@@ -48,6 +50,16 @@ export const InvoicesProvider = ({ children }: PropType) => {
   const removeItem = (id: string) => {
     dispatch({ type: "REMOVE_ITEM", payload: id });
   };
+
+  const clearInvoicesData = () => {
+    dispatch({ type: "CLEAR" });
+  };
+
+  useEffect(() => {
+    if (!token) {
+      clearInvoicesData();
+    }
+  }, [token]);
 
   return (
     <InvoicesContext.Provider
