@@ -1,4 +1,4 @@
-import { createContext, useState, type ReactNode } from "react";
+import { createContext, useEffect, useState, type ReactNode } from "react";
 import type { AuthorizationContextType, AuthorizationType, User } from "../RecuderTypes/Authorization";
 
 interface PropType {
@@ -40,6 +40,12 @@ export const AuthorizationProvider = ({ children }: PropType) => {
       loading: false,
     });
   };
+
+  useEffect(() => {
+    if(!authorization.token){
+      logout()
+    }
+  },[authorization.token])
 
   return (
     <AuthorizationContext.Provider
