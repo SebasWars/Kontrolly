@@ -4,7 +4,8 @@ export class InvoicesController {
   static async getInvoicesByType(req, res) {
     try {
       const { type } = req.params;
-      const invoices = await InvoicesModel.getInvoicesByType(type);
+      const userID = req.user.id
+      const invoices = await InvoicesModel.getInvoicesByType(type, userID);
       return res.status(200).json(invoices);
     } catch (error) {
       return res.status(404).json({ message: "Invoices not found" });
@@ -13,7 +14,8 @@ export class InvoicesController {
 
   static async getInvoicesValues(req, res) {
     try {
-      const invoicesValues = await InvoicesModel.getInvoicesValues();
+      const userID = req.user.id
+      const invoicesValues = await InvoicesModel.getInvoicesValues(userID);
       return res.status(200).json(invoicesValues);
     } catch (error) {
       return res
@@ -25,7 +27,8 @@ export class InvoicesController {
   static async getinvoiceByID(req, res) {
     try {
       const { id } = req.params;
-      const invoice = await InvoicesModel.getinvoiceByID(id);
+      const userID = req.user.id
+      const invoice = await InvoicesModel.getinvoiceByID(id, userID);
       return res.status(200).json(invoice);
     } catch (error) {
       return res.status(404).json({ messgae: "Invoice not found" });
@@ -36,7 +39,8 @@ export class InvoicesController {
     try {
       const invoice = req.body;
       const { id } = req.params;
-      const invoiceUpdated = await InvoicesModel.updateInvoice(id, invoice);
+      const userID = req.user.id
+      const invoiceUpdated = await InvoicesModel.updateInvoice(id, invoice, userID);
       return res
         .status(200)
         .json({ message: "Invoice was update succesfully" });
@@ -49,8 +53,8 @@ export class InvoicesController {
     try {
       const {id} = req.params;
       const newState = req.body
-      const invoice = await InvoicesModel.updateInvoiceState(id, newState)
-      console.log(invoice)
+      const userID = req.user.id
+      const invoice = await InvoicesModel.updateInvoiceState(id, newState, userID)
       return res.status(200).json(invoice);
     } catch (error) {
       return res.status(404).json({message: 'It was not possible update invoice state'})
@@ -60,7 +64,8 @@ export class InvoicesController {
   static async deleteInvoice(req, res) {
     try {
       const { id } = req.params;
-      const invoice = await InvoicesModel.deleteInvoice({ id });
+      const userID = req.user.id
+      const invoice = await InvoicesModel.deleteInvoice({ id, userID });
       return res.status(202).json({ message: "Invoice removed" });
     } catch (error) {
       return res.status(404).json({ message: "Invoice not found" });

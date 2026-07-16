@@ -3,7 +3,8 @@ import { clientsModel } from "../model/client.js";
 export class clientsController {
   static async getClientsResume(req, res) {
     try {
-      const clientsResume = await clientsModel.getClientsResume();
+      const userID = req.user.id;
+      const clientsResume = await clientsModel.getClientsResume(userID);
       return res.status(200).json(clientsResume);
     } catch (error) {
       return res.status(404).json({
@@ -14,7 +15,8 @@ export class clientsController {
 
   static async getClients(req, res) {
     try {
-      const allClients = await clientsModel.getClients();
+      const userID = req.user.id;
+      const allClients = await clientsModel.getClients(userID);
       return res.status(200).json(allClients);
     } catch (error) {
       return res
@@ -26,7 +28,8 @@ export class clientsController {
   static async getClientsByQuery(req, res) {
     try {
       const { query } = req.params;
-      const clientsFiltered = await clientsModel.getClientsByQuery(query);
+      const userID = req.user.id;
+      const clientsFiltered = await clientsModel.getClientsByQuery(query, userID);
       return res.status(200).json(clientsFiltered);
     } catch (error) {
       return res
@@ -38,7 +41,8 @@ export class clientsController {
   static async getClientByID(req, res) {
     try {
       const { id } = req.params;
-      const client = await clientsModel.getClientByID(id);
+      const userID = req.user.id;
+      const client = await clientsModel.getClientByID(id, userID);
       if (!client) {
         return res.status(404).json({ message: "Client not found" });
       }
@@ -50,7 +54,8 @@ export class clientsController {
   static async createClient(req, res) {
     try {
       const body = req.body;
-      const createNewClient = await clientsModel.createClient(body);
+      const userID = req.user.id;
+      const createNewClient = await clientsModel.createClient(body, userID);
       return res.status(201).json(createNewClient);
     } catch (error) {
       return res
@@ -63,7 +68,8 @@ export class clientsController {
     try {
       const { id } = req.params;
       const body = req.body;
-      const updatedClient = await clientsModel.updateClient(id, body);
+      const userID = req.user.id;
+      const updatedClient = await clientsModel.updateClient(id, body, userID);
       return res.status(200).json(updatedClient);
     } catch (error) {
       return res
@@ -75,7 +81,8 @@ export class clientsController {
   static async delteClient(req, res) {
     try {
       const { id } = req.params;
-      const removeClient = await clientsModel.delteClient(id);
+      const userID = req.user.id;
+      const removeClient = await clientsModel.delteClient(id, userID);
       return res
         .status(202)
         .json({ message: "Client was removed succesfully!" });

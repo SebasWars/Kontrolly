@@ -1,15 +1,15 @@
 import { db } from "../App.js";
 
 export class homeModel {
-  static async getFinances() {
+  static async getFinances(userID) {
     const salesResults = await db.execute({
-      sql: "SELECT SUM(total) AS totalSales, COUNT(*) AS totalOrders FROM Sales WHERE state = ?",
-      args: ["sold"],
+      sql: "SELECT SUM(s.total) AS totalSales, COUNT(*) AS totalOrders FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE s.state = ? AND w.user_id = ?",
+      args: ["sold", userID],
     });
 
     const invesmentResult = await db.execute({
-      sql: "SELECT SUM(si.purchase_price * si.quantity) AS totalInvesment FROM Sales s JOIN Sales_items si ON si.sale_id = s.id WHERE s.state = ?",
-      args: ["sold"],
+      sql: "SELECT SUM(si.purchase_price * si.quantity) AS totalInvesment FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id JOIN Sales_items si ON si.sale_id = s.id WHERE s.state = ? AND w.user_id = ?",
+      args: ["sold", userID],
     });
 
     const totalSales = salesResults.rows[0].totalSales ?? 0;
@@ -43,27 +43,27 @@ export class homeModel {
     return finances;
   }
 
-  static async getLasSales() {
+  static async getLasSales(userID) {
     const lastSales = await db.execute({
-      sql: "SELECT w.warehouse AS warehouse, s.created_at AS date, s.total AS total FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE state = ? ORDER BY s.created_at DESC LIMIT 10",
-      args: ["sold"],
+      sql: "SELECT w.warehouse AS warehouse, s.created_at AS date, s.total AS total FROM Sales s JOIN Warehouse w ON w.id = s.warehouse_id WHERE s.state = ? AND w.user_id = ? ORDER BY s.created_at DESC LIMIT 10",
+      args: ["sold", userID],
     });
 
     return lastSales.rows;
   }
 
-  static async getSalesByRequest(type) {
+  static async getSalesByRequest(type, userID) {
     switch (type) {
       case "month":
-        return this.getSalesByYear();
+        return this.getSalesByYear(userID);
       case "day":
-        return this.getSalesByMonth();
+        return this.getSalesByMonth(userID);
       default:
         throw new Error("Invalid Type");
     }
   }
 
-  static async getSalesByYear() {
+  static async getSalesByYear(userID) {
     const monthNames = [
       "Jan",
       "Feb",
@@ -85,13 +85,16 @@ export class homeModel {
     }));
 
     const result = await db.execute({
-      sql: `SELECT CAST(strftime('%m', created_at) AS INTEGER) AS monthNumber,
-           SUM(total) AS total
-           FROM Sales
-           WHERE state = ?
+      sql: `SELECT CAST(strftime('%m', s.created_at) AS INTEGER) AS monthNumber,
+           SUM(s.total) AS total
+           FROM Sales s
+           JOIN Warehouse w
+           ON w.id = s.warehouse_id
+           WHERE s.state = ?
+           AND w.user_id = ?
            GROUP BY monthNumber
       `,
-      args: ["sold"],
+      args: ["sold", userID],
     });
 
     for (const row of result.rows) {
@@ -102,7 +105,7 @@ export class homeModel {
     return months;
   }
 
-  static async getSalesByMonth() {
+  static async getSalesByMonth(userID) {
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -116,15 +119,17 @@ export class homeModel {
     const monthStr = String(month).padStart(2, '0')
 
     const result = await db.execute({
-      sql:`SELECT CAST(strftime('%d', created_at) AS INTEGER) AS dayNumber,
-           SUM(total) AS total
-           FROM Sales
-           WHERE state = ?
-           AND strftime('%Y', created_at) = ?
-           AND strftime('%m', created_at) = ?
+      sql:`SELECT CAST(strftime('%d', s.created_at) AS INTEGER) AS dayNumber,
+           SUM(s.total) AS total
+           FROM Sales s
+           JOIN Warehouse w ON w.id = s.warehouse_id
+           WHERE s.state = ?
+           AND w.user_id = ?
+           AND strftime('%Y', s.created_at) = ?
+           AND strftime('%m', s.created_at) = ?
            GROUP BY dayNumber
       `,
-      args:['sold', String(year), monthStr]
+      args:['sold', userID, String(year), monthStr]
     })
 
     for(const row of result.rows){
