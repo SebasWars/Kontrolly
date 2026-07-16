@@ -31,6 +31,28 @@ export const invoicesReducer = (state: InvoicesState, action: Actions) => {
       return { ...state, invoicesValues: action.payload };
     case "SET_INVOICE_DETAILS":
       return { ...state, invoiceDetails: action.payload };
+    case "CLEAR":
+      return {
+        invoices: [],
+        invoicesValues: {
+          totalCombined: 0,
+          totalSold: 0,
+          totalPrice: 0,
+          soldLastUpdate: undefined,
+          priceLastUpdate: undefined,
+          combinedLastUpdate: undefined,
+        },
+        invoiceDetails: {
+          createdAt: "",
+          id: "",
+          itemsList: [],
+          state: "",
+          total: 0,
+          warehouseID: "",
+          warehouseName: "",
+          clientID: "",
+        },
+      };
     case "SET_CLIENT_ID":
       return {
         ...state,

@@ -13,6 +13,7 @@ export const clientsInitialState: ClientsInitialState = {
     emailAddress: "",
     phoneNumber: "",
     address: "",
+    notes: "",
   },
 };
 
@@ -23,10 +24,24 @@ export const clientsReducer = (state: ClientsInitialState, action: Actions) => {
       return { ...state, clientsResume: action.payload };
     case "SET_CLIENTS_LIST":
       return { ...state, clientList: action.payload };
-    case 'SET_CLIENT':
-      return {...state, client: action.payload}
-    case 'CLEAR_CLIENT':
-      return {...state, client: clientsInitialState.client}
+    case "SET_CLIENT":
+      return { ...state, client: action.payload };
+    case "CLEAR_CLIENT":
+      return { ...state, client: clientsInitialState.client };
+    case "CLEAR":
+      return {
+        clientsResume: [],
+        clientList: [],
+        client: {
+          id: "",
+          companyName: "",
+          name: "",
+          emailAddress: "",
+          phoneNumber: "",
+          address: "",
+          notes: "",
+        },
+      };
     default:
       return state;
   }

@@ -85,6 +85,8 @@ export const salesReducer = (state: SalesState, action: Actions) => {
       };
     case "CLEAR_CART":
       return { ...state, currentSale: [] };
+    case "CLEAR":
+      return { selectWarehouseSalesId: null, itemsSales: [], currentSale: [] };
     default:
       return state;
   }
