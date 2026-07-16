@@ -1,22 +1,20 @@
 import type { CreateStockType, NewItem } from "../Types/StockTypes";
-import { getHeaders } from "./api";
+import { getHeaders, handleResponse } from "./api";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export async function getWarehouses() {
-  const response = await fetch(`${apiUrl}/inventario`,{
-    headers: getHeaders()
+  const response = await fetch(`${apiUrl}/inventario`, {
+    headers: getHeaders(),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 }
 
 export async function getWarehousebyID(id: string | null) {
-  const response = await fetch(`${apiUrl}/inventario/${id}`,{
-    headers: getHeaders()
+  const response = await fetch(`${apiUrl}/inventario/${id}`, {
+    headers: getHeaders(),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 }
 
 export async function createNewWarehouse(newWarehouse: CreateStockType) {
@@ -28,11 +26,7 @@ export async function createNewWarehouse(newWarehouse: CreateStockType) {
     },
     body: JSON.stringify(newWarehouse),
   });
-  if (!response.ok) {
-    throw new Error("Error creating new warehouse");
-  }
-
-  return await response.json();
+  return handleResponse(response);
 }
 
 export async function updateWarehouse(id: string, warehouseName: string) {
@@ -44,23 +38,16 @@ export async function updateWarehouse(id: string, warehouseName: string) {
     },
     body: JSON.stringify({ warehouseName }),
   });
-  if (!response.ok) {
-    throw new Error("Error to update");
-  }
-  return await response.json();
+  return handleResponse(response);
 }
 
 export async function removeWarehouse(id: string) {
   const response = await fetch(`${apiUrl}/inventario/${id}`, {
     method: "DELETE",
-    headers: getHeaders()
+    headers: getHeaders(),
   });
 
-  if (response.status === 204) {
-    return true;
-  }
-
-  return await response.json();
+  return handleResponse(response);
 }
 
 export async function createNewItem(id: string, formData: NewItem) {
@@ -82,11 +69,7 @@ export async function createNewItem(id: string, formData: NewItem) {
     body: data,
   });
 
-  if (!response.ok) {
-    throw new Error("Error creating item");
-  }
-
-  return await response.json();
+  return handleResponse(response);
 }
 
 export async function updateItem(
@@ -115,11 +98,7 @@ export async function updateItem(
     },
   );
 
-  if (!response.ok) {
-    throw new Error("Error to update item");
-  }
-
-  return await response.json();
+  return handleResponse(response);
 }
 
 export async function removeItem(warehouseId: string, itemID: string) {
@@ -127,13 +106,9 @@ export async function removeItem(warehouseId: string, itemID: string) {
     `${apiUrl}/inventario/${warehouseId}/items/${itemID}`,
     {
       method: "DELETE",
-      headers: getHeaders()
+      headers: getHeaders(),
     },
   );
 
-  if (response.status === 204) {
-    return true;
-  }
-
-  return await response.json();
+  return handleResponse(response);
 }

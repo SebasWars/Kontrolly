@@ -1,5 +1,5 @@
 import type { NewClient } from "../context/RecuderTypes/ClientsReduce";
-import { getHeaders } from "./api";
+import { getHeaders, handleResponse } from "./api";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -7,32 +7,28 @@ export const getClientsResume = async () => {
   const response = await fetch(`${apiUrl}/clientes/resumen`, {
     headers: getHeaders(),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 };
 
 export const getClients = async () => {
   const response = await fetch(`${apiUrl}/clientes`, {
     headers: getHeaders(),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 };
 
 export const getClientsByQuery = async (query: string) => {
   const response = await fetch(`${apiUrl}/clientes/${query}`, {
     headers: getHeaders(),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 };
 
 export const getClientByID = async (cliendId: string) => {
   const response = await fetch(`${apiUrl}/clientes/cliente/${cliendId}`, {
     headers: getHeaders(),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 };
 
 export const createClient = async (clientForm: NewClient) => {
@@ -44,8 +40,7 @@ export const createClient = async (clientForm: NewClient) => {
     },
     body: JSON.stringify(clientForm),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 };
 
 export const updateClient = async (client: NewClient, clientID: string) => {
@@ -57,8 +52,7 @@ export const updateClient = async (client: NewClient, clientID: string) => {
     },
     body: JSON.stringify(client),
   });
-  const data = await response.json();
-  return data;
+  return handleResponse(response);
 };
 
 export const removeClient = async (id: string) => {
@@ -66,10 +60,5 @@ export const removeClient = async (id: string) => {
     method: "DELETE",
     headers: getHeaders(),
   });
-
-  if (!response.ok) {
-    throw new Error("It was not possible to remove client");
-  }
-
-  return await response.json();
+  return handleResponse(response);
 };
