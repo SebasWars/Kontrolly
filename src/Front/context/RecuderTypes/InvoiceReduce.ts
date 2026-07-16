@@ -62,7 +62,8 @@ export type Actions =
   | AddOne
   | RemoveOne
   | RemoveItem
-  | SetClientID;
+  | SetClientID
+  | CLEAR;
 
 interface SetInvoices {
   type: "SET_INVOICES";
@@ -96,4 +97,8 @@ interface RemoveItem {
 interface SetClientID {
   type: 'SET_CLIENT_ID',
   payload: string
+}
+
+interface CLEAR{
+  type: 'CLEAR'
 }

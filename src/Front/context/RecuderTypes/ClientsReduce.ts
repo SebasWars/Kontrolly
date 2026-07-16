@@ -1,7 +1,7 @@
 export interface ClientsInitialState {
   clientsResume: ClientResume[];
   clientList: Client[];
-  client: Client
+  client: Client;
 }
 
 export interface ClientsContextType {
@@ -25,7 +25,7 @@ export interface Client extends ClientResume {
   emailAddress: string;
   phoneNumber: string;
   address: string;
-  notes: string
+  notes: string;
 }
 
 export interface NewClient {
@@ -34,10 +34,15 @@ export interface NewClient {
   emailAddress: string;
   phoneNumber: string;
   address: string;
-  notes: string
+  notes: string;
 }
 
-export type Actions = SetClientResume | SetClientsList | SetClient | ClearClient
+export type Actions =
+  | SetClientResume
+  | SetClientsList
+  | SetClient
+  | ClearClient
+  | CLEAR;
 
 type SetClientResume = {
   type: "SET_CLIENT_RESUME";
@@ -50,10 +55,14 @@ type SetClientsList = {
 };
 
 type SetClient = {
-  type: 'SET_CLIENT',
-  payload: Client
-}
+  type: "SET_CLIENT";
+  payload: Client;
+};
 
 type ClearClient = {
-  type: 'CLEAR_CLIENT'
-}
+  type: "CLEAR_CLIENT";
+};
+
+type CLEAR = {
+  type: "CLEAR";
+};
