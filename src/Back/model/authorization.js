@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { users } from "../MockData_Back.js";
 import { createToken } from "../middleware/CreateToken.js";
 import { db } from "../App.js";
 import { randomUUID } from "node:crypto";

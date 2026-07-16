@@ -1,6 +1,5 @@
 import { randomUUID } from "crypto";
 import { db } from "../App.js";
-import { SalesRegister, Stocks } from "../MockData_Back.js";
 
 export class InvoicesModel {
   static async getInvoicesByType(type, userID) {
