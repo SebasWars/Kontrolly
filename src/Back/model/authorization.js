@@ -12,7 +12,7 @@ const generateHash = async (password) => {
 export class authorizationModel {
   static async userAuthorization(email, password) {
     const userResult = await db.execute({
-      sql: "SELECT id, email_address, password_hash, company_name FROM Users WHERE email_address = ?",
+      sql: "SELECT id , name, company_name, email_address, address, phone_number, postal_code, city, password_hash FROM Users WHERE email_address = ?",
       args: [email],
     });
 
@@ -44,8 +44,13 @@ export class authorizationModel {
       token,
       user: {
         id: user.id,
+        name: user.name,
         companyName: user.company_name,
         email: user.email_address,
+        address: user.address,
+        phoneNumber: user.phone_number,
+        postalCode: user.postal_code,
+        city: user.city,
       },
     };
   }
@@ -73,13 +78,15 @@ export class authorizationModel {
     const id = randomUUID();
 
     await db.execute({
-      sql: "INSERT INTO Users (id, name, company_name, email_address, password_hash , address, phone_number) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      sql: "INSERT INTO Users (id, name, company_name, email_address, password_hash , address, phone_number, postal_code, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       args: [
         id,
         null,
         userForm.companyName,
         userForm.email,
         passwordHash,
+        null,
+        null,
         null,
         null,
       ],
