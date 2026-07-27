@@ -1,4 +1,4 @@
-import { db } from "../App";
+import { db } from "../App.js";
 
 export class userModel {
   static async modifyUser(
