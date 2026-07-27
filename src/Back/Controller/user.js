@@ -1,4 +1,4 @@
-import { userModel } from "../model/user";
+import { userModel } from "../model/user.js";
 
 export class UserController {
   static async modifyUser(req, res) {
