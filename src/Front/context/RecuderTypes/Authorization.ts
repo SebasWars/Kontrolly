@@ -1,7 +1,13 @@
 export interface User {
   id: string;
+  name: string | null;
+  userImage: string | null;
   companyName: string;
   email: string;
+  address: string | null;
+  phoneNumber: string | null;
+  postalCode: string | null;
+  city: string | null;
 }
 
 export interface AuthorizationContextType {
