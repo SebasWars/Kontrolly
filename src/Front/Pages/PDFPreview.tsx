@@ -1,10 +1,12 @@
 import type { InvoiceItems } from "../context/RecuderTypes/InvoiceReduce";
+import { useAuthorization } from "../Hooks/UseAuthorization";
 import { useClients } from "../Hooks/UseClients";
 import useInvoices from "../Hooks/UseInvoices";
 import "../styles/PDF.css";
 
 export function PDF() {
   const { invoiceDetails } = useInvoices();
+  const { user } = useAuthorization();
   const { client } = useClients();
   const calculateTotal = (arr: InvoiceItems[]) => {
     const price = arr.reduce(
@@ -42,10 +44,10 @@ export function PDF() {
         </div>
         <div className="data company_data">
           <h2>Datos de la compañia</h2>
-          <p>nombre</p>
-          <p>email</p>
-          <p>telefono</p>
-          <p>direccion</p>
+          <p>{user?.name || 'Nombre'}</p>
+          <p>{user?.email || 'Correo Electronico'}</p>
+          <p>{user?.phoneNumber || 'Telefono Movil'}</p>
+          <p>{user?.address || 'Dirrección'}</p>
         </div>
       </div>
 
