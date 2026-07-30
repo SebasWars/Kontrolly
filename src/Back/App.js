@@ -10,6 +10,7 @@ import { homeRoute } from "./routes/home.js";
 import { clientsRoute } from "./routes/clients.js";
 import { authRoute } from "./routes/autho.js";
 import { verifyJWT } from "./middleware/verifyJWT.js";
+import { userRoute } from "./routes/user.js";
 
 export const PORT = process.env.PORT ?? 3000;
 const app = express();
@@ -30,6 +31,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/auth", authRoute);
 
 app.use("/", verifyJWT, homeRoute);
+app.use('/usuario',verifyJWT, userRoute )
 app.use("/inventario", verifyJWT, warehousesRoute);
 app.use("/tienda", verifyJWT, salesRoute);
 app.use("/facturas", verifyJWT, invoicesRoute);

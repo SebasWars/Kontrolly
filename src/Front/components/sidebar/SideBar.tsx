@@ -32,7 +32,7 @@ function SideBar() {
         </div>
 
         <div className="bottom">
-          <SideBarButton to="perfil" icon={faUser} value="Usuario" />
+          <SideBarButton to="usuario" icon={faUser} value="Usuario" />
           <SideBarButton to="/logout" icon={faRightFromBracket} value="Salir" action={logout} preventNavigation/>
         </div>
       </section>

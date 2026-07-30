@@ -8,6 +8,7 @@ import CreateNewItem from "./Pages/CreateNewItem";
 import ModifyItem from "./Pages/ModifyItem";
 import {  ModifyInvoice } from "./Pages/ModifyInvoice";
 import { Clients } from "./Pages/Clients";
+import { User } from "./Pages/User";
 
 export const routes = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ export const routes = createBrowserRouter([
             element: <Clients/>
           }
         ]
+      },
+      {
+        path: 'usuario',
+        element: <User/>
       },
       {
         path: "*",

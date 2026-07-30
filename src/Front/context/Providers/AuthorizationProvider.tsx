@@ -1,5 +1,9 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
-import type { AuthorizationContextType, AuthorizationType, User } from "../RecuderTypes/Authorization";
+import type {
+  AuthorizationContextType,
+  AuthorizationType,
+  User,
+} from "../RecuderTypes/Authorization";
 
 interface PropType {
   children: ReactNode;
@@ -11,7 +15,8 @@ export const AuthorizationContext = createContext<
 
 export const AuthorizationProvider = ({ children }: PropType) => {
   const storedUser = localStorage.getItem("user");
-  const user = storedUser && storedUser !== "undefined" ? JSON.parse(storedUser) : null;
+  const user =
+    storedUser && storedUser !== "undefined" ? JSON.parse(storedUser) : null;
 
   const [authorization, setAuthorization] = useState<AuthorizationType>({
     user,
@@ -41,11 +46,20 @@ export const AuthorizationProvider = ({ children }: PropType) => {
     });
   };
 
+  const updateUserFunc = (updatedUser: User) => {
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+
+    setAuthorization((prev) => ({
+      ...prev,
+      user: updatedUser,
+    }));
+  };
+
   useEffect(() => {
-    if(!authorization.token){
-      logout()
+    if (!authorization.token) {
+      logout();
     }
-  },[authorization.token])
+  }, [authorization.token]);
 
   return (
     <AuthorizationContext.Provider
@@ -55,6 +69,7 @@ export const AuthorizationProvider = ({ children }: PropType) => {
         loading: authorization.loading,
         login,
         logout,
+        updateUserFunc
       }}
     >
       {children}

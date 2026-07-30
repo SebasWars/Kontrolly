@@ -12,7 +12,7 @@ const generateHash = async (password) => {
 export class authorizationModel {
   static async userAuthorization(email, password) {
     const userResult = await db.execute({
-      sql: "SELECT id, email_address, password_hash, company_name FROM Users WHERE email_address = ?",
+      sql: "SELECT id, user_image_url, name, company_name, email_address, address, phone_number, postal_code, city, password_hash FROM Users WHERE email_address = ?",
       args: [email],
     });
 
@@ -44,8 +44,14 @@ export class authorizationModel {
       token,
       user: {
         id: user.id,
+        name: user.name,
+        userImage: user.user_image_url,
         companyName: user.company_name,
         email: user.email_address,
+        address: user.address,
+        phoneNumber: user.phone_number,
+        postalCode: user.postal_code,
+        city: user.city,
       },
     };
   }
@@ -73,13 +79,16 @@ export class authorizationModel {
     const id = randomUUID();
 
     await db.execute({
-      sql: "INSERT INTO Users (id, name, company_name, email_address, password_hash , address, phone_number) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      sql: "INSERT INTO Users (id, user_image_url, name, company_name, email_address, password_hash , address, phone_number, postal_code, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       args: [
         id,
+        null,
         null,
         userForm.companyName,
         userForm.email,
         passwordHash,
+        null,
+        null,
         null,
         null,
       ],
@@ -95,7 +104,17 @@ export class authorizationModel {
 
     return {
       token,
-      user: { id, companyName: userForm.companyName, email: userForm.email },
+      user: {
+        id,
+        userImage: null,
+        companyName: userForm.companyName,
+        email: userForm.email,
+        name: null,
+        address: null,
+        phoneNumber: null,
+        postalCode: null,
+        city: null,
+      },
     };
   }
 }
