@@ -1,3 +1,4 @@
+import type { ChangePassword } from "../components/User/PasswordForm";
 import type { FormEditUser } from "../context/RecuderTypes/Authorization";
 import { getHeaders } from "./api";
 
@@ -32,5 +33,27 @@ export async function updateUserInformation(
   }
 
   const data = await response.json();
+  return data;
+}
+
+export async function changePassword(passwordForm: ChangePassword, id: string) {
+  const response = await fetch(`${apiUrl}/usuario/modificar/pwd/${id}`, {
+    method: "PUT",
+    headers: {
+      ...getHeaders(),
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(passwordForm),
+  });
+  const data = await response.json();
+
+  if(data.message === 'current password is incorrect'){
+    throw new Error("La contraseña que has introducida no es correcta");
+    return
+  }
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error al cambiar la contraseña");
+  }
   return data;
 }

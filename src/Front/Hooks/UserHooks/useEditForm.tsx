@@ -56,7 +56,6 @@ export function UseEditForm() {
 
   useEffect(() => {
     setFormdata(mapUserFormData(user));
-    console.log(user)
   }, [user]);
 
   return {
