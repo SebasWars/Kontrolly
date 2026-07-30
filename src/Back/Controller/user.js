@@ -3,20 +3,18 @@ import { userModel } from "../model/user.js";
 export class UserController {
   static async modifyUser(req, res) {
     try {
-      const { userInfo } = req.body;
-      const id = req.params;
+      const { id } = req.params;
       const userID = req.user.id;
       const file = req.file;
 
       const {
         name,
-        userImage,
         companyName,
         emailaddress,
         address,
         phoneNumber,
         postalCode,
-        cityname,
+        city,
       } = req.body;
 
       const userModified = await userModel.modifyUser(
@@ -24,20 +22,20 @@ export class UserController {
         userID,
         file,
         name,
-        userImage,
         companyName,
         emailaddress,
         address,
         phoneNumber,
         postalCode,
-        cityname,
+        city,
       );
 
-      return res.status(200).json({ userModified });
+      return res.status(200).json(userModified);
     } catch (error) {
-      return res
-        .status(404)
-        .json({ message: "There was not possible to modify user information" });
+      console.error("Error en modifyUser:", error);
+      return res.status(500).json({
+        message: "There was not possible to modify user information",
+      });
     }
   }
 }

@@ -5,4 +5,4 @@ import { UserController } from "../Controller/user.js";
 const upload = multer({ dest: "uploads/" });
 export const userRoute = Router();
 
-userRoute.put("modify/:id", upload.single("file"), UserController.modifyUser);
+userRoute.put("/modificar/:id", upload.single("userImage"), UserController.modifyUser);

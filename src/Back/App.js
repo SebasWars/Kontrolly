@@ -31,7 +31,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/auth", authRoute);
 
 app.use("/", verifyJWT, homeRoute);
-app.use('/user',verifyJWT, userRoute )
+app.use('/usuario',verifyJWT, userRoute )
 app.use("/inventario", verifyJWT, warehousesRoute);
 app.use("/tienda", verifyJWT, salesRoute);
 app.use("/facturas", verifyJWT, invoicesRoute);
