@@ -6,3 +6,4 @@ const upload = multer({ dest: "uploads/" });
 export const userRoute = Router();
 
 userRoute.put("/modificar/:id", upload.single("userImage"), UserController.modifyUser);
+userRoute.put('/modificar/pwd/:id', UserController.modifyPassword)

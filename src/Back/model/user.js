@@ -1,4 +1,5 @@
 import { db, PORT } from "../App.js";
+import bcrypt from "bcrypt";
 
 export class userModel {
   static async modifyUser(
@@ -60,5 +61,51 @@ export class userModel {
       postalCode: updatedUser.postal_code,
       city: updatedUser.city,
     };
+  }
+
+  static async modifyPassword(
+    id,
+    currentPassword,
+    newPassword,
+    newPasswordConfirmation,
+  ) {
+    const result = await db.execute({
+      sql: "SELECT password_hash FROM Users WHERE id = ?",
+      args: [id],
+    });
+
+    const user = result.rows[0];
+
+    if (!user) {
+      return {
+        success: false,
+        error: "USER_NOT_FOUND",
+      };
+    }
+
+    const validPassword = await bcrypt.compare(currentPassword, user.password_hash);
+
+    if (!validPassword) {
+      return {
+        success: false,
+        error: "INCORRECT_PASSWORD",
+      };
+    }
+
+    if (newPassword !== newPasswordConfirmation) {
+      return {
+        success: false,
+        error: "NOT_MATCH",
+      };
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+
+    await db.execute({
+      sql: "UPDATE Users SET password_hash = ? WHERE id = ?",
+      args: [newHash, id],
+    });
+
+    return {succes: true}
   }
 }
