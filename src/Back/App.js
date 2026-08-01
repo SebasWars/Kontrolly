@@ -51,5 +51,5 @@ app.use("/facturas", verifyJWT, invoicesRoute);
 app.use("/clientes", verifyJWT, clientsRoute);
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en puerto http://${process.env.BACKEND_URL}:${PORT}`);
 });
