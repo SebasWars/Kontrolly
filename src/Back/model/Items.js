@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { db, PORT } from "../App.js";
+import { db } from "../App.js";
 
 export class ItemsModel {
   static async createItem({
@@ -79,7 +79,7 @@ export class ItemsModel {
             image_url,
             itemID,
             warehouseID,
-            userID
+            userID,
           ]
         : [
             name,
@@ -89,7 +89,7 @@ export class ItemsModel {
             Number(sales_price),
             itemID,
             warehouseID,
-            userID
+            userID,
           ],
     });
 

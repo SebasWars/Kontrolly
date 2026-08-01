@@ -1,4 +1,4 @@
-import { db, PORT } from "../App.js";
+import { db } from "../App.js";
 import bcrypt from "bcrypt";
 
 export class userModel {
