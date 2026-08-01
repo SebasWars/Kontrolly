@@ -23,7 +23,7 @@ export class ItemsModel {
 
     const itemId = randomUUID();
     const image_url = file
-      ? `http://${process.env.BACKEND_URL}:${PORT}/uploads/${file.filename}`
+      ? `${process.env.BACKEND_URL}:${PORT}/uploads/${file.filename}`
       : null;
 
     await db.execute({
@@ -64,7 +64,7 @@ export class ItemsModel {
     file,
   }) {
     const image_url = file
-      ? `http://localhost:${process.env.BACKEND_URL}/uploads/${file.filename}`
+      ? `${process.env.BACKEND_URL}/uploads/${file.filename}`
       : null;
 
     const item = await db.execute({
