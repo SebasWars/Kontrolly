@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { db, PORT } from "../App.js";
+import { db } from "../App.js";
 
 export class ItemsModel {
   static async createItem({
@@ -23,7 +23,7 @@ export class ItemsModel {
 
     const itemId = randomUUID();
     const image_url = file
-      ? `${process.env.BACKEND_URL}:${PORT}/uploads/${file.filename}`
+      ? `${process.env.BACKEND_URL}/uploads/${file.filename}`
       : null;
 
     await db.execute({
@@ -79,7 +79,7 @@ export class ItemsModel {
             image_url,
             itemID,
             warehouseID,
-            userID
+            userID,
           ]
         : [
             name,
@@ -89,7 +89,7 @@ export class ItemsModel {
             Number(sales_price),
             itemID,
             warehouseID,
-            userID
+            userID,
           ],
     });
 

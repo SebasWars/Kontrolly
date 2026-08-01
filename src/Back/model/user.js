@@ -1,4 +1,4 @@
-import { db, PORT } from "../App.js";
+import { db } from "../App.js";
 import bcrypt from "bcrypt";
 
 export class userModel {
@@ -15,7 +15,7 @@ export class userModel {
     city,
   ) {
     const user_image_url = file
-      ? `${process.env.BACKEND_URL}:${PORT}/uploads/${file.filename}`
+      ? `${process.env.BACKEND_URL}/uploads/${file.filename}`
       : null;
 
     const sql = `
