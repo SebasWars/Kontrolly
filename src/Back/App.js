@@ -22,16 +22,29 @@ export const db = createClient({
 });
 
 app.use(express.json());
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://kontrolly.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("No permitido por CORS"));
+      }
+    },
   }),
 );
+
 app.use("/uploads", express.static("uploads"));
 app.use("/auth", authRoute);
 
 app.use("/", verifyJWT, homeRoute);
-app.use('/usuario',verifyJWT, userRoute )
+app.use("/usuario", verifyJWT, userRoute);
 app.use("/inventario", verifyJWT, warehousesRoute);
 app.use("/tienda", verifyJWT, salesRoute);
 app.use("/facturas", verifyJWT, invoicesRoute);
