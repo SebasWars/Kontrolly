@@ -6,7 +6,7 @@ import { useEffect } from "react";
 type PropTypes = {
   toggleForm: (val: boolean) => void;
   editClient: Client | null;
-  handleEditClient: (client: Client | null) => void;
+  handleEditClient?: (client: Client | null) => void;
 };
 
 export function AddNewClient({
@@ -30,7 +30,7 @@ export function AddNewClient({
 
   const closeForm = () => {
     toggleForm(false);
-    handleEditClient(null);
+    handleEditClient?.(null);
   };
 
   useEffect(() => {
