@@ -23,7 +23,7 @@ export class ItemsModel {
 
     const itemId = randomUUID();
     const image_url = file
-      ? `${process.env.BACKEND_URL}:${PORT}/uploads/${file.filename}`
+      ? `${process.env.BACKEND_URL}/uploads/${file.filename}`
       : null;
 
     await db.execute({
