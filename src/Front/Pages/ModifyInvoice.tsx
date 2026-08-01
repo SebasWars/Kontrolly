@@ -1,6 +1,6 @@
-import { InvoiceDetails } from "../components/invoicesDetails/InvoiceDetails";
-import { PDFPreview } from "../components/invoicesDetails/InvoicePreview";
-import { InvoiceTableItems } from "../components/invoicesDetails/InvoiceTableItems";
+import { InvoiceDetails } from "../components/InvoicesDetails/InvoiceDetails";
+import { PDFPreview } from "../components/InvoicesDetails/InvoicePreview";
+import { InvoiceTableItems } from "../components/InvoicesDetails/InvoiceTableItems";
 import "../styles/modifyInvoice.css";
 
 import useInvoices from "../Hooks/UseInvoices";
@@ -15,7 +15,7 @@ export function ModifyInvoice() {
   const { invoiceDetails, setClientID } = useInvoices();
   const { clientForm, toggleForm } = useCreateClient();
   const { clientById } = useFetchClients();
-  const { clearClient, client } = useClients();
+  const { clearClient } = useClients();
   const isActive = clientForm ? "active" : "";
 
   const currentClietnHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -49,7 +49,7 @@ export function ModifyInvoice() {
         <InvoiceTableItems invoiceItems={invoiceDetails.itemsList} />
       </div>
       {clientForm && (
-        <AddNewClient toggleForm={toggleForm} editClient={client} />
+        <AddNewClient toggleForm={toggleForm} editClient={null} />
       )}
       <div className="invoice_preview_container">
         <PDFPreview />
