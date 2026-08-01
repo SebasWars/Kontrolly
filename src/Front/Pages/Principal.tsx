@@ -1,10 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TickPlacementBars from "../components/principal/ChatPrincipal";
 import { LastSales } from "../components/principal/LastSales";
 import { PrincipalHeader } from "../components/principal/PrincipalHeader";
 
 import "../styles/principal.css";
-import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
+
 import { UseFinances } from "../Hooks/PrincipalHooks/useFinances";
 import { UseSalesRegister } from "../Hooks/PrincipalHooks/UseSalesRegister";
 
@@ -27,9 +26,6 @@ function Principal() {
         <div className="principal_left_side">
           <div className="last_sales_header">
             <h4>Ultimas Ventas</h4>
-            <button>
-              <FontAwesomeIcon icon={faArrowDownShortWide} />
-            </button>
           </div>
           <LastSales lastOrdes={finances.lastOrdes} />
         </div>
